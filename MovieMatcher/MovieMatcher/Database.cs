@@ -6,7 +6,7 @@ namespace MovieMatcher
 {
     public class Database
     {
-        public string a { get; set; }
+
 
         private string _sqlBuilder = @"Data Source=127.0.0.1;Initial Catalog=TestDB;User ID=sa;Password=Welkom01!;TrustServerCertificate=true";
 
@@ -24,11 +24,13 @@ namespace MovieMatcher
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         //Lees result
+                        string result = "";
                         while (reader.Read())
                         {
-                            a += reader.GetString(0) + "\n";
+                           result += reader.GetString(0) + "\n";
                         }
-                        return a;
+
+                        return result;
                     }
                 }
             }
