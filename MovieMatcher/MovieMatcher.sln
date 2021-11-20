@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieMatcher", "MovieMatcher\MovieMatcher.csproj", "{315903C9-87C9-4D5C-9F4F-9BDF76447F05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieMatcher", "MovieMatcher\MovieMatcher.csproj", "{D15F276E-D9CE-46CF-94AC-BF3C157E0D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{315903C9-87C9-4D5C-9F4F-9BDF76447F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{315903C9-87C9-4D5C-9F4F-9BDF76447F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{315903C9-87C9-4D5C-9F4F-9BDF76447F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{315903C9-87C9-4D5C-9F4F-9BDF76447F05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D15F276E-D9CE-46CF-94AC-BF3C157E0D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D15F276E-D9CE-46CF-94AC-BF3C157E0D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D15F276E-D9CE-46CF-94AC-BF3C157E0D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D15F276E-D9CE-46CF-94AC-BF3C157E0D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A86B6BCE-FFF0-4EBF-B22E-F570204FA70D}
+		SolutionGuid = {1EFD58A1-08E5-4600-B410-6B21D9734836}
 	EndGlobalSection
 EndGlobal

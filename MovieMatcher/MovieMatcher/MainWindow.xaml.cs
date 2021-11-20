@@ -22,11 +22,9 @@ namespace MovieMatcher
     {
         public MainWindow()
         {
-            Database database = new Database();
-            database.DatabaseConnect();
-
-            
             InitializeComponent();
+            Database db = new Database();
+            db.DatabaseConnect();
         }
     }
 }

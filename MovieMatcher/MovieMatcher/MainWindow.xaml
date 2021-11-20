@@ -7,11 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.DataContext>
-            <local:Database/>
-        </Grid.DataContext>
-        <DataGrid x:Name="Datagrid1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="120,57,142,125" DataContext="{Binding a}"/>
-        <Label Content="{Binding a}" HorizontalAlignment="Left" Margin="222,26,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

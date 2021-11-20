@@ -7,11 +7,14 @@ namespace MovieMatcher
     public class Database
     {
         public string a { get; set; }
-        
+
+        public Database()
+        {
+            a = "abababab";
+        }
+
         public void DatabaseConnect()
         {
-            
-
             try
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -31,7 +34,7 @@ namespace MovieMatcher
                         connection.Open();
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            
+
                             while (reader.Read())
                             {
                                 a += "{0} {1}" + reader.GetString(0) + reader.GetValue(1);
@@ -40,7 +43,7 @@ namespace MovieMatcher
                     }
                 }
 
-                
+
             }
             catch (SqlException e)
             {
