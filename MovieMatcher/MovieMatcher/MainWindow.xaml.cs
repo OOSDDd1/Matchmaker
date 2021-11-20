@@ -24,7 +24,7 @@ namespace MovieMatcher
         {
             InitializeComponent();
             Database db = new Database();
-            db.DatabaseConnect();
+            Label1.Content = db.GetName();
         }
     }
 }

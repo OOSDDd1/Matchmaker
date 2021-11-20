@@ -8,48 +8,30 @@ namespace MovieMatcher
     {
         public string a { get; set; }
 
-        public Database()
-        {
-            a = "abababab";
-        }
+        private string _sqlBuilder = @"Data Source=127.0.0.1;Initial Catalog=TestDB;User ID=sa;Password=Welkom01!;TrustServerCertificate=true";
 
-        public void DatabaseConnect()
+        //Voorbeeld method
+        public string GetName()
         {
-            try
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
-                builder.UserID = "sa";
-                builder.Password = "Welkom01!";
-                builder.InitialCatalog = "TestDB";
-                builder.TrustServerCertificate = true;
-
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                //Maak je query
+                string sql = "SELECT name FROM Inventory";
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-
-                    String sql = "SELECT name, id FROM Inventory";
-
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    //Open connectie
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        connection.Open();
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        //Lees result
+                        while (reader.Read())
                         {
-
-                            while (reader.Read())
-                            {
-                                a += "{0} {1}" + reader.GetString(0) + reader.GetValue(1);
-                            }
+                            a += reader.GetString(0) + "\n";
                         }
+                        return a;
                     }
                 }
-
-
             }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            Console.ReadLine();
         }
     }
 }
