@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
 using Newtonsoft.Json;
 using RestSharp;
-using Season = MovieMatcher.Models.Api.Season;
 
 namespace MovieMatcher
 {
