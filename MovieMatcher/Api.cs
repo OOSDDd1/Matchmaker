@@ -7,7 +7,7 @@ namespace MovieMatcher
 {
     /**
      * Get providers from movie: 370172.
-     *      Api.Get<Movie>(Api.MovieBase, Api.GetProviders, 370172);
+     *      Api.Get<Movie>(Api.MovieBase, Api.GetWatchProviders, 370172);
      *
      * Get show: 94605.
      *      Api.GetShow(94605);

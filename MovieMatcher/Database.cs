@@ -8,20 +8,20 @@ namespace MovieMatcher
     {
         private string _sqlBuilder = MainWindow.Config["db-string"];
 
-        //Voorbeeld method
+        // Example method
         public string GetName()
         {
             using (SqlConnection connection = new(_sqlBuilder))
             {
-                //Maak je query
+                // Create query
                 string sql = "SELECT name FROM Inventory";
                 using (SqlCommand command = new(sql, connection))
                 {
-                    //Open connectie
+                    //Open connection
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        //Lees result
+                        // Read result
                         string result = "";
                         while (reader.Read()) result += reader.GetString(0) + "\n";
 
