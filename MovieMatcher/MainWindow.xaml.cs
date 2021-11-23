@@ -20,6 +20,12 @@ namespace MovieMatcher
             InitializeComponent();
             Database db = new Database();
             Label1.Content = db.GetName();
+
+            Application.Current.MainWindow = new Login();
+            Application.Current.MainWindow.Show();
+            //var appWindow = new Login();
+            //appWindow.Show();
+
         }
     }
 }
