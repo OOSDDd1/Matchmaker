@@ -8,7 +8,9 @@ namespace MovieMatcher
     {
 
 
-        private string _sqlBuilder = @"Data Source=127.0.0.1;Initial Catalog=TestDB;User ID=sa;Password=Welkom01!;TrustServerCertificate=true";
+        private string _sqlBuilder = MainWindow.Config["db-string"];
+        
+
 
         //Voorbeeld method
         public string GetName()
