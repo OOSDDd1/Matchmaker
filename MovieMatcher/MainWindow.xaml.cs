@@ -22,10 +22,6 @@ namespace MovieMatcher
             Database db = new Database();
         }
 
-        private void ResultView(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
         {
             DataContext = new ResultViewModel();

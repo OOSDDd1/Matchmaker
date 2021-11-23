@@ -34,9 +34,9 @@
         </Grid.RowDefinitions>
         <DockPanel Background="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
-                <Button Content="home" Click="ResultView_Clicked"></Button>
-                <Button Content="home" Click="BlueView_Clicked"></Button>
-                <Button Content="home"></Button>
+                <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
+                <Button Content="Suggestions" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
+                <Button Content="History" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
             </StackPanel>
         </DockPanel>
 
