@@ -12,7 +12,7 @@ namespace MovieMatcher
                 .AddJsonFile("appsettings.json", false)
                 .AddEnvironmentVariables()
                 .Build();
-        
+
         public MainWindow()
         {
             InitializeComponent();

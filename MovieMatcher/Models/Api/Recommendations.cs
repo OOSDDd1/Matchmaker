@@ -2,7 +2,7 @@
 
 namespace MovieMatcher.Models.Api
 {
-    public class Recommendations<T>: IRoot where T: IRoot
+    public class Recommendations<T> : IRoot where T : IRoot
     {
         public int page { get; set; }
         public List<T> results { get; set; }

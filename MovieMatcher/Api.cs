@@ -16,7 +16,7 @@ namespace MovieMatcher
     {
         private static readonly string ApiKey = MainWindow.Config["api-key"];
         private const string ApiBase = "https://api.themoviedb.org/3/";
-        
+
         public const string MovieBase = "movie/";
         public const string ShowBase = "tv/";
 
@@ -31,7 +31,7 @@ namespace MovieMatcher
         // Just for Movies
         public const string GetUpcoming = "upcoming";
         public const string GetNowPlaying = "now_playing";
-        
+
         // Just for Series
         public const string GetShowSeason = "{id}/season/{season}";
         public const string GetShowEpsiode = "{id}/season/{season}/episode/{episode}";
@@ -44,7 +44,7 @@ namespace MovieMatcher
                 {{"append_to_response", "videos,images"}};
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
-        
+
         public static Show? GetShow(int id)
         {
             var urlSegments = new Dictionary<string, string>
@@ -53,7 +53,7 @@ namespace MovieMatcher
                 {{"append_to_response", "videos,images"}};
             return Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters);
         }
-        
+
         public static Season? GetSeason(int id, int season)
         {
             var urlSegments = new Dictionary<string, string>
@@ -65,7 +65,7 @@ namespace MovieMatcher
                 {{"append_to_response", "videos,images"}};
             return Get<Season>(ShowBase, GetShowSeason, urlSegments, urlParameters);
         }
-        
+
         public static Episode? GetEpisode(int id, int season, int episode)
         {
             var urlSegments = new Dictionary<string, string>
@@ -78,9 +78,9 @@ namespace MovieMatcher
                 {{"append_to_response", "videos,images"}};
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters);
         }
-        
+
         public static T? GetProviders<T>(string resourceBase, int id)
-            where T: IRoot
+            where T : IRoot
         {
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
@@ -107,27 +107,29 @@ namespace MovieMatcher
             return Get<T>(resourceBase, resource, urlSegments, new Dictionary<string, string>());
         }
 
-        public static T? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments, Dictionary<string, string> urlParameters)
+        public static T? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments,
+            Dictionary<string, string> urlParameters)
             where T : IRoot
         {
             var response = GenerateResponse(resourceBase + resource, urlSegments, urlParameters);
-            
+
             return ResponseToClass<T>(response.Content);
         }
 
-        private static IRestResponse GenerateResponse(string resource, Dictionary<string, string> urlSegments, Dictionary<string, string> urlParameters)
+        private static IRestResponse GenerateResponse(string resource, Dictionary<string, string> urlSegments,
+            Dictionary<string, string> urlParameters)
         {
             var client = new RestClient(ApiBase);
-            
+
             var request = new RestRequest(resource, DataFormat.Json)
                 .AddParameter("api_key", ApiKey);
-            
+
             foreach (var (key, value) in urlParameters)
                 request.AddParameter(key, value);
-            
+
             foreach (var (key, value) in urlSegments)
                 request.AddUrlSegment(key, value);
-            
+
             return client.Get(request);
         }
 

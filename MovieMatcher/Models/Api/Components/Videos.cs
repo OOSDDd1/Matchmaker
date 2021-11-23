@@ -17,7 +17,7 @@ namespace MovieMatcher.Models.Api.Components
             public bool official { get; set; }
             public int size { get; set; }
             public string type { get; set; }
-        
+
             public string iso_639_1 { get; set; }
             public string iso_3166_1 { get; set; }
         }
