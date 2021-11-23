@@ -45,10 +45,10 @@
                     <GradientStop Color="#303030" Offset="0.567"/>
                 </LinearGradientBrush>
             </DockPanel.Background>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20">
-                <Label Content="Welkom" Foreground="White" FontSize="16"/>
-                <Label Content="User" Foreground="White" FontSize="16" />
-            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20" >
+                <Label Content="Welkom" Foreground="White" FontSize="16"/>
+                <Label Content="User" Foreground="White" FontSize="16" />
+            </StackPanel>            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">                <Image Source="/Image/search.jfif" Width="20" Height="20" />                <Button Content="Search" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
                 <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                 <Button Content="Suggestions" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
