@@ -1,4 +1,4 @@
 {
-	"api-key": "",
-  "db-string": ""
+  "api-key": "150d96243d8720ed2b12c53a83a7634c",
+  "db-string": "Data Source=127.0.0.1;Initial Catalog=TestDB;User ID=sa;Password=Welkom01!;TrustServerCertificate=true"
 }
