@@ -9,6 +9,9 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Images\loginScreen.jpg" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\tv.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +29,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="106.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\loginScreen.jpg" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\tv.png" />
   </ItemGroup>
 
 </Project>
