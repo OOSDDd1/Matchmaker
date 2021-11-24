@@ -1,0 +1,32 @@
+﻿<Window x:Class="MovieMatcher.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MovieMatcher"
+        mc:Ignorable="d"
+        Title="Login" Height="450" Width="800">
+    <Grid>
+        <Rectangle HorizontalAlignment="Center" Height="182" Margin="220,44,0,0" Stroke="Black" VerticalAlignment="Center" Width="419" RadiusX="18" RadiusY="18" Fill="#FFF9EA4F"/>
+
+        <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Margin="220,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="370,249,0,0" VerticalAlignment="Top" Width="120" />
+        <TextBox  Width="250"  VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="SearchTermTextBox" Margin="5"/>
+        <TextBlock IsHitTestVisible="False" Text="Tijdelijke Textblock" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="DarkGray">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=SearchTermTextBox}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <Button x:Name="Button_Register" Content="Register" HorizontalAlignment="Left" Margin="390,309,0,0" VerticalAlignment="Top" Click="Button_Register_Click"/>
+        <Button x:Name="Button_Login" Content="Login" HorizontalAlignment="Left" Margin="270,314,0,0" VerticalAlignment="Top" Click="Button_Login_Click" IsDefault="True"/>
+        <Label x:Name="Label_Result" Content="Label" HorizontalAlignment="Left" Margin="342,118,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
