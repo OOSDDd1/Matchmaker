@@ -81,12 +81,11 @@ namespace MovieMatcher
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters);
         }
 
-        public static dynamic? GetProviders<T>(string resourceBase, int id)
-            where T : IRoot
+        public static dynamic? GetProviders(string resourceBase, int id)
         {
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
-            return Get<T>(resourceBase, GetWatchProviders, urlSegments);
+            return Get<Providers>(resourceBase, GetWatchProviders, urlSegments);
         }
 
         public static dynamic? Get<T>(string resourceBase, string resource)
