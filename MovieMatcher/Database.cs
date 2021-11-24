@@ -6,13 +6,9 @@ namespace MovieMatcher
 {
     public class Database
     {
-
-
         private string _sqlBuilder = MainWindow.Config["db-string"];
         
-
-
-        //Voorbeeld method
+        // Voorbeeld method
         public string GetName()
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
@@ -21,11 +17,11 @@ namespace MovieMatcher
                 string sql = "SELECT name FROM MatchMaker.Matchmaker.[user]";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    //Open connectie
+                    // Open connectie
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        //Lees result
+                        // Lees result
                         string result = "";
                         while (reader.Read())
                         {
