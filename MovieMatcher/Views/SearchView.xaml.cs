@@ -27,7 +27,7 @@ namespace MovieMatcher.Views
 
         private void SearchButton_Clicked(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(searchTxt.Text);
+            
         }
     }
 }

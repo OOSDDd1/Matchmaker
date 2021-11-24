@@ -48,15 +48,15 @@
                     <GradientStop Color="#303030" Offset="0.567"/>
                 </LinearGradientBrush>
             </DockPanel.Background>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
                 <Label Content="Welkom" Foreground="White" FontSize="16" Margin="0,7,0,0"/>
                 <Label Content="User" Foreground="White" FontSize="16" Margin="0,7,0,0" />
-            </StackPanel>            <Button Background="{x:Null}" Margin="40,0,0,0" Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
+            </StackPanel>            <Button Background="{x:Null}"  Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Image/search.png" Width="20" Height="20"  />
                     <Label Content="Search" Foreground="White" FontSize="16"/>
                 </StackPanel>
-            </Button>
+            </Button>            <Image  Source="/Image/logo.png"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
                 <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                 <Button Content="Suggestions" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
