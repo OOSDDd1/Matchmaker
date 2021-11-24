@@ -15,6 +15,9 @@
         <DataTemplate x:Name="BlueViewTemplate" DataType="{x:Type ViewModels:BlueViewModel}">
             <Views:blue DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="SearchViewTemplate" DataType="{x:Type ViewModels:SearchViewModel}">
+            <Views:SearchView DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.Background>
@@ -48,7 +51,12 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20" >
                 <Label Content="Welkom" Foreground="White" FontSize="16" Margin="0,7,0,0"/>
                 <Label Content="User" Foreground="White" FontSize="16" Margin="0,7,0,0" />
-            </StackPanel>            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="41,0,0,0">                <Image Source="/Image/search.png" Width="20" Height="20" />                <Button Content="Search" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>            </StackPanel>
+            </StackPanel>            <Button Background="{x:Null}" Margin="40,0,0,0" Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Image/search.png" Width="20" Height="20"  />
+                    <Label Content="Search" Foreground="White" FontSize="16"/>
+                </StackPanel>
+            </Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
                 <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                 <Button Content="Suggestions" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
