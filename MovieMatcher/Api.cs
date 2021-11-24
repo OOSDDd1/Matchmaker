@@ -6,11 +6,13 @@ using RestSharp;
 namespace MovieMatcher
 {
     /**
-     * Get providers from movie: 370172.
+     * Get providers from movie Eternals (524434).
      *      Api.Get<Movie>(Api.MovieBase, Api.GetWatchProviders, 370172);
      *
-     * Get show: 94605.
+     * Get show Arcane (Id 94605).
      *      Api.GetShow(94605);
+     *
+     * Every method returns Api.Message on error.
      */
     public static class Api
     {
@@ -36,7 +38,7 @@ namespace MovieMatcher
         public const string GetShowSeason = "{id}/season/{season}";
         public const string GetShowEpsiode = "{id}/season/{season}/episode/{episode}";
 
-        public static Movie? GetMovie(int id)
+        public static dynamic? GetMovie(int id)
         {
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
@@ -45,7 +47,7 @@ namespace MovieMatcher
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
-        public static Show? GetShow(int id)
+        public static dynamic? GetShow(int id)
         {
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
@@ -54,7 +56,7 @@ namespace MovieMatcher
             return Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters);
         }
 
-        public static Season? GetSeason(int id, int season)
+        public static dynamic? GetSeason(int id, int season)
         {
             var urlSegments = new Dictionary<string, string>
             {
@@ -66,7 +68,7 @@ namespace MovieMatcher
             return Get<Season>(ShowBase, GetShowSeason, urlSegments, urlParameters);
         }
 
-        public static Episode? GetEpisode(int id, int season, int episode)
+        public static dynamic? GetEpisode(int id, int season, int episode)
         {
             var urlSegments = new Dictionary<string, string>
             {
@@ -79,7 +81,7 @@ namespace MovieMatcher
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters);
         }
 
-        public static T? GetProviders<T>(string resourceBase, int id)
+        public static dynamic? GetProviders<T>(string resourceBase, int id)
             where T : IRoot
         {
             var urlSegments = new Dictionary<string, string>
@@ -87,13 +89,13 @@ namespace MovieMatcher
             return Get<T>(resourceBase, GetWatchProviders, urlSegments);
         }
 
-        public static T? Get<T>(string resourceBase, string resource)
+        public static dynamic? Get<T>(string resourceBase, string resource)
             where T : IRoot
         {
             return Get<T>(resourceBase, resource, new Dictionary<string, string>());
         }
 
-        public static T? Get<T>(string resourceBase, string resource, int id)
+        public static dynamic? Get<T>(string resourceBase, string resource, int id)
             where T : IRoot
         {
             var urlSegments = new Dictionary<string, string>
@@ -101,17 +103,20 @@ namespace MovieMatcher
             return Get<T>(resourceBase, resource, urlSegments);
         }
 
-        public static T? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments)
+        public static dynamic? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments)
             where T : IRoot
         {
             return Get<T>(resourceBase, resource, urlSegments, new Dictionary<string, string>());
         }
 
-        public static T? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments,
+        public static dynamic? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments,
             Dictionary<string, string> urlParameters)
             where T : IRoot
         {
             var response = GenerateResponse(resourceBase + resource, urlSegments, urlParameters);
+
+            if (!response.IsSuccessful)
+                return ResponseToClass<Message>(response.Content);
 
             return ResponseToClass<T>(response.Content);
         }
