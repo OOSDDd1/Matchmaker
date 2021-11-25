@@ -24,8 +24,8 @@
                 <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username" ToolTip="Username"/>
                 <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="Password" ToolTip="Password"/>
                 <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email" ToolTip="E-mail"/>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Age" ToolTip="Age"/>
-
+                <DatePicker Background="#f8ea4f" MinWidth="150" x:Name="Age" ToolTip="Age" />
+                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="RegisterButton" Margin="5" Content="Register" Background="{x:Null}" Click="OnRegisterClick"/>
                     <Button x:Name="CancelButton" Margin="5" Content="Cancel" Background="{x:Null}" />
