@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Data.SqlClient;
 using System.Text;
+using MovieMatcher.Models.Database;
 
 namespace MovieMatcher
 {
@@ -31,30 +32,39 @@ namespace MovieMatcher
             }
         }
 
-        //Voorbeeld method
-        public string CheckPassword(string username, string password)
+        //Checken of Wachtwoord correcet is
+        public Boolean CheckPassword(string username, string password)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
-                //Maak je query
                 string sql = @$"SELECT * FROM MatchMaker.Matchmaker.[user] WHERE name = '{username}'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    //Open connectie
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        //Lees result
-                        string result = "";
-                        while (reader.Read())
+                        UserInfo userInfo = new UserInfo(); //zo moet het niet maar voor nu
+                        if(reader.HasRows)
                         {
-                            if (reader["password"].ToString().Equals(password))
+                            while (reader.Read())
                             {
-                                result = "baggercode";
-                            }
-                        }
 
-                        return result;
+                                
+                                userInfo.id = reader.GetInt32(0);
+                                userInfo.name = reader.GetString(1);
+                                userInfo.email = reader.GetString(2);
+                                userInfo.password = reader.GetString(3);
+                                userInfo.birth_year = reader.GetDateTime(4).ToString();
+
+                            }
+
+                            if (userInfo.password.Equals(password))
+                            {
+                                return true;
+                            }
+                            else return false;
+                        }
+                        return false;
                     }
                 }
             }
