@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Season: IRoot
+    public class Season : IRoot
     {
         public string _id { get; set; }
         public string air_date { get; set; }

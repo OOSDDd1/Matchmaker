@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Show: IRoot
+    public class Show : IRoot
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -15,7 +15,7 @@ namespace MovieMatcher.Models.Api
         public List<Genre> genres { get; set; }
         public List<int> episode_run_time { get; set; }
         public List<string> languages { get; set; }
-        
+
         public string first_air_date { get; set; }
         public bool in_production { get; set; }
 
@@ -30,7 +30,7 @@ namespace MovieMatcher.Models.Api
         public string backdrop_path { get; set; }
         public Images images { get; set; }
         public Videos videos { get; set; }
-        
+
         public string tagline { get; set; }
         public string type { get; set; }
         public double popularity { get; set; }

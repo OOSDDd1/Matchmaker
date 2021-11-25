@@ -2,7 +2,7 @@
 
 namespace MovieMatcher.Models.Api
 {
-    public class Upcoming: IRoot
+    public class Upcoming : IRoot
     {
         public Components.Dates dates { get; set; }
         public int page { get; set; }

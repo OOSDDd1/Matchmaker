@@ -37,17 +37,17 @@ namespace MovieMatcher
         //Voorbeeld method
         public string CheckPassword(string username, string password)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            using (SqlConnection connection = new(_sqlBuilder))
             {
                 //Maak je query
                 string sql = @$"SELECT * FROM MatchMaker.Matchmaker.[user] WHERE name = '{username}'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    //Open connectie
+                    //Open connection
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        //Lees result
+                        // Read result
                         string result = "";
                         while (reader.Read())
                         {
