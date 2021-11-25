@@ -21,10 +21,10 @@
                         <BitmapImage  UriSource="Images/logo.png" />
                     </Image.Source>
                 </Image>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email"/>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="InputTextBox2"/>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="InputTextBox3"/>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="InputTextBox4"/>
+                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username" ToolTip="Username"/>
+                <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="Password" ToolTip="Password"/>
+                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email" ToolTip="E-mail"/>
+                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Age" ToolTip="Age"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="RegisterButton" Margin="5" Content="Register" Background="{x:Null}" Click="OnRegisterClick"/>
