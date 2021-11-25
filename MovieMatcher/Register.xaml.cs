@@ -26,14 +26,9 @@ namespace MovieMatcher
 
         private void OnRegisterClick(object sender, RoutedEventArgs e)
         {
-            Database D = new Database();
-            var result = D.CreateUser(Username.Text.ToString(), Password.Password.ToString(), Email.Text.ToString(), Age.Text.ToString());
-            if (String.IsNullOrEmpty(result))
-            {
+            Database database = new();
+            var result = database.CreateUser(Username.Text.ToString(), Password.Password.ToString(), Email.Text.ToString(), Age.Text.ToString());
                 MessageBox.Show($"FOUT1 {result}");
-            }
-
-            throw new NotImplementedException();
         }
         
         private void OnCancelClick(object sender, RoutedEventArgs e)

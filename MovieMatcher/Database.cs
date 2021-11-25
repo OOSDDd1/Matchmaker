@@ -63,27 +63,14 @@ namespace MovieMatcher
             }
         }
 
-        public string CreateUser(string userName, string password, string email, string age)
+        public int CreateUser(string userName, string password, string email, string age)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
-            {
-                string sql = @$"INSERT INTO MatchMaker.Matchmaker.[user] (name, email, password, birth_date) VALUES ({userName}, {email}, {password}, {age})";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        string result = "";
-                        while (reader.Read())
-                        {
-                                sb.Append(reader.) = "baggercode";
-                        }
-
-                        return result;
-                    }
-                }
-            }
+            using SqlConnection connection = new(_sqlBuilder);
+            string sql = @$"INSERT INTO MatchMaker.Matchmaker.[user] (name, email, password, birth_date) VALUES ({userName}, {email}, {password}, {age})";
+            using SqlCommand command = new(sql, connection);
+            connection.Open();
+            using SqlDataReader reader = command.ExecuteReader();
+            return reader.RecordsAffected;
         }
     }
 }
