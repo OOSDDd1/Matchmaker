@@ -14,7 +14,7 @@ namespace MovieMatcher
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
                 //Maak je query
-                string sql = "SELECT name FROM MatchMaker.Matchmaker.[user]";
+                string sql = "SELECT username FROM MatchMaker.Matchmaker.[user]";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Open connectie
@@ -69,7 +69,7 @@ namespace MovieMatcher
             {
                 using SqlConnection connection = new(_sqlBuilder);
             
-                string sql = @$"INSERT INTO MatchMaker.Matchmaker.[user] (name, email, password, birth_date) VALUES ('{userName}', '{email}', '{password}', '{age}')";
+                string sql = @$"INSERT INTO MatchMaker.Matchmaker.[user] (username, email, password, birth_date) VALUES ('{userName}', '{email}', '{password}', '{age}')";
             
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
