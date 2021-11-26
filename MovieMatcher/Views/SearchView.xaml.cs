@@ -31,6 +31,7 @@ namespace MovieMatcher.Views
         //when the searchbutton is clicked, this function will fire filling the listbox with items
         private void SearchButton_Clicked(object sender, RoutedEventArgs e)
         {
+            Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
             var getMovieResult = Api.Search(searchTxt.Text);
