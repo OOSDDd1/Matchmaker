@@ -1,4 +1,4 @@
-﻿using MovieMatcher.Models.Api.Components;
+using MovieMatcher.Models.Api.Components;
 using MovieMatcher.ViewModels;
 using Newtonsoft.Json;
 using System;
@@ -36,10 +36,13 @@ namespace MovieMatcher.Views
 
             var getMovieResult = Api.Search(searchTxt.Text);
 
-            if(getMovieResult.results == null)
+            if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
                 Label lbl = new Label();
                 lbl.Content = "No Results Found";
+                lbl.FontFamily = new FontFamily("Verdana");
+                lbl.FontSize = 35;
+                lbl.Foreground = Brushes.White;
                 ResultBox.Items.Add(lbl);
                 lbl.VerticalAlignment = VerticalAlignment.Center;
             }
