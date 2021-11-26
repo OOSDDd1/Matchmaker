@@ -30,10 +30,19 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                
+
                 <TextBox Name="searchTxt" FontSize="16" Background="{x:Null}" Foreground="White" Width="500" VerticalAlignment="Center"  IsEnabled="True" Height="25"  />
                 <Button Content="Search" Foreground="White" Background="{x:Null}" FontSize="16" VerticalAlignment="center" Margin="0,0.5,0,0" Click="SearchButton_Clicked"/>
             </StackPanel>
         </DockPanel>
+        <ListBox Name="ResultBox"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Background="{x:Null}" FlowDirection="LeftToRight" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" HorizontalAlignment="Center">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                Orientation="Horizontal"
+                />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </Grid>
 </UserControl>

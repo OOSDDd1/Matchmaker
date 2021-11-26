@@ -2,6 +2,8 @@
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using MovieMatcher.ViewModels;
+using System;
+using Newtonsoft.Json;
 
 namespace MovieMatcher
 {
@@ -23,11 +25,6 @@ namespace MovieMatcher
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
         {
             DataContext = new ResultViewModel();
-        }
-
-        private void BlueView_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new BlueViewModel();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
