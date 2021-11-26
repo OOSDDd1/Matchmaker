@@ -60,9 +60,13 @@ namespace MovieMatcher.Views
                     Grid grd = new Grid();
 
                     Image img = new Image();
-                    if (s.poster_path == null)
+                    if (s.poster_path == null && s.profile_path == null)
                     {
                         img.Source = new BitmapImage(new Uri(@"/Image/SamplePoster.png", UriKind.Relative));
+                    }
+                    else if (s.poster_path == null)
+                    {
+                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.profile_path}"));
                     }
                     else
                     {
@@ -71,14 +75,14 @@ namespace MovieMatcher.Views
                     img.Stretch = Stretch.Fill;
 
                     grd.Children.Add(img);
+
                     btn.Content = grd;
-                    itm.Content = btn;
                     btn.DataContext = s;
                     btn.MouseEnter += MovieHover_Entered;
                     btn.MouseLeave += MovieHover_Left;
                     btn.Click += DetailScreen_Clicked;
 
-
+                    itm.Content = btn;
                     ResultBox.Items.Add(itm);
                 }
             }
@@ -113,8 +117,10 @@ namespace MovieMatcher.Views
             txt.Width = tGrd.Width;
             txt.TextWrapping = TextWrapping.Wrap;
             txt.VerticalAlignment = VerticalAlignment.Center;
-            txt.TextAlignment = TextAlignment.Center;
             txt.HorizontalAlignment = HorizontalAlignment.Center;
+            txt.TextAlignment = TextAlignment.Center;
+            txt.FontFamily = new FontFamily("Verdana");
+
             tGrd.Children.Add(txt);
             grd.Children.Add(tGrd);
 
@@ -134,6 +140,14 @@ namespace MovieMatcher.Views
         private void DetailScreen_Clicked(object sender, RoutedEventArgs e)
         {
             //WIP
+        }
+
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Return)
+            {
+                SearchButton_Clicked(this, e);
+            }
         }
     }
 }
