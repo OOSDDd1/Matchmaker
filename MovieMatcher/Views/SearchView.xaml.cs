@@ -1,3 +1,4 @@
+using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.ViewModels;
 using Newtonsoft.Json;
@@ -43,13 +44,25 @@ namespace MovieMatcher.Views
                 lbl.FontFamily = new FontFamily("Verdana");
                 lbl.FontSize = 35;
                 lbl.Foreground = Brushes.White;
-                ResultBox.Items.Add(lbl);
                 lbl.VerticalAlignment = VerticalAlignment.Center;
+                ResultBox.Items.Add(lbl);
             }
             else
             {
                 foreach (MultiSearchResult s in getMovieResult.results)
                 {
+                    switch (s.media_type)
+                    {
+                        case "movie":
+                            s.Watch_Providers = Api.GetProviders<Providers>(Api.MovieBase, s.id);
+                            break;
+                        case "tv":
+                            s.Watch_Providers = Api.GetProviders<Providers>(Api.ShowBase, s.id);
+                            break;
+                        default:
+                            break;
+                    }
+
                     var bc = new BrushConverter();
                     ListBoxItem itm = new ListBoxItem();
 
@@ -78,14 +91,13 @@ namespace MovieMatcher.Views
                     }
                     img.Stretch = Stretch.Fill;
 
-                    grd.Children.Add(img);
-
-                    btn.Content = grd;
                     btn.DataContext = s;
                     btn.MouseEnter += MovieHover_Entered;
                     btn.MouseLeave += MovieHover_Left;
                     btn.Click += DetailScreen_Clicked;
 
+                    grd.Children.Add(img);
+                    btn.Content = grd;
                     itm.Content = btn;
                     ResultBox.Items.Add(itm);
                 }
@@ -98,35 +110,77 @@ namespace MovieMatcher.Views
             Button btn = (Button)sender;
             Grid grd = (Grid)btn.Content;
             MultiSearchResult msr = (MultiSearchResult)btn.DataContext;
-
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Opacity = 0.5;
-            brush.Color = Colors.White;
-
-            Grid tGrd = new Grid();
-            tGrd.Background = brush;
-            tGrd.Height = grd.ActualHeight;
-            tGrd.Width = grd.ActualWidth;
-
-            TextBlock txt = new TextBlock();
-            if (msr.title == null)
+            if (grd.Children.Count > 1)
             {
-                txt.Text = msr.name;
+                ((Grid)grd.Children[1]).Visibility = Visibility.Visible;
             }
             else
             {
-                txt.Text = msr.title;
-            }
-            txt.Height = double.NaN;
-            txt.Width = tGrd.Width;
-            txt.TextWrapping = TextWrapping.Wrap;
-            txt.VerticalAlignment = VerticalAlignment.Center;
-            txt.HorizontalAlignment = HorizontalAlignment.Center;
-            txt.TextAlignment = TextAlignment.Center;
-            txt.FontFamily = new FontFamily("Verdana");
+                SolidColorBrush brush = new SolidColorBrush();
+                brush.Opacity = 0.5;
+                brush.Color = Colors.White;
 
-            tGrd.Children.Add(txt);
-            grd.Children.Add(tGrd);
+                Grid tGrd = new Grid();
+                tGrd.Background = brush;
+                tGrd.Height = grd.ActualHeight;
+                tGrd.Width = grd.ActualWidth;
+
+                TextBlock txt = new TextBlock();
+                if (msr.title == null)
+                {
+                    txt.Text = msr.name;
+                }
+                else
+                {
+                    txt.Text = msr.title;
+                }
+                txt.Height = double.NaN;
+                txt.Width = tGrd.Width;
+                txt.TextWrapping = TextWrapping.Wrap;
+                txt.VerticalAlignment = VerticalAlignment.Center;
+                txt.HorizontalAlignment = HorizontalAlignment.Center;
+                txt.TextAlignment = TextAlignment.Center;
+                txt.FontFamily = new FontFamily("Verdana");
+
+                tGrd.Children.Add(txt);
+
+                if (msr.Watch_Providers != null && msr.Watch_Providers.results.ContainsKey("NL"))
+                {
+                    Provider provider = msr.Watch_Providers.results["NL"];
+                    WrapPanel wPanel = new WrapPanel();
+                    wPanel.Orientation = Orientation.Horizontal;
+                    wPanel.HorizontalAlignment = HorizontalAlignment.Left;
+                    wPanel.VerticalAlignment = VerticalAlignment.Top;
+                    
+ 
+                    Dictionary<int, string> logoSources = new Dictionary<int, string>();
+                    if (provider.flatrate != null)
+                    {
+                        GetLogos<Flatrate>(provider.flatrate, logoSources);
+                    }
+                    if (provider.buy != null)
+                    {
+                        GetLogos<Buy>(provider.buy, logoSources);
+                    }
+                    if (provider.rent != null)
+                    {
+                        GetLogos<Rent>(provider.rent, logoSources);
+                    }
+                    if (provider.ads != null)
+                    {
+                        GetLogos<Ads>(provider.ads, logoSources);
+                    }
+                    foreach (string item in logoSources.Values)
+                    {
+                        wPanel.Children.Add(CreateLogo(item));
+                    }
+                    tGrd.Children.Add(wPanel);
+                }
+
+                grd.Children.Add(tGrd);
+            }
+
+            
 
 
 
@@ -137,7 +191,7 @@ namespace MovieMatcher.Views
         {
             Button btn = (Button)sender;
             Grid grd = (Grid)btn.Content;
-            grd.Children.RemoveAt(1);
+            ((Grid)grd.Children[1]).Visibility = Visibility.Hidden;
 
         }
 
@@ -152,6 +206,26 @@ namespace MovieMatcher.Views
             {
                 SearchButton_Clicked(this, e);
             }
+        }
+
+        private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : ProviderGegevens
+        {
+            foreach(T item in provider) {
+                if (!logoSources.ContainsKey(item.provider_id))
+                {
+                    logoSources.Add(item.provider_id, item.logo_path);
+                }
+            }
+        }
+        private Image CreateLogo(string source)
+        {
+            Image pImg = new Image();
+            pImg.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{source}", UriKind.Absolute));
+            pImg.VerticalAlignment = VerticalAlignment.Top;
+            pImg.HorizontalAlignment = HorizontalAlignment.Left;
+            pImg.Width = 25;
+            pImg.Height = 25;
+            return pImg;
         }
     }
 }

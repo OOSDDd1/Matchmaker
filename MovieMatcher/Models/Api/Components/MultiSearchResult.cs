@@ -28,6 +28,8 @@ namespace MovieMatcher.Models.Api.Components
         public string name { get; set; }
         public List<string> origin_country { get; set; }
         public string original_name { get; set; }
+        public Providers Watch_Providers { get; set; }
+
 
 
     }
