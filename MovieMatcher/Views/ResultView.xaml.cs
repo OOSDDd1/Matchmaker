@@ -17,9 +17,6 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Views
 {
-    /// <summary>
-    /// Interaction logic for ResultView.xaml
-    /// </summary>
     public partial class ResultView : UserControl
     {
         public ResultView()
@@ -72,7 +69,6 @@ namespace MovieMatcher.Views
                 Image.Width = 130;
                 TextBlock.VerticalAlignment = VerticalAlignment.Center;
                 TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                //TextBlock.Text = show.original_name;
                 ListItems.Items.Add(Grid);
             }
         }

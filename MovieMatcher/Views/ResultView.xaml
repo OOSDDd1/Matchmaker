@@ -18,47 +18,6 @@
                 <GradientStop Color="#000000" Offset="0.567"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <!--<Viewbox Grid.Row="0" HorizontalAlignment="Left"  Stretch="UniformToFill">
-            <ListBox Height="197" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="true" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBoxItem Grid.ColumnSpan="1">
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="auto" FontFamily="Verdana" Background="#3cb9f4" Margin="0,-4,0,0">
-                        <Grid>
-                            <Image Source="../testFilmPoster.jpg" Stretch="Fill" Height="auto" />
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keyboard/Mouse" />
-                        </Grid>
-                    </Button>
-                </ListBoxItem>
-                <ListBoxItem Grid.ColumnSpan="1">
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="auto" FontFamily="Verdana" Background="#3cb9f4" Margin="0,-4,0,0">
-                        <Grid>
-                            <Image Source="../testFilmPoster.jpg" Stretch="Fill" Height="auto" />
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keyboard/Mouse" />
-                        </Grid>
-                    </Button>
-                </ListBoxItem>
-                <ListBoxItem Grid.ColumnSpan="1">
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="auto" FontFamily="Verdana" Background="#3cb9f4" Margin="0,-4,0,0">
-                        <Grid>
-                            <Image Source="../testFilmPoster.jpg" Stretch="Fill" Height="auto" />
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keyboard/Mouse" />
-                        </Grid>
-                    </Button>
-                </ListBoxItem>
-                <ListBoxItem Grid.ColumnSpan="1">
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="auto" FontFamily="Verdana" Background="#3cb9f4" Margin="0,-4,0,0">
-                        <Grid>
-                            <Image Source="../testFilmPoster.jpg" Stretch="Fill" Height="auto" />
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keyboard/Mouse" />
-                        </Grid>
-                    </Button>
-                </ListBoxItem>
-            </ListBox>
-        </Viewbox>-->
         <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible"  VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" HorizontalAlignment="Left" CanContentScroll="True">
             <ListBox Height="197" Background="{x:Null}" Name="ListItems">
                 <ListBox.ItemsPanel>
@@ -66,14 +25,6 @@
                         <WrapPanel IsItemsHost="True" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
-                <!--<ListBoxItem>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="auto" FontFamily="Verdana" Background="#3cb9f4" Margin="0,-4,0,0">
-                        <Grid>
-                            <Image Source="../testFilmPoster.jpg" Stretch="Fill" Height="auto" />
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keyboard/Mouse" />
-                        </Grid>
-                    </Button>
-                </ListBoxItem>-->
             </ListBox>
         </ScrollViewer>
     </Grid>
