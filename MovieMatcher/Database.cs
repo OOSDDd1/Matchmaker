@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.Diagnostics;
-using Microsoft.Data.SqlClient;
-using System.Text;
+﻿using Microsoft.Data.SqlClient;
 
 namespace MovieMatcher
 {
