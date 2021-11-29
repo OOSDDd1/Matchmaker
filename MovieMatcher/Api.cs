@@ -96,9 +96,10 @@ namespace MovieMatcher
             return Get<Providers>(resourceBase, GetWatchProviders, urlSegments);
         }
 
-        public static MultiSearch? Search(string query, bool adult)
+        public static dynamic? Search(string query, bool adult)
         {
-            var urlParameters = new Dictionary<string, string> { { "query", query },{ "include_adult", adult.ToString().ToLower() } };
+
+            var urlParameters = new Dictionary<string, string> { { "query", query }, {"include_adult", adult.ToString().ToLower()} };
             return Get<MultiSearch>(SearchBase, SearchMulti, new Dictionary<string, string>(), urlParameters);
         }
 
