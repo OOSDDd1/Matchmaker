@@ -18,13 +18,29 @@
             <StackPanel Height="226" Width="249">
                 <Image>
                     <Image.Source>
-                        <BitmapImage  UriSource="Images/logo.png" />
+                        <BitmapImage UriSource="Images/logo.png" />
                     </Image.Source>
                 </Image>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username" ToolTip="Username"/>
-                <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="Password" ToolTip="Password"/>
-                <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email" ToolTip="E-mail"/>
-                <DatePicker Background="#f8ea4f" MinWidth="150" x:Name="Age" ToolTip="Age" />
+                
+                <Border MinWidth="150" x:Name="BorderUsername" BorderThickness="1" BorderBrush="Black">
+                    <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username" TextChanged="UsernameChangedEventHandler" 
+                             ToolTip="Username" BorderThickness="0"/>
+                </Border>
+                
+                <Border MinWidth="150" x:Name="BorderPassword" BorderThickness="1" BorderBrush="Black">
+                    <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="Password" ToolTip="Password" 
+                                 PasswordChanged="PasswordChangedEventHandler" BorderThickness="0"/>
+                </Border>
+                
+                <Border MinWidth="150" x:Name="BorderEmail" BorderThickness="1" BorderBrush="Black">
+                    <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email" ToolTip="E-mail" BorderThickness="0"
+                             TextChanged="EmailChangedEventHandler"/>
+                </Border>
+                
+                <Border MinWidth="150" x:Name="BorderDateOfBirth" BorderThickness="1" BorderBrush="Black">
+                    <DatePicker Background="#f8ea4f" MinWidth="150" x:Name="DateOfBirth" ToolTip="Date of birth" 
+                                BorderThickness="0" SelectedDate="{Binding DateOfBirth, StringFormat=DD-MM-yyyy}" SelectedDateChanged="DateOfBirthChangedEventHandler"/>
+                </Border>
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="RegisterButton" Margin="5" Content="Register" Background="{x:Null}" Click="OnRegisterClick"/>
