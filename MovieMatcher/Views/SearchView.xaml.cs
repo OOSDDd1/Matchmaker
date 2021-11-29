@@ -57,10 +57,10 @@ namespace MovieMatcher.Views
                     switch (s.media_type)
                     {
                         case "movie":
-                            s.Watch_Providers = Api.GetProviders<Providers>(Api.MovieBase, s.id);
+                            s.Watch_Providers = Api.GetProviders(Api.MovieBase, s.id);
                             break;
                         case "tv":
-                            s.Watch_Providers = Api.GetProviders<Providers>(Api.ShowBase, s.id);
+                            s.Watch_Providers = Api.GetProviders(Api.ShowBase, s.id);
                             break;
                         default:
                             break;
