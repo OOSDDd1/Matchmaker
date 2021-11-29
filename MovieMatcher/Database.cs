@@ -1,3 +1,4 @@
+﻿using Microsoft.Data.SqlClient;
 ﻿using System;
 using System.Data.Common;
 using System.Diagnostics;
