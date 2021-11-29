@@ -46,12 +46,13 @@
                     <GradientStop Color="#303030" Offset="0.567"/>
                 </LinearGradientBrush>
             </DockPanel.Background>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20">
                 <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                 <Button Content="Suggestions" Click="BlueView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                 <Button Content="History" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
             </StackPanel>
         </DockPanel>
+        <Label x:Name="Label1" Content="Label" HorizontalAlignment="Left" Margin="155,101,0,0" VerticalAlignment="Top" />
 
         <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Grid.RowSpan="4" Content="{Binding}"/>
         <Label Content="Welcome" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16" Foreground="White" Height="31" Width="75"/>

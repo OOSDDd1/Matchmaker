@@ -66,14 +66,14 @@
                         <WrapPanel IsItemsHost="True" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
-                <ListBoxItem>
+                <!--<ListBoxItem>
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="auto" FontFamily="Verdana" Background="#3cb9f4" Margin="0,-4,0,0">
                         <Grid>
                             <Image Source="../testFilmPoster.jpg" Stretch="Fill" Height="auto" />
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keyboard/Mouse" />
                         </Grid>
                     </Button>
-                </ListBoxItem>
+                </ListBoxItem>-->
             </ListBox>
         </ScrollViewer>
     </Grid>

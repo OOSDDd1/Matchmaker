@@ -5,9 +5,6 @@ using MovieMatcher.ViewModels;
 
 namespace MovieMatcher
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public static IConfigurationRoot Config =
@@ -16,6 +13,7 @@ namespace MovieMatcher
                 .AddJsonFile("appsettings.json", false)
                 .AddEnvironmentVariables()
                 .Build();
+
         public MainWindow()
         {
             InitializeComponent();
