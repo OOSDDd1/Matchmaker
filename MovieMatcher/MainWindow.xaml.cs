@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
+using MovieMatcher.ViewModels;
 
 namespace MovieMatcher
 {
@@ -20,9 +21,18 @@ namespace MovieMatcher
 
             Application.Current.MainWindow = new Register();
             Application.Current.MainWindow.Show();
-            //var appWindow = new Login();
-            //appWindow.Show();
 
+            Database db = new Database();
+        }
+
+        private void ResultView_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new ResultViewModel();
+        }
+
+        private void BlueView_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new BlueViewModel();
         }
     }
 }

@@ -12,6 +12,7 @@
     <None Remove="Images\loginScreen.jpg" />
     <None Remove="Images\logo.png" />
     <None Remove="Images\tv.png" />
+    <None Remove="testFilmPoster.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,12 @@
     <Resource Include="Images\loginScreen.jpg" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\tv.png" />
+
+    <Folder Include="Models\" />
+    
+    <Content Include="testFilmPoster.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
