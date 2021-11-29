@@ -18,9 +18,11 @@ namespace MovieMatcher
     {
         private static readonly string ApiKey = MainWindow.Config["api-key"];
         private const string ApiBase = "https://api.themoviedb.org/3/";
+        public const string ImageBase = "https://image.tmdb.org/t/p/";
 
         public const string MovieBase = "movie/";
         public const string ShowBase = "tv/";
+        public const string SearchBase = "search/";
 
         // For both movies and shows
         public const string GetDetails = "{id}";
@@ -37,6 +39,12 @@ namespace MovieMatcher
         // Just for Series
         public const string GetShowSeason = "{id}/season/{season}";
         public const string GetShowEpsiode = "{id}/season/{season}/episode/{episode}";
+
+        //Search
+        public const string SearchMulti = "multi";
+
+        //SearchSizes
+        public const string W185 = "w185";
 
         public static dynamic? GetMovie(int id)
         {
@@ -86,6 +94,13 @@ namespace MovieMatcher
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
             return Get<Providers>(resourceBase, GetWatchProviders, urlSegments);
+        }
+
+        public static dynamic? Search(string query, bool adult)
+        {
+
+            var urlParameters = new Dictionary<string, string> { { "query", query }, {"include_adult", adult.ToString().ToLower()} };
+            return Get<MultiSearch>(SearchBase, SearchMulti, new Dictionary<string, string>(), urlParameters);
         }
 
         public static dynamic? Get<T>(string resourceBase, string resource)

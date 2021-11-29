@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -9,8 +9,10 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Image\logo.png" />
+    <None Remove="Image\SamplePoster.png" />
+    <None Remove="Image\search.png" />
     <None Remove="Images\loginScreen.jpg" />
-    <None Remove="Images\logo.png" />
     <None Remove="Images\tv.png" />
   </ItemGroup>
 
@@ -32,11 +34,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Image\logo.png" />
+    <Resource Include="Image\SamplePoster.png" />
+    <Resource Include="Image\search.png" />
     <Resource Include="Images\loginScreen.jpg" />
-    <Resource Include="Images\logo.png" />
     <Resource Include="Images\tv.png" />
 
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
