@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MovieMatcher
 {
@@ -48,25 +39,29 @@ namespace MovieMatcher
             if (String.IsNullOrEmpty(txtPassword.Password))
             {
                 borderPassword.BorderBrush = Brushes.Red;
-                
-            } else
+
+            }
+            else
             {
                 Database D = new Database();
                 
                 if (D.CheckPassword(txtUsername.Text.ToString(), txtPassword.Password.ToString()))
                 {
-                    //naar home scherm
+                    //doorverwijzig naar het homescherm
                     MessageBox.Show($"Inloggegevens juist ;)");
+
                 }
                 else
+                {
                     MessageBox.Show($"Inloggegevens onjuist");
+                }
             }
 
         }
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
-
+            //doorverwijzig naar het registeer scherm
         }
     }
 }

@@ -32,7 +32,7 @@
 
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="Button_Login" Margin="5" Content="Login" Background="{x:Null}" Click="Button_Login_Click"/>
+                    <Button x:Name="Button_Login" Margin="5" Content="Login" Background="{x:Null}" Click="Button_Login_Click" IsDefault="True"/>
                     <Button x:Name="Button_Register" Margin="5" Content="Register" Background="{x:Null}" />
                 </StackPanel>
             </StackPanel>

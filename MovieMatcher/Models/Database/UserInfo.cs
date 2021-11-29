@@ -2,12 +2,12 @@
 
 namespace MovieMatcher.Models.Database
 {
-    class UserInfo
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string birth_year { get; set; }
+    public static class UserInfo
+    { 
+        public static int? Id { get; set; }
+        public static string? Username { get; set; }
+        public static string? Email { get; set; }
+        public static string? Password { get; set; }
+        public static string? BirthYear { get; set; }
     }
 }
