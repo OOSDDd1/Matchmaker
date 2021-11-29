@@ -21,8 +21,6 @@ namespace MovieMatcher
 
             Application.Current.MainWindow = new Register();
             Application.Current.MainWindow.Show();
-
-            Database db = new Database();
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
