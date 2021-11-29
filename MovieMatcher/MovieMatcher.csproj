@@ -9,7 +9,9 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="testFilmPoster.jpg" />
+    <None Remove="Images\loginScreen.jpg" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\tv.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\loginScreen.jpg" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\tv.png" />
+
     <Folder Include="Models\" />
   </ItemGroup>
 

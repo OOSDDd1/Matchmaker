@@ -17,8 +17,9 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
+            Application.Current.MainWindow = new Register();
             DataContext = new ResultViewModel();
-            Database db = new Database();
+            Application.Current.MainWindow.Show();
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
