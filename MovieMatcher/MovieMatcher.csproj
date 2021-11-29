@@ -9,8 +9,9 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="images\loginScreen.jpg" />
-    <None Remove="testFilmPoster.jpg" />
+    <None Remove="Images\loginScreen.jpg" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\tv.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,20 +29,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="106.13.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="images\loginScreen.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="testFilmPoster.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
