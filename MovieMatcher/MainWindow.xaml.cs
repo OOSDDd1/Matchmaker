@@ -17,8 +17,7 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = new Login();
-
+            DataContext = new ResultViewModel();
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
