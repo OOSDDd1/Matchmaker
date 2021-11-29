@@ -18,12 +18,14 @@
             <StackPanel>
                 <Image Margin="0,20,0,0">
                     <Image.Source>
-                        <BitmapImage  UriSource="/images/loginScreen.jpg" />
+                        <BitmapImage  UriSource="/Images/loginScreen.jpg" />
                     </Image.Source>
                 </Image>
+                <Label Content="Username"></Label>
                 <Border MinWidth="150" x:Name="borderUsername" BorderThickness="1" BorderBrush="Black" >
                     <TextBox Background="#f8ea4f" x:Name="txtUsername" ToolTip="Username" TextChanged="UsernameChangedEventHandler" Height="18" BorderThickness="0"/>
                 </Border>
+                <Label Content="Password"></Label>
                 <Border MinWidth="150" x:Name="borderPassword" BorderThickness="1" BorderBrush="Black" >
                     <PasswordBox Background="#f8ea4f" x:Name="txtPassword" ToolTip="Password" PasswordChanged="PasswordChangedEventHandler" Height="18" BorderThickness="0" />
 
@@ -33,7 +35,7 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="Button_Login" Margin="5" Content="Login" Background="{x:Null}" Click="Button_Login_Click" IsDefault="True"/>
-                    <Button x:Name="Button_Register" Margin="5" Content="Register" Background="{x:Null}" />
+                    <Button x:Name="Button_Register" Margin="5" Content="Register" Background="{x:Null}" Click="Button_Register_Click" />
                 </StackPanel>
             </StackPanel>
         </Border>

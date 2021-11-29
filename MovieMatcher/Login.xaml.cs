@@ -43,12 +43,15 @@ namespace MovieMatcher
             }
             else
             {
-                Database D = new Database();
+                //Database D = new Database();
                 
-                if (D.CheckPassword(txtUsername.Text.ToString(), txtPassword.Password.ToString()))
+                if (Database.CheckPassword(txtUsername.Text.ToString(), txtPassword.Password.ToString()))
                 {
                     //doorverwijzig naar het homescherm
-                    MessageBox.Show($"Inloggegevens juist ;)");
+                    var appMainWindow = new MainWindow();
+                    appMainWindow.Show();
+                    //MessageBox.Show($"Inloggegevens juist ;)");
+                    Close();
 
                 }
                 else
@@ -62,6 +65,9 @@ namespace MovieMatcher
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
             //doorverwijzig naar het registeer scherm
+            var appreg = new Register();
+            appreg.Show();
+            Close();
         }
     }
 }

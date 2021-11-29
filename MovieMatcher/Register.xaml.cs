@@ -62,12 +62,17 @@ namespace MovieMatcher
                     DateOfBirth.Text
                 );
                 MessageBox.Show(responseMessage);
+                var appLogin = new Login();
+                appLogin.Show();
+                Close();
             }
         }
         
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var appLogin = new Login();
+            appLogin.Show();
+            Close();
         }
         
         private void UsernameChangedEventHandler(object sender, TextChangedEventArgs args)

@@ -44,7 +44,7 @@
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="RegisterButton" Margin="5" Content="Register" Background="{x:Null}" Click="OnRegisterClick"/>
-                    <Button x:Name="CancelButton" Margin="5" Content="Cancel" Background="{x:Null}" />
+                    <Button x:Name="CancelButton" Margin="5" Content="Cancel" Background="{x:Null}" Click="OnCancelClick" />
                 </StackPanel>
             </StackPanel>
         </Border>
