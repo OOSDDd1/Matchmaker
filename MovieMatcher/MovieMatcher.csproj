@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="images\loginScreen.jpg" />
+    <None Remove="testFilmPoster.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,16 @@
 
   <ItemGroup>
     <Resource Include="images\loginScreen.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="testFilmPoster.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
