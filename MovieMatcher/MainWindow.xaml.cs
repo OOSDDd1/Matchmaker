@@ -17,6 +17,7 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ResultViewModel();
             Database db = new Database();
         }
 
