@@ -99,7 +99,7 @@ namespace MovieMatcher
         public static dynamic? Search(string query, bool adult)
         {
 
-            var urlParameters = new Dictionary<string, string> { { "query", query } };
+            var urlParameters = new Dictionary<string, string> { { "query", query }, {"include_adult", adult.ToString().ToLower()} };
             return Get<MultiSearch>(SearchBase, SearchMulti, new Dictionary<string, string>(), urlParameters);
         }
 
