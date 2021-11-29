@@ -16,8 +16,7 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
-            Database db = new Database();
-            Label1.Content = db.GetName();
+            Label1.Content = Database.GetName();
 
             Application.Current.MainWindow = new Register();
             Application.Current.MainWindow.Show();

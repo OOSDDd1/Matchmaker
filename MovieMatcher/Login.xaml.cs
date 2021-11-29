@@ -26,8 +26,7 @@ namespace MovieMatcher
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
-            Database D = new Database();
-            var result = D.CheckPassword(txtUsername.Text.ToString(), txtPassword.Password.ToString());
+            var result = Database.CheckPassword(txtUsername.Text.ToString(), txtPassword.Password.ToString());
             Label_Result.Content = result;
             if (String.IsNullOrEmpty(result))
             {

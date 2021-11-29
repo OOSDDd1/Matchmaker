@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Data.Common;
+using System.Diagnostics;
 using Microsoft.Data.SqlClient;
 using System.Text;
 
 namespace MovieMatcher
 {
-    public class Database
+    public static class Database
     {
-        private string _sqlBuilder = MainWindow.Config["db-string"];
+        private static string _sqlBuilder = MainWindow.Config["db-string"];
         
         // Voorbeeld method
-        public string GetName()
+        public static string GetName()
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
@@ -35,7 +37,7 @@ namespace MovieMatcher
         }
 
         //Voorbeeld method
-        public string CheckPassword(string username, string password)
+        public static string CheckPassword(string username, string password)
         {
             using (SqlConnection connection = new(_sqlBuilder))
             {
@@ -63,7 +65,7 @@ namespace MovieMatcher
             }
         }
 
-        public string CreateUser(string userName, string password, string email, string age)
+        public static string CreateUser(string userName, string password, string email, string age)
         {
             try
             {
@@ -76,11 +78,16 @@ namespace MovieMatcher
             
                 using SqlDataReader reader = command.ExecuteReader();
             
-                return "Account created";
+                return "Your account has been registered!";
             }
-            catch (Exception e)
+            catch (SqlException ex)
             {
-                return e.Message;
+                return ex.Number switch
+                {
+                    241 => "Invalid date.",
+                    2601 => "E-mail address or username is already in use.",
+                    _ => "Something went wrong on our end. Please try again later."
+                };
             }
         }
     }
