@@ -195,11 +195,13 @@ namespace MovieMatcher.Views
 
         }
 
+        //When Completed this will lead to the DetailScreen with more info about the movie
         private void DetailScreen_Clicked(object sender, RoutedEventArgs e)
         {
             //WIP
         }
 
+        //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Return)
@@ -208,6 +210,7 @@ namespace MovieMatcher.Views
             }
         }
 
+        //Adds logopaths to dictionary for later use, used generic to get all types(ads, buy, rent, flatrate) in one strain of code
         private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : ProviderGegevens
         {
             foreach(T item in provider) {
@@ -217,6 +220,8 @@ namespace MovieMatcher.Views
                 }
             }
         }
+
+        //creates logo image and returns it
         private Image CreateLogo(string source)
         {
             Image pImg = new Image();
