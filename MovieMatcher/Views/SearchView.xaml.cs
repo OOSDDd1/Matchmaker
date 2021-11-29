@@ -40,7 +40,7 @@ namespace MovieMatcher.Views
 
             var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(account.BirthDate));
 
-            if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
+            if (getMovieResult is Message || getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
                 Label lbl = new Label();
                 lbl.Content = "No Results Found";
@@ -66,16 +66,13 @@ namespace MovieMatcher.Views
                             break;
                     }
 
-                    var bc = new BrushConverter();
                     ListBoxItem itm = new ListBoxItem();
 
                     Button btn = new Button();
                     btn.HorizontalAlignment = HorizontalAlignment.Left;
                     btn.VerticalAlignment = VerticalAlignment.Top;
                     btn.FontFamily = new FontFamily("Verdana");
-                    btn.Width = 130;
-                    btn.Background = (Brush)bc.ConvertFrom("#3cb9f4");
-                    btn.Margin = new Thickness(0, -4, 0, 0);
+                    btn.Background = (Brush)(new BrushConverter().ConvertFromString("#3cb9f4"));
 
                     Grid grd = new Grid();
 
@@ -93,6 +90,7 @@ namespace MovieMatcher.Views
                         img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.poster_path}"));
                     }
                     img.Stretch = Stretch.Fill;
+                    img.Width = 130;
 
                     btn.DataContext = s;
                     btn.MouseEnter += MovieHover_Entered;
