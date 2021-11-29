@@ -1,6 +1,6 @@
 ﻿namespace MovieMatcher.Models.Api.Components
 {
-    public class Buy
+    public class Buy : ProviderGegevens
     {
         public int display_priority { get; set; }
         public string logo_path { get; set; }

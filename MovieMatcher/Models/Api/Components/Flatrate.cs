@@ -1,6 +1,6 @@
 ﻿namespace MovieMatcher.Models.Api.Components
 {
-    public class Flatrate
+    public class Flatrate : ProviderGegevens
     {
         public int display_priority { get; set; }
         public string logo_path { get; set; }
