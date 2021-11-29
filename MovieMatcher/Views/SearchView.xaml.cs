@@ -1,3 +1,4 @@
+using MovieMatcher.Models;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.ViewModels;
@@ -35,7 +36,9 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            var getMovieResult = Api.Search(searchTxt.Text);
+            PlaceHolderAccount account = new PlaceHolderAccount("bob", "bob@gmail.com", new DateTime(2001, 1, 1));
+
+            var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(account.BirthDate));
 
             if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
@@ -231,6 +234,11 @@ namespace MovieMatcher.Views
             pImg.Width = 25;
             pImg.Height = 25;
             return pImg;
+        }
+
+        private static bool GreaterThan18(DateTime bornIn)
+        {
+            return (bornIn.AddYears(18) <= DateTime.Now);
         }
     }
 }
