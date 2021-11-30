@@ -57,7 +57,7 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
                     <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
-                    <Label Content="User" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                    <Label Name="UserName" Content="SAMPLE" Foreground="White" FontSize="16" VerticalAlignment="Center" />
                 </StackPanel>                <Button Grid.Column="1" HorizontalAlignment="Left" Background="{x:Null}"  Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Image/search.png" Width="20" Height="20"  />

@@ -29,6 +29,7 @@ namespace MovieMatcher.Models.Api.Components
         public List<string> origin_country { get; set; }
         public string original_name { get; set; }
         public Providers Watch_Providers { get; set; }
+        public bool adult { get; set; }
 
 
 
