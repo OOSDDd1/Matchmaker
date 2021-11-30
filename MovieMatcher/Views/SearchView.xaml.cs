@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MovieMatcher.Models.Database;
 
 namespace MovieMatcher.Views
 {
@@ -36,9 +37,7 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            PlaceHolderAccount account = new PlaceHolderAccount("bob", "bob@gmail.com", new DateTime(2001, 1, 1));
-
-            var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(account.BirthDate));
+            var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(UserInfo.BirthYear));
 
             if (getMovieResult is Message || getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
