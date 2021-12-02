@@ -78,7 +78,7 @@ namespace MovieMatcher.Views
                     Image img = new Image();
                     if (s.poster_path == null && s.profile_path == null)
                     {
-                        img.Source = new BitmapImage(new Uri(@"/Image/SamplePoster.png", UriKind.Relative));
+                        img.Source = new BitmapImage(new Uri(@"/Images/SamplePoster.png", UriKind.Relative));
                     }
                     else if (s.poster_path == null)
                     {

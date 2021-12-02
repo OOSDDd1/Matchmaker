@@ -11,10 +11,9 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="favicon.ico" />
-    <None Remove="Image\logo.png" />
-    <None Remove="Image\SamplePoster.png" />
-    <None Remove="Image\search.png" />
     <None Remove="Images\loginScreen.jpg" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\search.png" />
     <None Remove="Images\tv.png" />
   </ItemGroup>
 
@@ -33,13 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="favicon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Image\logo.png" />
-    <Resource Include="Image\SamplePoster.png" />
-    <Resource Include="Image\search.png" />
+    <Resource Include="favicon.ico" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\SamplePoster.png" />
     <Resource Include="Images\loginScreen.jpg" />
+    <Resource Include="Images\search.png" />
     <Resource Include="Images\tv.png" />
 
     <Folder Include="Models\" />
