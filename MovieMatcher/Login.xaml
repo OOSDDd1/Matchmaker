@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MovieMatcher"
         mc:Ignorable="d"
-        Title="Register"
+        Title="Login"
         Icon="favicon.ico"
         Height="450" 
         Width="800">
