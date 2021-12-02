@@ -9,7 +9,10 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        Title="Register"
+        Icon="favicon.ico"
+        >
     <Window.Background>
         <SolidColorBrush Opacity="0"/>
     </Window.Background>
