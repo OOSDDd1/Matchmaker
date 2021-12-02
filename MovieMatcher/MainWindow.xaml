@@ -1,4 +1,4 @@
-﻿<Window x:Class="MovieMatcher.MainWindow"
+<Window x:Class="MovieMatcher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,11 @@
         xmlns:ViewModels="clr-namespace:MovieMatcher.ViewModels"
         xmlns:Views="clr-namespace:MovieMatcher.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
+        Icon="favicon.ico"
+        Title="MovieMatcher" 
+        Width="800" 
+        Height="450" 
+        WindowState="Maximized">
     <Window.Resources>
         <DataTemplate x:Name="ResultViewTemplate" DataType="{x:Type ViewModels:ResultViewModel}">
             <Views:ResultView DataContext="{Binding}"/>

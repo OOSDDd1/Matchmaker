@@ -5,13 +5,15 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="favicon.ico" />
     <None Remove="Images\loginScreen.jpg" />
-    <None Remove="images\logo.png" />
-    <None Remove="images\search.png" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\search.png" />
     <None Remove="Images\tv.png" />
   </ItemGroup>
 
@@ -30,10 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="images\logo.png" />
+    <Resource Include="favicon.ico" />
+    <Resource Include="Images\logo.png" />
     <Resource Include="Images\SamplePoster.png" />
     <Resource Include="Images\loginScreen.jpg" />
-    <Resource Include="images\search.png" />
+    <Resource Include="Images\search.png" />
     <Resource Include="Images\tv.png" />
 
     <Folder Include="Models\" />
