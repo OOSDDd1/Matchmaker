@@ -7,7 +7,11 @@
         xmlns:ViewModels="clr-namespace:MovieMatcher.ViewModels"
         xmlns:Views="clr-namespace:MovieMatcher.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
+        Icon="favicon.ico"
+        Title="MovieMatcher" 
+        Width="800" 
+        Height="450" 
+        WindowState="Maximized">
     <Window.Resources>
         <DataTemplate x:Name="ResultViewTemplate" DataType="{x:Type ViewModels:ResultViewModel}">
             <Views:ResultView DataContext="{Binding}"/>
@@ -58,7 +62,9 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
                     <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
                     <Label Name="UserName" Content="SAMPLE" Foreground="White" FontSize="16" VerticalAlignment="Center" />
-                </StackPanel>                <Button Grid.Column="1" HorizontalAlignment="Left" Background="{x:Null}"  Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
+                </StackPanel>
+
+                <Button Grid.Column="1" HorizontalAlignment="Left" Background="{x:Null}"  Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Image/search.png" Width="20" Height="20"  />
                         <Label Content="Search" Foreground="White" FontSize="16"/>
