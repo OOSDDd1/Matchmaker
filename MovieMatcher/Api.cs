@@ -35,10 +35,12 @@ namespace MovieMatcher
         // Just for Movies
         public const string GetUpcoming = "upcoming";
         public const string GetNowPlaying = "now_playing";
+        public const string ReleaseDates = "{id}/release_dates";
 
         // Just for Series
         public const string GetShowSeason = "{id}/season/{season}";
         public const string GetShowEpsiode = "{id}/season/{season}/episode/{episode}";
+        public const string ContentRatings = "{id}/content_ratings";
 
         //Search
         public const string SearchMulti = "multi";
@@ -49,18 +51,18 @@ namespace MovieMatcher
         public static dynamic? GetMovie(int id)
         {
             var urlSegments = new Dictionary<string, string>
-                {{"id", id.ToString()}};
+                { { "id", id.ToString() } };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                { { "append_to_response", "videos,images,release_dates" } };
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
         public static dynamic? GetShow(int id)
         {
             var urlSegments = new Dictionary<string, string>
-                {{"id", id.ToString()}};
+                { { "id", id.ToString() } };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                { { "append_to_response", "videos,images,content_ratings" } };
             return Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters);
         }
 
@@ -68,11 +70,11 @@ namespace MovieMatcher
         {
             var urlSegments = new Dictionary<string, string>
             {
-                {"id", id.ToString()},
-                {"season", season.ToString()}
+                { "id", id.ToString() },
+                { "season", season.ToString() }
             };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                { { "append_to_response", "videos,images" } };
             return Get<Season>(ShowBase, GetShowSeason, urlSegments, urlParameters);
         }
 
@@ -80,26 +82,44 @@ namespace MovieMatcher
         {
             var urlSegments = new Dictionary<string, string>
             {
-                {"id", id.ToString()},
-                {"season", season.ToString()},
-                {"episode", episode.ToString()}
+                { "id", id.ToString() },
+                { "season", season.ToString() },
+                { "episode", episode.ToString() }
             };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                { { "append_to_response", "videos,images" } };
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters);
         }
 
         public static dynamic? GetProviders(string resourceBase, int id)
         {
             var urlSegments = new Dictionary<string, string>
-                {{"id", id.ToString()}};
+                { { "id", id.ToString() } };
             return Get<Providers>(resourceBase, GetWatchProviders, urlSegments);
+        }
+
+        public static dynamic? GetMovieReleaseDates(int id)
+        {
+            var urlSegments = new Dictionary<string, string>
+                { { "id", id.ToString() } };
+            return Get<MovieReleaseDates>(MovieBase, ReleaseDates, urlSegments);
+        }
+
+        public static dynamic? GetSerieContentRatings(int id)
+        {
+            var urlSegments = new Dictionary<string, string>
+                { { "id", id.ToString() } };
+            return Get<ShowContentRatings>(ShowBase, ContentRatings, urlSegments);
         }
 
         public static dynamic? Search(string query, bool adult)
         {
+            var urlParameters = new Dictionary<string, string>
+            {
+                { "query", query },
+                { "include_adult", adult.ToString().ToLower() }
+            };
 
-            var urlParameters = new Dictionary<string, string> { { "query", query }, {"include_adult", adult.ToString().ToLower()} };
             return Get<MultiSearch>(SearchBase, SearchMulti, new Dictionary<string, string>(), urlParameters);
         }
 
@@ -113,7 +133,7 @@ namespace MovieMatcher
             where T : IRoot
         {
             var urlSegments = new Dictionary<string, string>
-                {{"id", id.ToString()}};
+                { { "id", id.ToString() } };
             return Get<T>(resourceBase, resource, urlSegments);
         }
 
