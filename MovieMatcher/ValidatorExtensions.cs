@@ -6,7 +6,7 @@ namespace MovieMatcher
     {
         public static bool IsValidEmailAddress(this string s)
         {
-            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,63}$");
             return regex.IsMatch(s);
         }
 
@@ -20,7 +20,7 @@ namespace MovieMatcher
          */
         public static bool IsValidPassword(this string s)
         {
-            Regex regex = new Regex(@"(?=.*[A-Z])(?=.*[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}");
+            Regex regex = new Regex(@"(?=.*[A-Z])(?=.*[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~$%^&();,.']).{8,}");
             return regex.IsMatch(s);
         }
 
