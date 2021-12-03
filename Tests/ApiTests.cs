@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MovieMatcher;
 using MovieMatcher.Models.Api;
+using MovieMatcher.Models.Api.Components;
 using NUnit.Framework;
 
 namespace Tests
@@ -52,7 +53,7 @@ namespace Tests
         public void GetSeason_ShouldReturnSeason()
         {
             var result = Api.GetSeason(94605, 1);
-            Assert.IsInstanceOf<Season>(result);
+            Assert.IsInstanceOf<MovieMatcher.Models.Api.Season>(result);
         }
 
         [Test]
@@ -103,6 +104,51 @@ namespace Tests
         {
             var result = Api.GetProviders(Api.ShowBase, 566525);
             Assert.IsInstanceOf<Message>(result);
+        }
+
+        /*Search(string query, bool adult)*/
+
+        [Test]
+        public void Search_ShouldReturnMovieresultWhenGivenQuery()
+        {
+            var result = Api.Search("stranger", false);
+            Assert.IsInstanceOf<MultiSearch>(result);
+        }
+
+        [Test]
+        public void Search_ShouldReturnMessageWithBadApiBase()
+        {
+            var result = Api.Search("", false);
+            Assert.IsInstanceOf<Message>(result);
+        }
+
+        [Test]
+        public void search_ShouldReturnMovieResultWithoutAdult_WhenInsertFalse()
+        {
+            bool adult = false;
+            MultiSearch result = Api.Search("organ", false);
+            foreach(MultiSearchResult item in result.results)
+            {
+                if(item.adult == true)
+                {
+                    adult = true;
+                }
+            }
+            Assert.IsFalse(adult);
+        }
+
+        public void Search_ShouldReturnMovieResultWithAdult_WhenInsertTrue()
+        {
+            bool adult = false;
+            MultiSearch result = Api.Search("organ", true);
+            foreach (MultiSearchResult item in result.results)
+            {
+                if (item.adult == true)
+                {
+                    adult = true;
+                }
+            }
+            Assert.IsTrue(adult);
         }
 
         /*

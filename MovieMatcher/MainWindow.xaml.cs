@@ -4,11 +4,13 @@ using Microsoft.Extensions.Configuration;
 using MovieMatcher.ViewModels;
 using System;
 using Newtonsoft.Json;
+using MovieMatcher.Models.Database;
 
 namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
+
         public static IConfigurationRoot Config =
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -19,6 +21,7 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
+            UserName.Content = UserInfo.Username;
             DataContext = new ResultViewModel();
         }
 

@@ -1,4 +1,4 @@
-﻿  <Window x:Class="MovieMatcher.Login"
+  <Window x:Class="MovieMatcher.Login"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,6 +14,8 @@
         <SolidColorBrush Opacity="0"/>
     </Window.Background>
     <Grid>
+        Title="Login"
+        Icon="favicon.ico"
         <Border
             MinWidth="250"
             Background="#f8ea4f" 
