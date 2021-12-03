@@ -34,5 +34,10 @@ namespace MovieMatcher
         {
             DataContext = new SearchViewModel();
         }
+
+        private void ButtonView_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new ButtonViewModel();
+        }
     }
 }

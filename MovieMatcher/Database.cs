@@ -90,5 +90,76 @@ namespace MovieMatcher
                 };
             }
         }
+
+        public static void InsertItem(int id, int userId, bool liked, bool watched, bool isShow)
+        {
+            try
+            {
+                using SqlConnection connection = new(_sqlBuilder);
+                string sql = $@"INSERT INTO MatchMaker.MatchMaker.[content_review] (content_id, user_id, liked, watched, isShow) VALUES('{id}','{userId}','{liked}','{watched}','{isShow}')";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                using SqlDataReader reader = command.ExecuteReader();
+
+            }
+            catch(SqlException ex)
+            {
+
+            }
+        }
+
+        public static void ChangeItem(int id, int userId, bool liked, bool watched)
+        {
+            try
+            {
+                using SqlConnection connection = new(_sqlBuilder);
+                string sql = $@"UPDATE MatchMaker.MatchMaker.[content_review] SET liked = '{liked}', watched = '{watched}' WHERE content_id = '{id}' AND user_id = '{userId}'";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                using SqlDataReader reader = command.ExecuteReader();
+
+            }
+            catch (SqlException ex)
+            {
+
+            }
+        }
+
+        public static bool? CheckForLiked(int id, int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql = @$"SELECT liked FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        bool? result = null;
+                        while (reader.Read()) result = reader.GetBoolean(0);
+                        return result;
+                    }
+                }
+            }
+        }
+        public static bool? CheckForWatched(int id, int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql = @$"SELECT watched FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        bool? result = null;
+                        while (reader.Read()) result = reader.GetBoolean(0);
+                        return result;
+                    }
+                }
+            }
+        }
     }
 }
