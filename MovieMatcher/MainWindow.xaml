@@ -19,6 +19,9 @@
         <DataTemplate x:Name="SearchViewTemplate" DataType="{x:Type ViewModels:SearchViewModel}">
             <Views:SearchView DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="MatcherViewTemplate" DataType="{x:Type ViewModels:MatcherViewModel}">
+            <Views:MatcherView DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.Background>
@@ -75,7 +78,7 @@
 
                 <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Height="50" Margin="0,0,0,0">
                     <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
-                    <Button Content="Suggestions" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
+                    <Button Content="Matcher" Click="Matcher_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                     <Button Content="History" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
                 </StackPanel>
 

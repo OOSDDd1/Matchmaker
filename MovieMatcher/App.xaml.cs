@@ -10,7 +10,7 @@ namespace MovieMatcher
         protected override void OnStartup(StartupEventArgs e)
         {
             //base.OnStartup(e);
-            var appWindow = new Login();
+            var appWindow = new MainWindow();
             appWindow.Show();
             
 
