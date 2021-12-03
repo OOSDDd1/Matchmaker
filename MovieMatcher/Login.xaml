@@ -9,13 +9,13 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        AllowsTransparency="True">
-    <Window.Background>
+        AllowsTransparency="True"
+        Title="Login"
+        Icon="favicon.ico">
+      <Window.Background>
         <SolidColorBrush Opacity="0"/>
     </Window.Background>
     <Grid>
-        Title="Login"
-        Icon="favicon.ico"
         <Border
             MinWidth="250"
             Background="#f8ea4f" 

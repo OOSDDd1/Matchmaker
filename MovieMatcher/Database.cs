@@ -52,7 +52,7 @@ namespace MovieMatcher
                                 UserInfo.Username = reader.GetString(1);
                                 UserInfo.Email = reader.GetString(2);
                                 UserInfo.Password = reader.GetString(3);
-                                UserInfo.BirthYear = reader.GetDateTime(4).ToString();
+                                UserInfo.BirthYear = reader.GetDateTime(4);
                                 return true;
                             }
                         }
