@@ -5,18 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MovieMatcher"
         mc:Ignorable="d"
-        Title="Register" Height="450" Width="800">
-    <Grid Background="#FF39393A">
+        WindowStyle="None"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        AllowsTransparency="True">
+    <Window.Background>
+        <SolidColorBrush Opacity="0"/>
+    </Window.Background>
+    <Grid>
         <Border
             MinWidth="250"
             Background="#f8ea4f" 
             BorderBrush="Black" 
             BorderThickness="1" 
-            CornerRadius="20" 
+            CornerRadius="25" 
             HorizontalAlignment="Center" 
-            VerticalAlignment="Center" Width="300" Height="300">
+            VerticalAlignment="Center" Width="300">
             <StackPanel>
-                <Image Margin="0,20,0,0">
+                <Image Margin="0,25,0,0">
                     <Image.Source>
                         <BitmapImage  UriSource="/Images/loginScreen.jpg" />
                     </Image.Source>
@@ -36,6 +43,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="Button_Login" Margin="5" Content="Login" Background="{x:Null}" Click="Button_Login_Click" IsDefault="True"/>
                     <Button x:Name="Button_Register" Margin="5" Content="Register" Background="{x:Null}" Click="Button_Register_Click" />
+                    <Button x:Name="Button_Close" Margin="5" Content="Close" Background="{x:Null}" Click="Button_Close_Click" />
                 </StackPanel>
             </StackPanel>
         </Border>
