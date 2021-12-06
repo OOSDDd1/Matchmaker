@@ -59,17 +59,20 @@ namespace MovieMatcher
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
-        public static dynamic? GetMovie()
+        public static dynamic? GetDiscoveredMovies()
         {
             var urlSegments = new Dictionary<string, string>
                 {{"language", "en-US"}};
             var urlParameters = new Dictionary<string, string>
                 {{"append_to_response", "videos,images"}};
-            var res = Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
+            return Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
 
+            /*
             urlSegments = new Dictionary<string, string>
                 {{"id", res.results[0].id.ToString()}};
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
+            */
+
         }
 
         public static dynamic? GetShow(int id)
