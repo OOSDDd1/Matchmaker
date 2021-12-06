@@ -22,15 +22,15 @@ namespace MovieMatcher.Views
     /// </summary>
     public partial class ButtonView : UserControl
     {
-        Movie _Movie { get; set; }
+        IResult Result { get; set; }
         public ButtonView()
         {
             InitializeComponent();
 
-            _Movie = Api.GetMovie(5);
+            Result = Api.GetMovie(5);
 
-            bool? liked = Database.CheckForLiked(_Movie.id, UserInfo.Id);
-            bool? watched = Database.CheckForWatched(_Movie.id, UserInfo.Id);
+            bool? liked = Database.CheckForLiked(Result.id, UserInfo.Id);
+            bool? watched = Database.CheckForWatched(Result.id, UserInfo.Id);
 
             switch (liked)
             {
@@ -62,7 +62,7 @@ namespace MovieMatcher.Views
         {
             if((bool)DislikeButton.DataContext != false || (bool)LikeButton.DataContext != false)
             {
-                Database.ChangeItem(_Movie.id, UserInfo.Id, true, (bool)SeenBox.IsChecked);
+                Database.ChangeItem(Result.id, UserInfo.Id, true, (bool)SeenBox.IsChecked);
             }
         }
 
@@ -70,7 +70,7 @@ namespace MovieMatcher.Views
         {
             if((bool)LikeButton.DataContext == true)
             {
-                Database.ChangeItem(_Movie.id, UserInfo.Id, false, (bool)SeenBox.IsChecked);
+                Database.ChangeItem(Result.id, UserInfo.Id, false, (bool)SeenBox.IsChecked);
 
                 LikeButton.DataContext = false;
                 ((Image)LikeButton.Content).Opacity = 1;
@@ -83,7 +83,7 @@ namespace MovieMatcher.Views
             {
                 DislikeButton.DataContext = true;
                 ((Image)DislikeButton.Content).Opacity = 0.5;
-                Database.InsertItem(_Movie.id, UserInfo.Id, false, (bool)SeenBox.IsChecked, false);
+                Database.InsertItem(Result.id, UserInfo.Id, false, (bool)SeenBox.IsChecked, false);
             }
 
         }
@@ -92,7 +92,7 @@ namespace MovieMatcher.Views
         {
             if ((bool)DislikeButton.DataContext == true)
             {
-                Database.ChangeItem(_Movie.id, UserInfo.Id, true, (bool)SeenBox.IsChecked);
+                Database.ChangeItem(Result.id, UserInfo.Id, true, (bool)SeenBox.IsChecked);
 
                 DislikeButton.DataContext = false;
                 ((Image)DislikeButton.Content).Opacity = 1;
@@ -105,7 +105,7 @@ namespace MovieMatcher.Views
             {
                 LikeButton.DataContext = true;
                 ((Image)LikeButton.Content).Opacity = 0.5;
-                Database.InsertItem(_Movie.id, UserInfo.Id, true, (bool)SeenBox.IsChecked, false);
+                Database.InsertItem(Result.id, UserInfo.Id, true, (bool)SeenBox.IsChecked, false);
             }
 
         }
