@@ -40,10 +40,14 @@ namespace MovieMatcher
         public const string GetShowSeason = "{id}/season/{season}";
         public const string GetShowEpsiode = "{id}/season/{season}/episode/{episode}";
 
-        //Search
+        // Discover/Random
+        public const string GetRandomMovie = "discover/movie";
+        // public const string GetRandomShow = "discover/tv";
+
+        // Search
         public const string SearchMulti = "multi";
 
-        //SearchSizes
+        // SearchSizes
         public const string W185 = "w185";
 
         public static dynamic? GetMovie(int id)
@@ -52,6 +56,19 @@ namespace MovieMatcher
                 {{"id", id.ToString()}};
             var urlParameters = new Dictionary<string, string>
                 {{"append_to_response", "videos,images"}};
+            return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
+        }
+
+        public static dynamic? GetMovie()
+        {
+            var urlSegments = new Dictionary<string, string>
+                {{"language", "en-US"}};
+            var urlParameters = new Dictionary<string, string>
+                {{"append_to_response", "videos,images"}};
+            var res = Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
+
+            urlSegments = new Dictionary<string, string>
+                {{"id", res.results[0].id.ToString()}};
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 

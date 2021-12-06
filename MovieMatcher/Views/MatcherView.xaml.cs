@@ -14,14 +14,14 @@ namespace MovieMatcher.Views
 
         private void GetNewContent()
         {
-            var movie = Api.GetRandomMovie();
+            var movie = Api.GetMovie();
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + movie.poster_path, UriKind.Absolute);
             bitmap.EndInit();
             Image image = new Image();
             image.Source = bitmap;
-            image.Width = this.Width;
+            image.Width = Width;
             ContentImage.Source = bitmap;
         }
 
