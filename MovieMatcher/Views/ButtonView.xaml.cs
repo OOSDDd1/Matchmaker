@@ -27,10 +27,10 @@ namespace MovieMatcher.Views
         {
             InitializeComponent();
 
-            Result = Api.GetMovie(5);
+            Result = Api.GetShow(5);
 
-            bool? liked = Database.CheckForLiked(Result.id, UserInfo.Id);
-            bool? watched = Database.CheckForWatched(Result.id, UserInfo.Id);
+            bool? liked = Database.CheckForLiked(Result.id, UserInfo.Id, Result.media_type.Equals("tv"));
+            bool? watched = Database.CheckForWatched(Result.id, UserInfo.Id, Result.media_type.Equals("tv"));
 
             switch (liked)
             {
@@ -83,7 +83,14 @@ namespace MovieMatcher.Views
             {
                 DislikeButton.DataContext = true;
                 ((Image)DislikeButton.Content).Opacity = 0.5;
-                Database.InsertItem(Result.id, UserInfo.Id, false, (bool)SeenBox.IsChecked, false);
+                if(Result.media_type == "tv")
+                {
+                    Database.InsertItem(Result.id, UserInfo.Id, false, (bool)SeenBox.IsChecked, true);
+                }
+                else
+                {
+                    Database.InsertItem(Result.id, UserInfo.Id, false, (bool)SeenBox.IsChecked, false);
+                }
             }
 
         }
@@ -105,7 +112,14 @@ namespace MovieMatcher.Views
             {
                 LikeButton.DataContext = true;
                 ((Image)LikeButton.Content).Opacity = 0.5;
-                Database.InsertItem(Result.id, UserInfo.Id, true, (bool)SeenBox.IsChecked, false);
+                if (Result.media_type == "tv")
+                {
+                    Database.InsertItem(Result.id, UserInfo.Id, true, (bool)SeenBox.IsChecked, true);
+                }
+                else
+                {
+                    Database.InsertItem(Result.id, UserInfo.Id, true, (bool)SeenBox.IsChecked, false);
+                }
             }
 
         }

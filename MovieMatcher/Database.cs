@@ -127,11 +127,11 @@ namespace MovieMatcher
             }
         }
 
-        public static bool? CheckForLiked(int id, int userId)
+        public static bool? CheckForLiked(int id, int userId, bool isShow)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
-                string sql = @$"SELECT liked FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}'";
+                string sql = @$"SELECT liked FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -144,11 +144,11 @@ namespace MovieMatcher
                 }
             }
         }
-        public static bool? CheckForWatched(int id, int userId)
+        public static bool? CheckForWatched(int id, int userId, bool isShow)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
-                string sql = @$"SELECT watched FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}'";
+                string sql = @$"SELECT watched FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();

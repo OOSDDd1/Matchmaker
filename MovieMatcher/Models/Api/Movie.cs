@@ -29,7 +29,7 @@ namespace MovieMatcher.Models.Api
         public int budget { get; set; }
         public int revenue { get; set; }
         public string status { get; set; }
-
+        public string media_type { get; set; } = "movie";
         public BelongsToCollection belongs_to_collection { get; set; }
         public string original_language { get; set; }
         public string original_title { get; set; }
