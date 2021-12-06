@@ -22,6 +22,9 @@
         <DataTemplate x:Name="MatcherViewTemplate" DataType="{x:Type ViewModels:MatcherViewModel}">
             <Views:MatcherView DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="ButtonViewTemplate" DataType="{x:Type ViewModels:ButtonViewModel}">
+            <Views:ButtonView DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.Background>
