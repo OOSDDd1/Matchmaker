@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Movie : IRoot
+    public class Movie : Content
     {
         public int id { get; set; }
         public string title { get; set; }
@@ -36,5 +36,10 @@ namespace MovieMatcher.Models.Api
         public List<ProductionCompany> production_companies { get; set; }
         public List<ProductionCountry> production_countries { get; set; }
         public List<SpokenLanguage> spoken_languages { get; set; }
+
+        public Movie(string poster_path)
+        {
+            this.poster_path = poster_path;
+        }
     }
 }

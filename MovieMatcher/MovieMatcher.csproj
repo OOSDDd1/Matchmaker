@@ -39,8 +39,6 @@
     <Resource Include="Image\search.png" />
     <Resource Include="Images\loginScreen.jpg" />
     <Resource Include="Images\tv.png" />
-
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
