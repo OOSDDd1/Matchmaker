@@ -2,15 +2,12 @@
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using MovieMatcher.ViewModels;
-using System;
-using Newtonsoft.Json;
 using MovieMatcher.Models.Database;
 
 namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
-
         public static IConfigurationRoot Config =
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -21,18 +18,18 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
-            UserName.Content = UserInfo.Username;
-            DataContext = new ResultViewModel();
+            // UserName.Content = UserInfo.Username;
+            // DataContext = new ResultViewModel();
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new ResultViewModel();
+            // DataContext = new ResultViewModel();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new SearchViewModel();
+            // DataContext = new SearchViewModel();
         }
     }
 }

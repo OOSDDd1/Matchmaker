@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using MovieMatcher.Stores;
+using MovieMatcher.ViewModels;
 
 namespace MovieMatcher
 {
@@ -7,15 +9,26 @@ namespace MovieMatcher
     /// </summary>
     public partial class App : Application
     {
+        private readonly NavigationStore _navigationStore;
+
+        public App()
+        {
+            _navigationStore = new NavigationStore();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            //base.OnStartup(e);
-            var appWindow = new Login();
-            appWindow.Show();
-            
+            NavigationStore navigationStore = new NavigationStore();
 
+            _navigationStore.CurrentViewModel = new ResultViewModel(navigationStore);
             
-
+            MainWindow = new MainWindow()
+            {
+                DataContext = new MainViewModel(navigationStore)
+            };
+            MainWindow.Show();
+            
+            base.OnStartup(e);
         }
     }
 }

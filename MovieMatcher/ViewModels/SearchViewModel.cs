@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieMatcher.ViewModels
 {
-    public class SearchViewModel
+    public class SearchViewModel : ViewModelBase
     {
     }
 }
