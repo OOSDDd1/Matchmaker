@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using Microsoft.Data.SqlClient;
+using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Database;
 
 namespace MovieMatcher
@@ -157,6 +159,28 @@ namespace MovieMatcher
                         bool? result = null;
                         while (reader.Read()) result = reader.GetBoolean(0);
                         return result;
+                    }
+                }
+            }
+        }
+
+        public static HashSet<int> GetReviewedMovies(int userId)
+        {
+            using (SqlConnection connection = new(_sqlBuilder))
+            {
+                string sql = @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{userId}' AND isShow = 'false'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        HashSet<int> reviewedMovies = new();
+                        if (!reader.HasRows) return reviewedMovies;
+                        while (reader.Read())
+                        {
+                            reviewedMovies.Add(reader.GetInt32(0));
+                        }
+                        return reviewedMovies;
                     }
                 }
             }

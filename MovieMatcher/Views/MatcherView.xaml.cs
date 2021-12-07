@@ -13,15 +13,15 @@ namespace MovieMatcher.Views
     public partial class MatcherView : UserControl
     {
         private Movie _currentContent;
-        private Queue<Movie> _discoveredMovies = new Queue<Movie>();
-        
-        
+        private Queue<Movie> _discoveredMovies = new();
+        private HashSet<int> _reviewedMovies;
+
         public MatcherView()
         {
  
             InitializeComponent();
             SetNewContent();
-
+            _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
         }
 
         private void SetNewContent()
@@ -35,9 +35,11 @@ namespace MovieMatcher.Views
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path, UriKind.Absolute);
                 bitmap.EndInit();
-                Image image = new Image();
-                image.Source = bitmap;
-                image.Width = Width;
+                Image image = new()
+                {
+                    Source = bitmap,
+                    Width = Width
+                };
                 ContentImage.Source = bitmap;
             }
             // Update information
