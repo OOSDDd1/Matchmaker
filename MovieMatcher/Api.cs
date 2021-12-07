@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using MovieMatcher.Models.Api;
 using Newtonsoft.Json;
 using RestSharp;
@@ -59,12 +61,17 @@ namespace MovieMatcher
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
-        public static dynamic? GetDiscoveredMovies()
+        public static dynamic? GetDiscoveredMovies(int pageint)
         {
             var urlSegments = new Dictionary<string, string>
-                {{"language", "en-US"}};
+            {
+                //{"language", "en-US"},
+                
+            };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                {{"append_to_response",
+                        "videos,images"},
+                    {"page", pageint.ToString()}};
             return Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
 
             /*
@@ -168,7 +175,7 @@ namespace MovieMatcher
 
             foreach (var (key, value) in urlSegments)
                 request.AddUrlSegment(key, value);
-
+            Trace.WriteLine(request);
             return client.Get(request);
         }
 

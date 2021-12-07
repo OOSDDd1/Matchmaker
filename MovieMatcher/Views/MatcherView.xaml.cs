@@ -15,13 +15,14 @@ namespace MovieMatcher.Views
         private Movie _currentContent;
         private Queue<Movie> _discoveredMovies = new();
         private HashSet<int> _reviewedMovies;
+        private int _pageCount = 1;
 
         public MatcherView()
         {
  
             InitializeComponent();
-            SetNewContent();
             _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
+            SetNewContent();
         }
 
         private void SetNewContent()
@@ -53,11 +54,20 @@ namespace MovieMatcher.Views
 
         private void SetNewListOfMovies()
         {
-            var movies = Api.GetDiscoveredMovies();
-
+            var movies = Api.GetDiscoveredMovies(_pageCount);
+            
             foreach (var movie in movies.results)
             {
-                _discoveredMovies.Enqueue(movie);
+                if (!_reviewedMovies.Contains(movie.id))
+                {
+                    _discoveredMovies.Enqueue(movie);
+                }
+
+            }
+            _pageCount++;
+            if (_pageCount > 5)
+            {
+                MessageBox.Show("Whoops");
             }
             SetNewContent();
         }
@@ -76,8 +86,7 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            //todo Checken of hij al in de database zit, en zo ja updaten inplaats van inserten.[extra DB methode]
-            Database.InsertItem(
+                Database.InsertItem(
                 _currentContent.id,
                 UserInfo.Id,
                 isLike,
