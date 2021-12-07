@@ -18,13 +18,11 @@ namespace MovieMatcher
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            NavigationStore navigationStore = new NavigationStore();
-
-            _navigationStore.CurrentViewModel = new ResultViewModel(navigationStore);
+            _navigationStore.CurrentViewModel = new ResultViewModel(_navigationStore);
             
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(navigationStore)
+                DataContext = new MainViewModel(_navigationStore)
             };
             MainWindow.Show();
             

@@ -1,6 +1,7 @@
 ﻿
 using System.Windows.Input;
 using MovieMatcher.Commands;
+using MovieMatcher.Services;
 using MovieMatcher.Stores;
 
 namespace MovieMatcher.ViewModels
@@ -11,7 +12,11 @@ namespace MovieMatcher.ViewModels
 
         public ResultViewModel(NavigationStore navigationStore)
         {
-            NavigateDetailCommand = new NavigateCommand<DetailViewModel>(navigationStore, () => new DetailViewModel(navigationStore));
+            NavigateDetailCommand = new NavigateCommand<DetailViewModel>(
+                new NavigationService<DetailViewModel>(
+                    navigationStore,() => new DetailViewModel(navigationStore)
+                    )
+                );
         }
     }
 }

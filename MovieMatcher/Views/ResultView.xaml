@@ -18,6 +18,13 @@
                 <GradientStop Color="#000000" Offset="0.567"/>
             </LinearGradientBrush>
         </Grid.Background>
+        <Button
+            Grid.Row="2"
+            Margin="0 20 0 0"
+            Padding="5 2"
+            HorizontalAlignment="Left"
+            Command="{Binding NavigateDetailCommand}"
+            Content="Detail" />
         <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible"  VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" HorizontalAlignment="Left" CanContentScroll="True">
             <ListBox Height="197" Background="{x:Null}" Name="ListItems">
                 <ListBox.ItemsPanel>

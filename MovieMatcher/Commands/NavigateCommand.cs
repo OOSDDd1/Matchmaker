@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Navigation;
+using MovieMatcher.Services;
 using MovieMatcher.Stores;
 using MovieMatcher.ViewModels;
 
@@ -7,18 +9,16 @@ namespace MovieMatcher.Commands
     public class NavigateCommand<TViewModel> : CommandBase
         where TViewModel : ViewModelBase
     {
-        private readonly NavigationStore _navigationStore;
-        private readonly Func<TViewModel> _createViewModel;
+        private readonly NavigationService<TViewModel> _navigationService;
 
-        public NavigateCommand(NavigationStore navigationStore, Func<TViewModel> createViewModel)
+        public NavigateCommand(NavigationService<TViewModel> navigationService)
         {
-            _navigationStore = navigationStore;
-            _createViewModel = createViewModel;
+            _navigationService = navigationService;
         }
 
         public override void Execute(object parameter)
         {
-            _navigationStore.CurrentViewModel = _createViewModel();
+            _navigationService.Navigate();
         }
     }
 }
