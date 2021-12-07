@@ -1,4 +1,4 @@
-﻿
+
 using System.Windows.Input;
 using MovieMatcher.Commands;
 using MovieMatcher.Services;
@@ -14,7 +14,7 @@ namespace MovieMatcher.ViewModels
         {
             NavigateDetailCommand = new NavigateCommand<DetailViewModel>(
                 new NavigationService<DetailViewModel>(
-                    navigationStore,() => new DetailViewModel(navigationStore)
+                    navigationStore,() => new DetailViewModel(12, navigationStore)
                     )
                 );
         }
