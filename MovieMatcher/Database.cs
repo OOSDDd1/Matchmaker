@@ -34,7 +34,7 @@ namespace MovieMatcher
         }
 
         //Checken of Wachtwoord correcet is
-        public static Boolean CheckPassword(string username, string password)
+        public static Boolean GetUserInfo(string username)
         {
             using (SqlConnection connection = new(_sqlBuilder))
             {
@@ -53,9 +53,6 @@ namespace MovieMatcher
                                 UserInfo.Email = reader.GetString(2);
                                 UserInfo.Password = reader.GetString(3);
                                 UserInfo.BirthYear = reader.GetDateTime(4);
-                            }
-                            if (UserInfo.Password != null && PasswordHasher.Verify(password, UserInfo.Password))
-                            {
                                 return true;
                             }
                         }
