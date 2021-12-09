@@ -86,9 +86,7 @@
 
         </DockPanel>
 
-        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}"/>
+        <ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Content="{Binding}"/>
 
-        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" Grid.RowSpan="4" Content="{Binding}"/>
-        <Image Grid.Column="4" Width="160" Height="85" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
