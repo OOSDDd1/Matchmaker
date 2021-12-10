@@ -51,9 +51,13 @@ namespace MovieMatcher
                     DateOfBirth.Text
                 );
                 MessageBox.Show(responseMessage);
-                var appLogin = new Login();
-                appLogin.Show();
-                Close();
+                
+                if (responseMessage.Equals("Your account has been registered!"))
+                {
+                    var appLogin = new Login();
+                    appLogin.Show();
+                    Close();
+                }
             }
         }
         

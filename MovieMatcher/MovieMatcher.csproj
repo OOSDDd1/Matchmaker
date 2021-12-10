@@ -1,26 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="Image\logo.png" />
-    <None Remove="Image\SamplePoster.png" />
-    <None Remove="Image\search.png" />
+    <None Remove="favicon.ico" />
     <None Remove="Images\loginScreen.jpg" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\search.png" />
     <None Remove="Images\tv.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="prev.appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -36,10 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Image\logo.png" />
-    <Resource Include="Image\SamplePoster.png" />
-    <Resource Include="Image\search.png" />
+    <Resource Include="favicon.ico" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\SamplePoster.png" />
     <Resource Include="Images\loginScreen.jpg" />
+    <Resource Include="Images\search.png" />
     <Resource Include="Images\tv.png" />
   </ItemGroup>
 

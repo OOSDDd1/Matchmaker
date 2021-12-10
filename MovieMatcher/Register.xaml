@@ -5,22 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MovieMatcher"
         mc:Ignorable="d"
-        Title="Register" Height="450" Width="800">
+        WindowStyle="None"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Title="Register"
+        Icon="favicon.ico"
+        >
+    <Window.Background>
+        <SolidColorBrush Opacity="0"/>
+    </Window.Background>
     <Grid>
         <Border
             MinWidth="250"
             Background="#f8ea4f" 
             BorderBrush="Black" 
             BorderThickness="1" 
-            CornerRadius="5,5,5,5" 
+            CornerRadius="25, 25,25,25" 
             HorizontalAlignment="Center" 
             VerticalAlignment="Center">
-            <StackPanel Height="343" Width="250">
-                <Image>
-                    <Image.Source>
-                        <BitmapImage UriSource="Images/loginScreen.jpg" />
-                    </Image.Source>
-                </Image>
+            <StackPanel Height="368" Width="250">
+                <Border CornerRadius="25,25,25,25">
+                    <Image Margin="0,25,0,0" >
+                        <Image.Source>
+                            <BitmapImage UriSource="Images/loginScreen.jpg"/>
+                        </Image.Source>
+                    </Image>
+                </Border>
 
                 <Label Content="Username" Height="26" Width="250"/>
                 <Border MinWidth="150" x:Name="BorderUsername" BorderThickness="1" BorderBrush="Black">
