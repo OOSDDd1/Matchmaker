@@ -32,18 +32,23 @@
                 </Image>
                 <Label Content="Username"></Label>
                 <Border MinWidth="150" x:Name="borderUsername" BorderThickness="1" BorderBrush="Black" >
-                    <TextBox Background="#f8ea4f" x:Name="txtUsername" ToolTip="Username" TextChanged="UsernameChangedEventHandler" Height="18" BorderThickness="0"/>
+                    <TextBox Background="#f8ea4f" x:Name="txtUsername" ToolTip="Username"  Height="18" BorderThickness="0"/>
                 </Border>
                 <Label Content="Password"></Label>
                 <Border MinWidth="150" x:Name="borderPassword" BorderThickness="1" BorderBrush="Black" >
                     <PasswordBox Background="#f8ea4f" x:Name="txtPassword" ToolTip="Password" PasswordChanged="PasswordChangedEventHandler" Height="18" BorderThickness="0" />
-
-
                 </Border>
 
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="Button_Login" Margin="5" Content="Login" Background="{x:Null}" Click="Button_Login_Click" IsDefault="True"/>
+                    <Button Margin="5" Content="Login" Background="{x:Null}" IsDefault="True" Command="{Binding Path=LoginCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource LoginConverter}">
+                                <Binding Path="Text" ElementName="txtUsername" ></Binding>
+                                <Binding Path="Password" ElementName="txtPassword" ></Binding>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
                     <Button x:Name="Button_Register" Margin="5" Content="Register" Background="{x:Null}" Click="Button_Register_Click" />
                     <Button x:Name="Button_Close" Margin="5" Content="Close" Background="{x:Null}" Click="Button_Close_Click" />
                 </StackPanel>

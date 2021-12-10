@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MovieMatcher.ViewModels;
 
 namespace MovieMatcher
 {
@@ -9,13 +10,10 @@ namespace MovieMatcher
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //base.OnStartup(e);
+            base.OnStartup(e);
             var appWindow = new Login();
+            appWindow.DataContext = new LoginViewModel();
             appWindow.Show();
-            
-
-            
-
         }
     }
 }
