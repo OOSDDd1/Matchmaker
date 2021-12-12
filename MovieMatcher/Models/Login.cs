@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using MovieMatcher.Annotations;
+﻿using System.ComponentModel;
 
 namespace MovieMatcher.Models
 {
@@ -10,17 +7,17 @@ namespace MovieMatcher.Models
     
     public class Login : INotifyPropertyChanged
     {
-        private string _userName;
-
-        public string UserName
-        {
-            get => _userName;
-            set
-            {
-                _userName = value;
-                OnPropertyChanged(nameof(UserName));
-            }
-        }
+        // private string _userName;
+        //
+        // public string UserName
+        // {
+        //     get => _userName;
+        //     set
+        //     {
+        //         _userName = value;
+        //         OnPropertyChanged(nameof(UserName));
+        //     }
+        // }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;  

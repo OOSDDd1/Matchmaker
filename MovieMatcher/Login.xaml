@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MovieMatcher"
+        xmlns:converters="clr-namespace:MovieMatcher.Converters"
         mc:Ignorable="d"
         WindowStyle="None"
         SizeToContent="WidthAndHeight"
@@ -12,9 +13,13 @@
         AllowsTransparency="True"
         Title="Login"
         Icon="favicon.ico">
-      <Window.Background>
-        <SolidColorBrush Opacity="0"/>
-    </Window.Background>
+        <Window.Background>
+            <SolidColorBrush Opacity="0"/>
+        </Window.Background>
+
+        <Window.Resources>
+            <converters:LoginConverter x:Key="LoginConverter"/>
+        </Window.Resources>
     <Grid>
         <Border
             MinWidth="250"
@@ -39,13 +44,13 @@
                     <PasswordBox Background="#f8ea4f" x:Name="txtPassword" ToolTip="Password" PasswordChanged="PasswordChangedEventHandler" Height="18" BorderThickness="0" />
                 </Border>
 
-
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Margin="5" Content="Login" Background="{x:Null}" IsDefault="True" Command="{Binding Path=LoginCommand}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource LoginConverter}">
                                 <Binding Path="Text" ElementName="txtUsername" ></Binding>
-                                <Binding Path="Password" ElementName="txtPassword" ></Binding>
+                                <Binding ElementName="txtPassword"></Binding>
+                                <Binding ElementName="Login"></Binding>
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
