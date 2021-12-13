@@ -94,6 +94,7 @@ namespace MovieMatcher.Views
                 Label lbl = new Label();
 
                 btn.Background = null;
+                btn.Click += ButtonMatcherPage;
 
                 lbl.Content = "No Series or movies found of this type, make a change using our matcher";
                 lbl.Foreground = Brushes.White;
@@ -167,6 +168,11 @@ namespace MovieMatcher.Views
             Button RealButton = (Button)sender;
             CurrentContent.Content = (Content)RealButton.DataContext;
             Application.Current.Windows[0].DataContext = new SearchViewModel();
+        }
+
+        public void ButtonMatcherPage(object sender, RoutedEventArgs e)
+        {
+            /*Application.Current.Windows[0].DataContext = new ....;*/
         }
     }
 }
