@@ -185,5 +185,27 @@ namespace MovieMatcher
                 }
             }
         }
+        
+        public static HashSet<int> GetInterestingAndLikedMovies()
+        {
+            using (SqlConnection connection = new(_sqlBuilder))
+            {
+                string sql = @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{UserInfo.Id}' AND liked='true' AND isShow = 'false'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        HashSet<int> reviewedMovies = new();
+                        if (!reader.HasRows) return reviewedMovies;
+                        while (reader.Read())
+                        {
+                            reviewedMovies.Add(reader.GetInt32(0));
+                        }
+                        return reviewedMovies;
+                    }
+                }
+            }
+        }
     }
 }

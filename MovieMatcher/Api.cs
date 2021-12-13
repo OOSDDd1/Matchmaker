@@ -61,17 +61,16 @@ namespace MovieMatcher
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
-        public static dynamic? GetDiscoveredMovies(int pageint)
+        public static dynamic? GetDiscoveredMovies(int page)
         {
             var urlSegments = new Dictionary<string, string>
-            {
-                //{"language", "en-US"},
-                
-            };
+                {};
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response",
-                        "videos,images"},
-                    {"page", pageint.ToString()}};
+                {
+                    {"append_to_response", "videos,images"},
+                    {"page", page.ToString()}
+                    
+                };
             return Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
 
             /*
@@ -82,6 +81,19 @@ namespace MovieMatcher
 
         }
 
+        // Gets recommended movies based on a movie's id
+        public static dynamic? GetRecommendedMovies(int id, int page)
+        {
+            var urlSegments = new Dictionary<string, string>
+                {{"id", id.ToString()}};
+            var urlParameters = new Dictionary<string, string>
+                {
+                    {"append_to_response", "videos,images"},
+                    {"page", page.ToString()}
+                };
+            return Get<DiscoveredMovie>(MovieBase, GetRecommendations, urlSegments, urlParameters);
+        }
+        
         public static dynamic? GetShow(int id)
         {
             var urlSegments = new Dictionary<string, string>

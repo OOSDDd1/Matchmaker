@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,15 +14,18 @@ namespace MovieMatcher.Views
     public partial class MatcherView : UserControl
     {
         private Movie _currentContent;
-        private Queue<Movie> _discoveredMovies = new();
+        private Queue<Movie> _moviesToRecommend = new();
         private HashSet<int> _reviewedMovies;
+        private HashSet<int> _likedAndInterestingMovies;
+        private Dictionary<int, int> _pagePerLikedOrInterestingMovie = new();
         private int _pageCount = 1;
+        private static readonly Random _random = new();
 
         public MatcherView()
         {
- 
             InitializeComponent();
             _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
+            _likedAndInterestingMovies = Database.GetInterestingAndLikedMovies();
             SetNewContent();
         }
 
@@ -29,9 +33,9 @@ namespace MovieMatcher.Views
         {
             
             // Get new list of content
-            if (_discoveredMovies.Any())
+            if (_moviesToRecommend.Any())
             {
-                _currentContent = _discoveredMovies.Dequeue();
+                _currentContent = _moviesToRecommend.Dequeue();
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path, UriKind.Absolute);
@@ -47,28 +51,46 @@ namespace MovieMatcher.Views
             else
             {
                 SetNewListOfMovies();
-
             }
-            
         }
 
         private void SetNewListOfMovies()
         {
-            var movies = Api.GetDiscoveredMovies(_pageCount);
+            // Recommend movies from discovery endpoint if user has not liked any movies
+            if (_likedAndInterestingMovies.Count == 0)
+            {
+                var movies = Api.GetDiscoveredMovies(_pageCount);
             
-            foreach (var movie in movies.results)
-            {
-                if (!_reviewedMovies.Contains(movie.id))
+                foreach (var movie in movies.results)
                 {
-                    _discoveredMovies.Enqueue(movie);
-                }
+                    if (!_reviewedMovies.Contains(movie.id))
+                    {
+                        _moviesToRecommend.Enqueue(movie);
+                    }
 
+                }
+                _pageCount++;
+            
             }
-            _pageCount++;
-            if (_pageCount > 5)
+            else
             {
-                MessageBox.Show("Whoops");
+                var id =
+                    _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
+                var page = GetPageForLikedOrInterestingMovie(id);
+                Trace.WriteLine(id);
+                Trace.WriteLine(page);
+
+                var movies = Api.GetRecommendedMovies(id, page);
+                
+                foreach (var movie in movies.results)
+                {
+                    if (!_reviewedMovies.Contains(movie.id))
+                    {
+                        _moviesToRecommend.Enqueue(movie);
+                    }
+                }
             }
+            
             SetNewContent();
         }
 
@@ -86,7 +108,7 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-                Database.InsertItem(
+            Database.InsertItem(
                 _currentContent.id,
                 UserInfo.Id,
                 isLike,
@@ -94,7 +116,23 @@ namespace MovieMatcher.Views
                 false
             );
 
+            if(isLike) _likedAndInterestingMovies.Add(_currentContent.id);
+            _reviewedMovies.Add(_currentContent.id);
+
             SeenCheckBox.IsChecked = false;
+        }
+
+        private int GetPageForLikedOrInterestingMovie(int id)
+        {
+            if (_pagePerLikedOrInterestingMovie.ContainsKey(id))
+            {
+                return ++_pagePerLikedOrInterestingMovie[id];
+            }
+            else
+            {
+                _pagePerLikedOrInterestingMovie.Add(id, 1);
+                return 1;
+            }
         }
     }
 }
