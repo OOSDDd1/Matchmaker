@@ -198,7 +198,9 @@ namespace MovieMatcher.Views
         //When Completed this will lead to the DetailScreen with more info about the movie
         private void DetailScreen_Clicked(object sender, RoutedEventArgs e)
         {
-            //WIP
+            Button RealButton = (Button)sender;
+            CurrentContent.Content = (Content)RealButton.DataContext;
+            Application.Current.Windows[0].DataContext = new ResultViewModel();
         }
 
         //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)
