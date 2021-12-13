@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Show : Content
+    public class Show : IResult, Content
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -38,7 +38,7 @@ namespace MovieMatcher.Models.Api
         public string status { get; set; }
         public double vote_average { get; set; }
         public int vote_count { get; set; }
-
+        public string media_type { get; set; } = "tv";
         public List<string> origin_country { get; set; }
         public string original_language { get; set; }
         public string original_name { get; set; }

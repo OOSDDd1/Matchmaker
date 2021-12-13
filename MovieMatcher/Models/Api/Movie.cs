@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Movie : Content
+    public class Movie : IResult, Content
     {
         public int id { get; set; }
         public string title { get; set; }
@@ -13,6 +13,7 @@ namespace MovieMatcher.Models.Api
         public bool adult { get; set; }
         public List<Genre> genres { get; set; }
         public MovieReleaseDates release_dates { get; set; }
+        public List<int> genre_ids { get; set; }
 
         public bool video { get; set; }
         public string poster_path { get; set; }
@@ -30,7 +31,7 @@ namespace MovieMatcher.Models.Api
         public int budget { get; set; }
         public int revenue { get; set; }
         public string status { get; set; }
-
+        public string media_type { get; set; } = "movie";
         public BelongsToCollection belongs_to_collection { get; set; }
         public string original_language { get; set; }
         public string original_title { get; set; }
