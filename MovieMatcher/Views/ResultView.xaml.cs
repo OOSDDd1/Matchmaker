@@ -88,43 +88,78 @@ namespace MovieMatcher.Views
 
         public void GenerateList(List<Content> Content, string type)
         {
-            foreach (Content content in Content)
+            if (Content.Count == 0)
             {
-                Button Btn = new Button();
-                Btn.Click += ButtonDetailPage;
-                Btn.DataContext = content;
-                Grid Grd = new Grid();
-                Image Img = new Image();
-                TextBlock TextBlock = new TextBlock();
-                Grd.Children.Add(Img);
-                Grd.Children.Add(TextBlock);
-                Btn.HorizontalAlignment = HorizontalAlignment.Left;
-                Btn.VerticalAlignment = VerticalAlignment.Top;
-                Btn.Width = 130;
-                Btn.Background = (Brush)(new BrushConverter().ConvertFromString("#3cb9f4"));
-                Btn.Content = Grd;
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path, UriKind.Absolute);
-                bi.EndInit();
-                Img.Stretch = Stretch.Fill;
-                Img.Source = bi;
-                Img.Width = 130;
-                TextBlock.VerticalAlignment = VerticalAlignment.Center;
-                TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                Button btn = new Button();
+                Label lbl = new Label();
+
+                btn.Background = null;
+
+                lbl.Content = "No Series or movies found of this type, make a change using our matcher";
+                lbl.Foreground = Brushes.White;
+
+                btn.Content = lbl;
                 if (type.Equals("liked"))
                 {
-                    ListItemsLiked.Items.Add(Btn);
+                    ListItemsLiked.Items.Add(btn);
                 }
                 else if (type.Equals("interested"))
                 {
-                    ListItemsInterested.Items.Add(Btn);
+                    ListItemsInterested.Items.Add(btn);
                 }
                 else if (type.Equals("recommended"))
                 {
-                    ListItemsRecommended.Items.Add(Btn);
+                    ListItemsRecommended.Items.Add(btn);
                 }
             }
+            else
+            {
+                foreach (Content content in Content)
+                {
+                    Button Btn = new Button();
+                    Btn.Click += ButtonDetailPage;
+                    Btn.DataContext = content;
+                    Grid Grd = new Grid();
+                    Image Img = new Image();
+                    TextBlock TextBlock = new TextBlock();
+                    Grd.Children.Add(Img);
+                    Grd.Children.Add(TextBlock);
+                    Btn.HorizontalAlignment = HorizontalAlignment.Left;
+                    Btn.VerticalAlignment = VerticalAlignment.Top;
+                    Btn.Width = 130;
+                    Btn.Background = (Brush)(new BrushConverter().ConvertFromString("#3cb9f4"));
+                    Btn.Content = Grd;
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    if (content.poster_path != null)
+                    {
+                        bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path, UriKind.Absolute);
+                    }
+                    else
+                    {
+                        bi.UriSource = new Uri(@"/Images/SamplePoster.png", UriKind.Relative);
+                    }
+                    bi.EndInit();
+                    Img.Stretch = Stretch.Fill;
+                    Img.Source = bi;
+                    Img.Width = 130;
+                    TextBlock.VerticalAlignment = VerticalAlignment.Center;
+                    TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    if (type.Equals("liked"))
+                    {
+                        ListItemsLiked.Items.Add(Btn);
+                    }
+                    else if (type.Equals("interested"))
+                    {
+                        ListItemsInterested.Items.Add(Btn);
+                    }
+                    else if (type.Equals("recommended"))
+                    {
+                        ListItemsRecommended.Items.Add(Btn);
+                    }
+                }
+            }
+            
         }
 
         public void ButtonDetailPage(object sender, RoutedEventArgs e)
