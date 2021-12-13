@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieMatcher.Models.Api.Components
 {
-    public class MultiSearchResult
+    public class MultiSearchResult : IResult
     {
         public string backdrop_path { get; set; }
         public List<int> genre_ids { get; set; }

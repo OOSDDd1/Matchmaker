@@ -11,6 +11,8 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="favicon.ico" />
+    <None Remove="images\Dislike.png" />
+    <None Remove="images\Like.png" />
     <None Remove="Images\loginScreen.jpg" />
     <None Remove="Images\logo.png" />
     <None Remove="Images\search.png" />
@@ -24,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
@@ -33,6 +36,8 @@
 
   <ItemGroup>
     <Resource Include="favicon.ico" />
+    <Resource Include="images\Dislike.png" />
+    <Resource Include="images\Like.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\SamplePoster.png" />
     <Resource Include="Images\loginScreen.jpg" />

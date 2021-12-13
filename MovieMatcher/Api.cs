@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using Newtonsoft.Json;
@@ -44,10 +46,14 @@ namespace MovieMatcher
         public const string GetShowSeason = "{id}/season/{season}";
         public const string GetShowEpsiode = "{id}/season/{season}/episode/{episode}";
 
-        //Search
+        // Discover/Random
+        public const string GetRandomMovie = "discover/movie";
+        // public const string GetRandomShow = "discover/tv";
+
+        // Search
         public const string SearchMulti = "multi";
 
-        //SearchSizes
+        // SearchSizes
         public const string W185 = "w185";
 
         public static dynamic? GetTrending(string time)
@@ -67,6 +73,39 @@ namespace MovieMatcher
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
+        public static dynamic? GetDiscoveredMovies(int page)
+        {
+            var urlSegments = new Dictionary<string, string>
+                {};
+            var urlParameters = new Dictionary<string, string>
+                {
+                    {"append_to_response", "videos,images"},
+                    {"page", page.ToString()}
+                    
+                };
+            return Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
+
+            /*
+            urlSegments = new Dictionary<string, string>
+                {{"id", res.results[0].id.ToString()}};
+            return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
+            */
+
+        }
+
+        // Gets recommended movies based on a movie's id
+        public static dynamic? GetRecommendedMovies(int id, int page)
+        {
+            var urlSegments = new Dictionary<string, string>
+                {{"id", id.ToString()}};
+            var urlParameters = new Dictionary<string, string>
+                {
+                    {"append_to_response", "videos,images"},
+                    {"page", page.ToString()}
+                };
+            return Get<DiscoveredMovie>(MovieBase, GetRecommendations, urlSegments, urlParameters);
+        }
+        
         public static dynamic? GetShow(int id)
         {
             var urlSegments = new Dictionary<string, string>
@@ -160,7 +199,7 @@ namespace MovieMatcher
 
             foreach (var (key, value) in urlSegments)
                 request.AddUrlSegment(key, value);
-
+            Trace.WriteLine(request);
             return client.Get(request);
         }
 
