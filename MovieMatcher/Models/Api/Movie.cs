@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Movie : IRoot, IResult, Content
+    public class Movie : IResult, Content
     {
         public int id { get; set; }
         public string title { get; set; }

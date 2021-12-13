@@ -77,9 +77,6 @@ namespace MovieMatcher.Views
                 var id =
                     _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
                 var page = GetPageForLikedOrInterestingMovie(id);
-                Trace.WriteLine(id);
-                Trace.WriteLine(page);
-
                 var movies = Api.GetRecommendedMovies(id, page);
                 
                 foreach (var movie in movies.results)
