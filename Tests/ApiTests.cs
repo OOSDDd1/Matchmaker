@@ -127,13 +127,14 @@ namespace Tests
         {
             bool adult = false;
             MultiSearch result = Api.Search("organ", false);
-            foreach(MultiSearchResult item in result.results)
+            foreach (MultiSearchResult item in result.results)
             {
-                if(item.adult == true)
+                if (item.adult == true)
                 {
                     adult = true;
                 }
             }
+
             Assert.IsFalse(adult);
         }
 
@@ -148,6 +149,7 @@ namespace Tests
                     adult = true;
                 }
             }
+
             Assert.IsTrue(adult);
         }
 

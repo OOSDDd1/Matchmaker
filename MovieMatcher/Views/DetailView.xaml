@@ -12,10 +12,11 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Grid Name="DescriptionGrid" Panel.ZIndex="33" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Name="DescriptionGrid" Panel.ZIndex="33" Margin="10,10,10,10" HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -27,11 +28,13 @@
                     <RowDefinition Height="360"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top" MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" />
+                <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
+                       MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" />
 
-                <wpf:ChromiumWebBrowser 
-                    x:Name="Browser" 
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="216" Margin="25,5,25,5" Grid.Row="1" MaxWidth="640" MaxHeight="360" MinWidth="384">
+                <wpf:ChromiumWebBrowser
+                    x:Name="Browser"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="216" Margin="25,5,25,5"
+                    Grid.Row="1" MaxWidth="640" MaxHeight="360" MinWidth="384">
                 </wpf:ChromiumWebBrowser>
             </Grid>
 
@@ -46,8 +49,12 @@
                     <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Name="Title" Content="Title" Background="#01FFFFFF" Foreground="White" Padding="0,0,0,0" FontSize="30" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                <Label Grid.Row="1" Name="TageLine" Content="Tagline" Background="#01FFFFFF" Foreground="White" Padding="0,0,0,0" FontSize="20" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                <Label Grid.Row="0" Name="Title" Content="Title" Background="#01FFFFFF" Foreground="White"
+                       Padding="0,0,0,0" FontSize="30" Margin="0,0,0,0" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left" />
+                <Label Grid.Row="1" Name="TageLine" Content="Tagline" Background="#01FFFFFF" Foreground="White"
+                       Padding="0,0,0,0" FontSize="20" Margin="0,0,0,15" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left" />
 
                 <Grid Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
@@ -58,27 +65,38 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <Label Name="AgeRating" Content="99" Background="#3F000000" Grid.Column="0" BorderBrush="#AF000000" BorderThickness="3" FontSize="16" Foreground="#FFD9D9D9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Padding="5,0,5,0" />
-                    <Label Name="Year" Content="0000" Grid.Column="1" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
-                    <Label Name="PlayTime" Content="0h 00m" Grid.Column="2" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
-                    <Label Name="Rating" Content="00.0/10" Grid.Column="3" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
-                    <Label Name="ShowStats" Grid.Column="4" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Name="AgeRating" Content="99" Background="#3F000000" Grid.Column="0" BorderBrush="#AF000000"
+                           BorderThickness="3" FontSize="16" Foreground="#FFD9D9D9" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" Margin="0,0,0,0" Padding="5,0,5,0" />
+                    <Label Name="Year" Content="0000" Grid.Column="1" FontSize="16" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Name="PlayTime" Content="0h 00m" Grid.Column="2" FontSize="16" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Name="Rating" Content="00.0/10" Grid.Column="3" FontSize="16" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Name="ShowStats" Grid.Column="4" FontSize="16" Foreground="White" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Margin="0,0,0,0" />
                 </Grid>
-                
-                <Label Name="Genres" Content="Genre 1, Genre 2, Genre 3, Genre 4" Grid.Row="3" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" />
 
-                <Label Content="Description" Grid.Row="4" FontSize="18" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Padding="0" />
-                <TextBlock TextWrapping="Wrap" Name="Description" Grid.Row="5" Text="Description: Lorem Ipsum" FontSize="14" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" MaxWidth="550" />
-                
+                <Label Name="Genres" Content="Genre 1, Genre 2, Genre 3, Genre 4" Grid.Row="3" FontSize="16"
+                       Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" />
+
+                <Label Content="Description" Grid.Row="4" FontSize="18" Foreground="White" HorizontalAlignment="Left"
+                       VerticalAlignment="Top" Margin="5,0,0,0" Padding="0" />
+                <TextBlock TextWrapping="Wrap" Name="Description" Grid.Row="5" Text="Description: Lorem Ipsum"
+                           FontSize="14" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Top"
+                           ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" MaxWidth="550" />
+
             </Grid>
 
         </Grid>
 
-        <Rectangle Panel.ZIndex="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Rectangle Panel.ZIndex="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78" SpreadMethod="Pad" MappingMode="RelativeToBoundingBox">
-                    <GradientStop Color="#E5303030" Offset="0"/>
-                    <GradientStop Color="#F2000000" Offset="0.567"/>
+                <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78" SpreadMethod="Pad"
+                                     MappingMode="RelativeToBoundingBox">
+                    <GradientStop Color="#E5303030" Offset="0" />
+                    <GradientStop Color="#F2000000" Offset="0.567" />
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>

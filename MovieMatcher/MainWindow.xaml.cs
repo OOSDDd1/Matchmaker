@@ -10,7 +10,6 @@ namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
-
         public static IConfigurationRoot Config =
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

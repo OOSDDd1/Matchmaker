@@ -8,91 +8,98 @@
         xmlns:Views="clr-namespace:MovieMatcher.Views"
         mc:Ignorable="d"
         Icon="favicon.ico"
-        Title="MovieMatcher" 
-        Width="800" 
-        Height="450" 
+        Title="MovieMatcher"
+        Width="800"
+        Height="450"
         WindowState="Maximized">
     <Window.Resources>
         <DataTemplate x:Name="ResultViewTemplate" DataType="{x:Type ViewModels:ResultViewModel}">
-            <Views:ResultView DataContext="{Binding}"/>
+            <Views:ResultView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate x:Name="SearchViewTemplate" DataType="{x:Type ViewModels:SearchViewModel}">
-            <Views:SearchView DataContext="{Binding}"/>
+            <Views:SearchView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate x:Name="MatcherViewTemplate" DataType="{x:Type ViewModels:MatcherViewModel}">
-            <Views:MatcherView DataContext="{Binding}"/>
+            <Views:MatcherView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate x:Name="ButtonViewTemplate" DataType="{x:Type ViewModels:ButtonViewModel}">
-            <Views:ButtonView DataContext="{Binding}"/>
+            <Views:ButtonView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate x:Name="DetailViewTemplate" DataType="{x:Type ViewModels:DetailViewModel}">
-            <Views:DetailView DataContext="{Binding}"/>
+            <Views:DetailView DataContext="{Binding}" />
         </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.Background>
-            <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78" SpreadMethod="Pad" MappingMode="RelativeToBoundingBox">
-                <GradientStop Color="#303030" Offset="0"/>
-                <GradientStop Color="Black" Offset="0.567"/>
+            <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78" SpreadMethod="Pad"
+                                 MappingMode="RelativeToBoundingBox">
+                <GradientStop Color="#303030" Offset="0" />
+                <GradientStop Color="Black" Offset="0.567" />
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
             <DockPanel.Background>
                 <LinearGradientBrush EndPoint="0.504,1.01" StartPoint="0.504,0.30">
-                    <GradientStop Color="#000000" Offset="0"/>
-                    <GradientStop Color="#303030" Offset="0.567"/>
+                    <GradientStop Color="#000000" Offset="0" />
+                    <GradientStop Color="#303030" Offset="0.567" />
                 </LinearGradientBrush>
             </DockPanel.Background>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                    <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center" />
                     <Label Name="UserName" Content="SAMPLE" Foreground="White" FontSize="16" VerticalAlignment="Center" />
                 </StackPanel>
 
-                <Button Grid.Column="1" HorizontalAlignment="Left" Background="{x:Null}"  Width="100" Height="50" BorderBrush="{x:Null}" Click="SearchView_Clicked">
+                <Button Grid.Column="1" HorizontalAlignment="Left" Background="{x:Null}" Width="100" Height="50"
+                        BorderBrush="{x:Null}" Click="SearchView_Clicked">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/search.png" Width="20" Height="20"  />
-                        <Label Content="Search" Foreground="White" FontSize="16"/>
+                        <Image Source="/Images/search.png" Width="20" Height="20" />
+                        <Label Content="Search" Foreground="White" FontSize="16" />
                     </StackPanel>
                 </Button>
 
-                <Image Grid.Column="2" Width="150" Source="/Images/logo.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Image Grid.Column="2" Width="150" Source="/Images/logo.png" HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch" />
 
-                <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Height="50" Margin="0,0,0,0">
-                    <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
-                    <Button Content="Matcher" Click="Matcher_Clicked" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
-                    <Button Content="History" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" FontSize="16"/>
+                <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                            Height="50" Margin="0,0,0,0">
+                    <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White"
+                            BorderBrush="{x:Null}" FontSize="16" />
+                    <Button Content="Matcher" Click="Matcher_Clicked" Background="{x:Null}" Foreground="White"
+                            BorderBrush="{x:Null}" FontSize="16" />
+                    <Button Content="History" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}"
+                            FontSize="16" />
                 </StackPanel>
 
             </Grid>
 
         </DockPanel>
 
-        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}"/>
+        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}" />
 
     </Grid>
 </Window>

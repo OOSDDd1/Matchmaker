@@ -11,56 +11,61 @@
         ResizeMode="NoResize"
         AllowsTransparency="True"
         Title="Register"
-        Icon="favicon.ico"
-        >
+        Icon="favicon.ico">
     <Window.Background>
-        <SolidColorBrush Opacity="0"/>
+        <SolidColorBrush Opacity="0" />
     </Window.Background>
     <Grid>
         <Border
             MinWidth="250"
-            Background="#f8ea4f" 
-            BorderBrush="Black" 
-            BorderThickness="1" 
-            CornerRadius="25, 25,25,25" 
-            HorizontalAlignment="Center" 
+            Background="#f8ea4f"
+            BorderBrush="Black"
+            BorderThickness="1"
+            CornerRadius="25, 25,25,25"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <StackPanel Height="368" Width="250">
                 <Border CornerRadius="25,25,25,25">
-                    <Image Margin="0,25,0,0" >
+                    <Image Margin="0,25,0,0">
                         <Image.Source>
-                            <BitmapImage UriSource="Images/loginScreen.jpg"/>
+                            <BitmapImage UriSource="Images/loginScreen.jpg" />
                         </Image.Source>
                     </Image>
                 </Border>
 
-                <Label Content="Username" Height="26" Width="250"/>
+                <Label Content="Username" Height="26" Width="250" />
                 <Border MinWidth="150" x:Name="BorderUsername" BorderThickness="1" BorderBrush="Black">
-                    <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username" TextChanged="UsernameChangedEventHandler" 
-                             ToolTip="Username" BorderThickness="0"/>
+                    <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username"
+                             TextChanged="UsernameChangedEventHandler"
+                             ToolTip="Username" BorderThickness="0" />
                 </Border>
 
-                <Label Content="Password ℹ️" Height="26" Width="250" ToolTip="8 or more characters, 1 or more special characters, 1 or more uppercase letters, 1 or more lowercase letters, 1 or more digits"></Label>
+                <Label Content="Password ℹ️" Height="26" Width="250"
+                       ToolTip="8 or more characters, 1 or more special characters, 1 or more uppercase letters, 1 or more lowercase letters, 1 or more digits">
+                </Label>
                 <Border MinWidth="150" x:Name="BorderPassword" BorderThickness="1" BorderBrush="Black">
-                    <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="Password" ToolTip="Password" 
-                                 PasswordChanged="PasswordChangedEventHandler" BorderThickness="0"/>
+                    <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="Password" ToolTip="Password"
+                                 PasswordChanged="PasswordChangedEventHandler" BorderThickness="0" />
                 </Border>
 
-                <Label Content="E-mail" Height="26" Width="250"/>
+                <Label Content="E-mail" Height="26" Width="250" />
                 <Border MinWidth="150" x:Name="BorderEmail" BorderThickness="1" BorderBrush="Black">
                     <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email" ToolTip="E-mail" BorderThickness="0"
-                             TextChanged="EmailChangedEventHandler"/>
+                             TextChanged="EmailChangedEventHandler" />
                 </Border>
 
-                <Label Content="Date of Birth" Height="26" Width="250"/>
+                <Label Content="Date of Birth" Height="26" Width="250" />
                 <Border MinWidth="150" x:Name="BorderDateOfBirth" BorderThickness="1" BorderBrush="Black">
-                    <DatePicker Background="#f8ea4f" MinWidth="150" x:Name="DateOfBirth" ToolTip="Date of birth" 
-                                BorderThickness="0" SelectedDate="{Binding DateOfBirth, StringFormat=DD-MM-yyyy}" SelectedDateChanged="DateOfBirthChangedEventHandler"/>
+                    <DatePicker Background="#f8ea4f" MinWidth="150" x:Name="DateOfBirth" ToolTip="Date of birth"
+                                BorderThickness="0" SelectedDate="{Binding DateOfBirth, StringFormat=DD-MM-yyyy}"
+                                SelectedDateChanged="DateOfBirthChangedEventHandler" />
                 </Border>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="RegisterButton" Margin="5" Content="Register" Background="{x:Null}" Click="OnRegisterClick"/>
-                    <Button x:Name="CancelButton" Margin="5" Content="Cancel" Background="{x:Null}" Click="OnCancelClick" />
+                    <Button x:Name="RegisterButton" Margin="5" Content="Register" Background="{x:Null}"
+                            Click="OnRegisterClick" />
+                    <Button x:Name="CancelButton" Margin="5" Content="Cancel" Background="{x:Null}"
+                            Click="OnCancelClick" />
                 </StackPanel>
             </StackPanel>
         </Border>

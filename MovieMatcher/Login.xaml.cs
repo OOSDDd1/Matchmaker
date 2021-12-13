@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,6 +23,7 @@ namespace MovieMatcher
                 borderUsername.BorderBrush = Brushes.Black;
             }
         }
+
         private void PasswordChangedEventHandler(object sender, RoutedEventArgs e)
         {
             if (borderPassword.BorderBrush == Brushes.Red)
@@ -37,10 +38,10 @@ namespace MovieMatcher
             {
                 borderUsername.BorderBrush = Brushes.Red;
             }
+
             if (String.IsNullOrEmpty(txtPassword.Password))
             {
                 borderPassword.BorderBrush = Brushes.Red;
-
             }
             else
             {
@@ -64,7 +65,6 @@ namespace MovieMatcher
                     MessageBox.Show($"Inloggegevens onjuist");
                 }
             }
-
         }
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)

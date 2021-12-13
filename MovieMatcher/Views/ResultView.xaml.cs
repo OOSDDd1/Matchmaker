@@ -47,8 +47,10 @@ namespace MovieMatcher.Views
                 {
                     contentItem = Api.GetMovie(LikedItem.content);
                 }
+
                 ContentList.Add(contentItem);
             }
+
             GenerateList(ContentList, "liked");
         }
 
@@ -68,8 +70,10 @@ namespace MovieMatcher.Views
                 {
                     contentItem = Api.GetMovie(InterestedItem.content);
                 }
+
                 ContentList.Add(contentItem);
             }
+
             GenerateList(ContentList, "interested");
         }
 
@@ -84,6 +88,7 @@ namespace MovieMatcher.Views
                     ContentList.Add(TrendingItem);
                 }
             }
+
             GenerateList(ContentList, "recommended");
         }
 
@@ -128,18 +133,20 @@ namespace MovieMatcher.Views
                     Btn.HorizontalAlignment = HorizontalAlignment.Left;
                     Btn.VerticalAlignment = VerticalAlignment.Top;
                     Btn.Width = 130;
-                    Btn.Background = (Brush)(new BrushConverter().ConvertFromString("#3cb9f4"));
+                    Btn.Background = (Brush) (new BrushConverter().ConvertFromString("#3cb9f4"));
                     Btn.Content = Grd;
                     BitmapImage bi = new BitmapImage();
                     bi.BeginInit();
                     if (content.poster_path != null)
                     {
-                        bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path, UriKind.Absolute);
+                        bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path,
+                            UriKind.Absolute);
                     }
                     else
                     {
                         bi.UriSource = new Uri(@"/Images/SamplePoster.png", UriKind.Relative);
                     }
+
                     bi.EndInit();
                     Img.Stretch = Stretch.Fill;
                     Img.Source = bi;
@@ -160,16 +167,15 @@ namespace MovieMatcher.Views
                     }
                 }
             }
-            
         }
 
         public void ButtonDetailPage(object sender, RoutedEventArgs e)
         {
-            Button RealButton = (Button)sender;
-            var tmp = (MultiSearchResult)RealButton.DataContext;
+            Button RealButton = (Button) sender;
+            var tmp = (MultiSearchResult) RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
-            
+
             Application.Current.Windows[0].DataContext = new DetailViewModel();
         }
     }
