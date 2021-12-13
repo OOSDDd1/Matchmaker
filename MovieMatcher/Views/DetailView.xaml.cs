@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.Stores;
+using Newtonsoft.Json;
 
 namespace MovieMatcher.Views
 {
@@ -15,20 +16,20 @@ namespace MovieMatcher.Views
         public DetailView()
         {
             InitializeComponent();
+            Console.WriteLine(JsonConvert.SerializeObject(DetailViewStore.MediaType));
 
             switch (DetailViewStore.MediaType)
             {
-                case MediaTypes.Movie:
+                case "movie":
                     MovieDetail(DetailViewStore.Id);
                     break;
-                case MediaTypes.Show:
+                case "tv":
                     ShowDetail(DetailViewStore.Id);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    Application.Current.Windows[0].DataContext = new ResultView();
+                    return;
             }
-
-            DetailViewStore.Id = -1;
         }
 
         private void MovieDetail(int id)

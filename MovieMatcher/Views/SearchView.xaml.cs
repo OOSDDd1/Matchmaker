@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MovieMatcher.Models.Database;
+using MovieMatcher.Stores;
 
 namespace MovieMatcher.Views
 {
@@ -199,8 +200,11 @@ namespace MovieMatcher.Views
         private void DetailScreen_Clicked(object sender, RoutedEventArgs e)
         {
             Button RealButton = (Button)sender;
-            CurrentContent.Content = (Content)RealButton.DataContext;
-            Application.Current.Windows[0].DataContext = new ResultViewModel();
+            var tmp = (MultiSearchResult)RealButton.DataContext;
+            DetailViewStore.Id = tmp.id;
+            DetailViewStore.MediaType = tmp.media_type;
+            
+            Application.Current.Windows[0].DataContext = new DetailViewModel();
         }
 
         //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)

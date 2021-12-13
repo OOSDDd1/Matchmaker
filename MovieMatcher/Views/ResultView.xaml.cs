@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.Models.Database;
+using MovieMatcher.Stores;
 using MovieMatcher.ViewModels;
 
 namespace MovieMatcher.Views
@@ -32,7 +33,7 @@ namespace MovieMatcher.Views
 
         public void GenerateLikedList()
         {
-            List<dynamic> LikedItems = Database.GetLikedContent(Models.Database.UserInfo.Id);
+            List<dynamic> LikedItems = Database.GetLikedContent(UserInfo.Id);
             List<Content> ContentList = new List<Content>();
 
             foreach (dynamic LikedItem in LikedItems)
@@ -165,8 +166,11 @@ namespace MovieMatcher.Views
         public void ButtonDetailPage(object sender, RoutedEventArgs e)
         {
             Button RealButton = (Button)sender;
-            CurrentContent.Content = (Content)RealButton.DataContext;
-            Application.Current.Windows[0].DataContext = new SearchViewModel();
+            var tmp = (MultiSearchResult)RealButton.DataContext;
+            DetailViewStore.Id = tmp.id;
+            DetailViewStore.MediaType = tmp.media_type;
+            
+            Application.Current.Windows[0].DataContext = new DetailViewModel();
         }
     }
 }

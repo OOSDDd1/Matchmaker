@@ -86,7 +86,7 @@
 
         </DockPanel>
 
-        <ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Content="{Binding}"/>
+        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}"/>
 
     </Grid>
 </Window>

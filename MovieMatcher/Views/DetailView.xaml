@@ -77,8 +77,8 @@
         <Rectangle Panel.ZIndex="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78" SpreadMethod="Pad" MappingMode="RelativeToBoundingBox">
-                    <GradientStop Color="#CC303030" Offset="0"/>
-                    <GradientStop Color="#CC000000" Offset="0.567"/>
+                    <GradientStop Color="#E5303030" Offset="0"/>
+                    <GradientStop Color="#F2000000" Offset="0.567"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
