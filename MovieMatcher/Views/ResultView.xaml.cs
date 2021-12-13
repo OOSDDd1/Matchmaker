@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
+using MovieMatcher.Models.Database;
+using MovieMatcher.ViewModels;
 
 namespace MovieMatcher.Views
 {
@@ -26,106 +28,110 @@ namespace MovieMatcher.Views
             GenerateLikedList();
             GenerateInterestedList();
             GenerateTrendingMovieList();
+        }
 
-            void GenerateLikedList()
+        public void GenerateLikedList()
+        {
+            List<dynamic> LikedItems = Database.GetLikedContent(Models.Database.UserInfo.Id);
+            List<Content> ContentList = new List<Content>();
+
+            foreach (dynamic LikedItem in LikedItems)
             {
-                List<dynamic> LikedItems = Database.GetLikedContent(Models.Database.UserInfo.Id);
-                List<Content> ContentList = new List<Content>();
-
-                foreach (dynamic LikedItem in LikedItems)
+                Content contentItem;
+                if (LikedItem.isShow == 1)
                 {
-                    Content contentItem;
-                    if (LikedItem.isShow == 1)
-                    {
-                        contentItem = Api.GetShow(LikedItem.content);
-                    }
-                    else
-                    {
-                        contentItem = Api.GetMovie(LikedItem.content);
-                    }
-                    ContentList.Add(contentItem);
+                    contentItem = Api.GetShow(LikedItem.content);
                 }
-                GenerateList(ContentList, "liked");
-            }
-
-            void GenerateInterestedList()
-            {
-                List<dynamic> InterestedItems = Database.GetInterestedContent(Models.Database.UserInfo.Id);
-                List<Content> ContentList = new List<Content>();
-
-                foreach (dynamic InterestedItem in InterestedItems)
+                else
                 {
-                    Content contentItem;
-                    if (InterestedItem.isShow == 1)
-                    {
-                        contentItem = Api.GetShow(InterestedItem.content);
-                    }
-                    else
-                    {
-                        contentItem = Api.GetMovie(InterestedItem.content);
-                    }
-                    ContentList.Add(contentItem);
+                    contentItem = Api.GetMovie(LikedItem.content);
                 }
-                GenerateList(ContentList, "interested");
+                ContentList.Add(contentItem);
             }
+            GenerateList(ContentList, "liked");
+        }
 
-            void GenerateTrendingMovieList()
+        public void GenerateInterestedList()
+        {
+            List<dynamic> InterestedItems = Database.GetInterestedContent(Models.Database.UserInfo.Id);
+            List<Content> ContentList = new List<Content>();
+
+            foreach (dynamic InterestedItem in InterestedItems)
             {
-                MultiSearch TrendingItems = Api.GetTrending("week");
-                List<Content> ContentList = new List<Content>();
-                if (TrendingItems.results != null && TrendingItems.results.Count > 0)
+                Content contentItem;
+                if (InterestedItem.isShow == 1)
                 {
-                    foreach (MultiSearchResult TrendingItem in TrendingItems.results)
-                    {
-                        if (TrendingItem.media_type.Equals("movie"))
-                        {
-                            ContentList.Add(new Movie(TrendingItem.poster_path));
-                        } else if (TrendingItem.media_type.Equals("tv"))
-                        {
-                            ContentList.Add(new Show(TrendingItem.poster_path));
-                        }
-                    }
+                    contentItem = Api.GetShow(InterestedItem.content);
                 }
-                GenerateList(ContentList, "recommended");
-            }
-
-            void GenerateList(List<Content> Content, string type)
-            {
-                foreach (Content content in Content)
+                else
                 {
-                    Button Button = new Button();
-                    Grid Grid = new Grid();
-                    Image Image = new Image();
-                    TextBlock TextBlock = new TextBlock();
-                    Grid.Children.Add(Image);
-                    Grid.Children.Add(TextBlock);
-                    Button.HorizontalAlignment = HorizontalAlignment.Left;
-                    Button.VerticalAlignment = VerticalAlignment.Top;
-                    Button.Width = 130;
-                    Button.Background = (Brush)(new BrushConverter().ConvertFromString("#3cb9f4"));
-                    BitmapImage bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path, UriKind.Absolute);
-                    bi.EndInit();
-                    Image.Stretch = Stretch.Fill;
-                    Image.Source = bi;
-                    Image.Width = 130;
-                    TextBlock.VerticalAlignment = VerticalAlignment.Center;
-                    TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                    if (type.Equals("liked"))
-                    {
-                        ListItemsLiked.Items.Add(Grid);
-                    }
-                    else if (type.Equals("interested"))
-                    {
-                        ListItemsInterested.Items.Add(Grid);
-                    }
-                    else if (type.Equals("recommended"))
-                    {
-                        ListItemsRecommended.Items.Add(Grid);
-                    }
+                    contentItem = Api.GetMovie(InterestedItem.content);
+                }
+                ContentList.Add(contentItem);
+            }
+            GenerateList(ContentList, "interested");
+        }
+
+        public void GenerateTrendingMovieList()
+        {
+            MultiSearch TrendingItems = Api.GetTrending("week");
+            List<Content> ContentList = new List<Content>();
+            if (TrendingItems.results != null && TrendingItems.results.Count > 0)
+            {
+                foreach (MultiSearchResult TrendingItem in TrendingItems.results)
+                {
+                    ContentList.Add(TrendingItem);
                 }
             }
+            GenerateList(ContentList, "recommended");
+        }
+
+        public void GenerateList(List<Content> Content, string type)
+        {
+            foreach (Content content in Content)
+            {
+                Button Btn = new Button();
+                Btn.Click += ButtonDetailPage;
+                Btn.DataContext = content;
+                Grid Grd = new Grid();
+                Image Img = new Image();
+                TextBlock TextBlock = new TextBlock();
+                Grd.Children.Add(Img);
+                Grd.Children.Add(TextBlock);
+                Btn.HorizontalAlignment = HorizontalAlignment.Left;
+                Btn.VerticalAlignment = VerticalAlignment.Top;
+                Btn.Width = 130;
+                Btn.Background = (Brush)(new BrushConverter().ConvertFromString("#3cb9f4"));
+                Btn.Content = Grd;
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path, UriKind.Absolute);
+                bi.EndInit();
+                Img.Stretch = Stretch.Fill;
+                Img.Source = bi;
+                Img.Width = 130;
+                TextBlock.VerticalAlignment = VerticalAlignment.Center;
+                TextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                if (type.Equals("liked"))
+                {
+                    ListItemsLiked.Items.Add(Btn);
+                }
+                else if (type.Equals("interested"))
+                {
+                    ListItemsInterested.Items.Add(Btn);
+                }
+                else if (type.Equals("recommended"))
+                {
+                    ListItemsRecommended.Items.Add(Btn);
+                }
+            }
+        }
+
+        public void ButtonDetailPage(object sender, RoutedEventArgs e)
+        {
+            Button RealButton = (Button)sender;
+            CurrentContent.Content = (Content)RealButton.DataContext;
+            Application.Current.Windows[0].DataContext = new SearchViewModel();
         }
     }
 }
