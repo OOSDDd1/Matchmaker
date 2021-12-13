@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using MovieMatcher.Models.Api;
+using MovieMatcher.Models.Api.Components;
 using Newtonsoft.Json;
 using RestSharp;
+using Season = MovieMatcher.Models.Api.Season;
 
 namespace MovieMatcher
 {
@@ -25,6 +27,8 @@ namespace MovieMatcher
         public const string MovieBase = "movie/";
         public const string ShowBase = "tv/";
         public const string SearchBase = "search/";
+        public const string TrendingBase = "trending/";
+
 
         // For both movies and shows
         public const string GetDetails = "{id}";
@@ -33,8 +37,8 @@ namespace MovieMatcher
         public const string GetWatchProviders = "{id}/watch/providers";
         public const string GetSimilar = "{id}/similar";
         public const string GetRecommendations = "{id}/recommendations";
-
-        // Just for Movies
+        public const string GetTrendingList = "{media_type}/{time_window}";
+            // Just for Movies
         public const string GetUpcoming = "upcoming";
         public const string GetNowPlaying = "now_playing";
 
@@ -51,6 +55,14 @@ namespace MovieMatcher
 
         // SearchSizes
         public const string W185 = "w185";
+
+        public static dynamic? GetTrending(string time)
+        {
+            var urlSegments = new Dictionary<string, string>
+                {{"media_type", "all"},{"time_window", time}};
+
+            return Get<MultiSearch>(TrendingBase, GetTrendingList, urlSegments);
+        }
 
         public static dynamic? GetMovie(int id)
         {

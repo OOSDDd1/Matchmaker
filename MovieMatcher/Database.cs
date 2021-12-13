@@ -36,7 +36,7 @@ namespace MovieMatcher
         }
 
         //Checken of Wachtwoord correcet is
-        public static Boolean CheckPassword(string username, string password)
+        public static Boolean GetUserInfo(string username)
         {
             using (SqlConnection connection = new(_sqlBuilder))
             {
@@ -55,9 +55,6 @@ namespace MovieMatcher
                                 UserInfo.Email = reader.GetString(2);
                                 UserInfo.Password = reader.GetString(3);
                                 UserInfo.BirthYear = reader.GetDateTime(4);
-                            }
-                            if (UserInfo.Password != null && PasswordHasher.Verify(password, UserInfo.Password))
-                            {
                                 return true;
                             }
                         }
@@ -90,6 +87,67 @@ namespace MovieMatcher
                     2601 => "E-mail address or username is already in use.",
                     _ => "Something went wrong on our end. Please try again later."
                 };
+            }
+        }
+
+        public static List<dynamic> GetLikedContent(int userid)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql = "SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'true' AND user_id = " + userid;
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<dynamic> result = new List<dynamic>();
+                 
+                        while (reader.Read())
+                        {
+                            if ((bool)reader.GetValue(1) == true)
+                            {
+                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
+                                result.Add(content);
+                            } else
+                            {
+                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
+                                result.Add(content);
+                            }
+                        }
+                        return result;
+                    }
+                }
+            }
+        }
+
+        public static List<dynamic> GetInterestedContent(int userid)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql = "SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'false' AND user_id = "+userid;
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<dynamic> result = new List<dynamic>();
+
+                        while (reader.Read())
+                        {
+                            if ((bool)reader.GetValue(1) == true)
+                            {
+                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
+                                result.Add(content);
+                            }
+                            else
+                            {
+                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
+                                result.Add(content);
+                            }
+                        }
+                        return result;
+                    }
+                }
             }
         }
 
