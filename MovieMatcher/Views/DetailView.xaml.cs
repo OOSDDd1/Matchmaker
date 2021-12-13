@@ -27,7 +27,6 @@ namespace MovieMatcher.Views
                     ShowDetail(DetailViewStore.Id);
                     break;
                 default:
-                    Application.Current.Windows[0].DataContext = new ResultView();
                     return;
             }
         }
@@ -38,12 +37,11 @@ namespace MovieMatcher.Views
 
             if (movie == null)
             {
-                MessageBox.Show("Could not get Movie", "Error Get Movie");
                 return;
             }
             
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdrop_path}"));
-            MovieReleaseDate releaseDate = movie.release_dates.results.First().release_dates.First();
+            MovieReleaseDate releaseDate = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL")).release_dates.First();
             
             // Left
             Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.poster_path}"));
@@ -51,17 +49,17 @@ namespace MovieMatcher.Views
             Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
             
             // Right
-            Title.Content = movie.title;
+            Title.Content = movie.title ?? "";
             
             AgeRating.Content = releaseDate.certification;
-            Year.Content = movie.release_date.Substring(0, 4);
-            PlayTime.Content = CalculateRunTime(movie.runtime);
+            Year.Content = movie.release_date.Substring(0, 4) ?? "";
+            PlayTime.Content = CalculateRunTime(movie.runtime) ?? "";
             Rating.Content = movie.vote_average + "/10";
-            Rating.ToolTip = $"Rating from {movie.vote_count} votes";
+            Rating.ToolTip = $"Rating from {movie.vote_count} votes" ?? "";
             
-            Genres.Content = GenresToString(movie.genres);
+            Genres.Content = GenresToString(movie.genres) ?? "";
 
-            Description.Text = movie.overview;
+            Description.Text = movie.overview ?? "";
         }
         
         private void ShowDetail(int id)
@@ -70,7 +68,6 @@ namespace MovieMatcher.Views
 
             if (show == null)
             {
-                MessageBox.Show("Could not get Show", "Error Get Show");
                 return;
             }
             
@@ -83,18 +80,18 @@ namespace MovieMatcher.Views
             
             // Right
             Title.Content = show.name;
-            TageLine.Content = show.tagline;
-            ShowStats.Content = $"{show.number_of_seasons}S {show.number_of_episodes}E";
+            TageLine.Content = show.tagline ?? "";
+            ShowStats.Content = $"{show.number_of_seasons}S {show.number_of_episodes}E" ?? "";
             
             AgeRating.Content = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
-            Year.Content = show.first_air_date.Substring(0, 4);
-            PlayTime.Content = CalculateRunTime(show.number_of_episodes * show.episode_run_time.First());
-            Rating.Content = show.vote_average + "/10";
-            Rating.ToolTip = $"Rating from {show.vote_count} votes";
+            Year.Content = show.first_air_date.Substring(0, 4) ?? "";
+            PlayTime.Content = CalculateRunTime(show.number_of_episodes * show.episode_run_time.First()) ?? "";
+            Rating.Content = show.vote_average + "/10" ?? "";
+            Rating.ToolTip = $"Rating from {show.vote_count} votes" ?? "";
             
-            Genres.Content = GenresToString(show.genres);
+            Genres.Content = GenresToString(show.genres) ?? "";
 
-            Description.Text = show.overview;
+            Description.Text = show.overview ?? "";
         }
 
         private string CalculateRunTime(int length)
