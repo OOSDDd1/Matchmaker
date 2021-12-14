@@ -100,6 +100,7 @@ namespace MovieMatcher.Views
                 Label lbl = new Label();
 
                 btn.Background = null;
+                btn.Click += ButtonMatcherPage;
 
                 lbl.Content = "No Series or movies found of this type, make a change using our matcher";
                 lbl.Foreground = Brushes.White;
@@ -168,11 +169,16 @@ namespace MovieMatcher.Views
                 }
             }
         }
+        
+        public void ButtonMatcherPage(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Windows[0].DataContext = new MatcherViewModel();
+        }
 
         public void ButtonDetailPage(object sender, RoutedEventArgs e)
         {
             Button RealButton = (Button) sender;
-            var tmp = (MultiSearchResult) RealButton.DataContext;
+            var tmp = (Content) RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
 

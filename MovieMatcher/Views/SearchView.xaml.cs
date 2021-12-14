@@ -201,7 +201,7 @@ namespace MovieMatcher.Views
         private void DetailScreen_Clicked(object sender, RoutedEventArgs e)
         {
             Button RealButton = (Button) sender;
-            var tmp = (MultiSearchResult) RealButton.DataContext;
+            var tmp = (Content) RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
 
