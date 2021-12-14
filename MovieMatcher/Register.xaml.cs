@@ -44,11 +44,15 @@ namespace MovieMatcher
 
             if (registrationIsValid)
             {
+                // Convert date of birth to database format
+                DateTime convertedDate = Convert.ToDateTime(DateOfBirth.Text);
+                var dateOfBirth = convertedDate.ToString("MM-dd-yyyy");
+                
                 var responseMessage = Database.CreateUser(
                     Username.Text,
                     PasswordHasher.Hash(Password.Password),
                     Email.Text,
-                    DateOfBirth.Text
+                    dateOfBirth
                 );
                 MessageBox.Show(responseMessage);
 
