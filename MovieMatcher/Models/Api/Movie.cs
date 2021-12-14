@@ -3,7 +3,7 @@ using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Api
 {
-    public class Movie : IRoot, IResult
+    public class Movie : IResult, Content
     {
         public int id { get; set; }
         public string title { get; set; }
@@ -12,6 +12,8 @@ namespace MovieMatcher.Models.Api
         public string release_date { get; set; }
         public bool adult { get; set; }
         public List<Genre> genres { get; set; }
+        public MovieReleaseDates release_dates { get; set; }
+        public List<int> genre_ids { get; set; }
 
         public bool video { get; set; }
         public string poster_path { get; set; }
@@ -36,5 +38,10 @@ namespace MovieMatcher.Models.Api
         public List<ProductionCompany> production_companies { get; set; }
         public List<ProductionCountry> production_countries { get; set; }
         public List<SpokenLanguage> spoken_languages { get; set; }
+
+        public Movie(string poster_path)
+        {
+            this.poster_path = poster_path;
+        }
     }
 }

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MovieMatcher.Models.Database;
 
 namespace MovieMatcher
 {
@@ -22,6 +23,7 @@ namespace MovieMatcher
                 borderUsername.BorderBrush = Brushes.Black;
             }
         }
+
         private void PasswordChangedEventHandler(object sender, RoutedEventArgs e)
         {
             if (borderPassword.BorderBrush == Brushes.Red)
@@ -36,30 +38,33 @@ namespace MovieMatcher
             {
                 borderUsername.BorderBrush = Brushes.Red;
             }
+
             if (String.IsNullOrEmpty(txtPassword.Password))
             {
                 borderPassword.BorderBrush = Brushes.Red;
-
             }
             else
             {
-                //Database D = new Database();
-                
-                if (Database.CheckPassword(txtUsername.Text.ToString(), txtPassword.Password.ToString()))
+                if (Database.GetUserInfo(txtUsername.Text.ToString()))
                 {
-                    //doorverwijzig naar het homescherm
-                    var appMainWindow = new MainWindow();
-                    appMainWindow.Show();
-                    //MessageBox.Show($"Inloggegevens juist ;)");
-                    Close();
-
+                    if (UserInfo.Password != null && PasswordHasher.Verify(txtPassword.Password.ToString(), UserInfo.Password))
+                    {
+                        //doorverwijzig naar het homescherm
+                        var appMainWindow = new MainWindow();
+                        appMainWindow.Show();
+                        //MessageBox.Show($"Inloggegevens juist ;)");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Wachtwoord onjuist");
+                    }
                 }
                 else
                 {
                     MessageBox.Show($"Inloggegevens onjuist");
                 }
             }
-
         }
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)
@@ -68,6 +73,11 @@ namespace MovieMatcher
             var appreg = new Register();
             appreg.Show();
             Close();
+        }
+
+        private void Button_Close_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

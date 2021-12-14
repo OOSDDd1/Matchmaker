@@ -10,7 +10,6 @@ namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
-
         public static IConfigurationRoot Config =
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -33,6 +32,11 @@ namespace MovieMatcher
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
         {
             DataContext = new SearchViewModel();
+        }
+
+        private void Matcher_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new MatcherViewModel();
         }
 
         private void ButtonView_Clicked(object sender, RoutedEventArgs e)
