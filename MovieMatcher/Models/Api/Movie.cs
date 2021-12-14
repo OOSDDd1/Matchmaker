@@ -12,6 +12,7 @@ namespace MovieMatcher.Models.Api
         public string release_date { get; set; }
         public bool adult { get; set; }
         public List<Genre> genres { get; set; }
+        public MovieReleaseDates release_dates { get; set; }
         public List<int> genre_ids { get; set; }
 
         public bool video { get; set; }

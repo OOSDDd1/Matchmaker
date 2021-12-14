@@ -11,6 +11,7 @@ namespace MovieMatcher.Models.Api
         public string homepage { get; set; }
         public List<CreatedBy> created_by { get; set; }
         public List<Network> networks { get; set; }
+        public ShowContentRatings content_ratings { get; set; }
 
         public List<Genre> genres { get; set; }
         public List<int> episode_run_time { get; set; }

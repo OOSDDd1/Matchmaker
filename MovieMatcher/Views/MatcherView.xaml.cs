@@ -31,14 +31,14 @@ namespace MovieMatcher.Views
 
         private void SetNewContent()
         {
-            
             // Get new list of content
             if (_moviesToRecommend.Any())
             {
                 _currentContent = _moviesToRecommend.Dequeue();
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
-                bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path, UriKind.Absolute);
+                bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path,
+                    UriKind.Absolute);
                 bitmap.EndInit();
                 Image image = new()
                 {
@@ -60,17 +60,16 @@ namespace MovieMatcher.Views
             if (_likedAndInterestingMovies.Count == 0)
             {
                 var movies = Api.GetDiscoveredMovies(_pageCount);
-            
+
                 foreach (var movie in movies.results)
                 {
                     if (!_reviewedMovies.Contains(movie.id))
                     {
                         _moviesToRecommend.Enqueue(movie);
                     }
-
                 }
+
                 _pageCount++;
-            
             }
             else
             {
@@ -78,7 +77,7 @@ namespace MovieMatcher.Views
                     _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
                 var page = GetPageForLikedOrInterestingMovie(id);
                 var movies = Api.GetRecommendedMovies(id, page);
-                
+
                 foreach (var movie in movies.results)
                 {
                     if (!_reviewedMovies.Contains(movie.id))
@@ -87,7 +86,7 @@ namespace MovieMatcher.Views
                     }
                 }
             }
-            
+
             SetNewContent();
         }
 
@@ -109,11 +108,11 @@ namespace MovieMatcher.Views
                 _currentContent.id,
                 UserInfo.Id,
                 isLike,
-                (bool)SeenCheckBox.IsChecked,
+                (bool) SeenCheckBox.IsChecked,
                 false
             );
 
-            if(isLike) _likedAndInterestingMovies.Add(_currentContent.id);
+            if (isLike) _likedAndInterestingMovies.Add(_currentContent.id);
             _reviewedMovies.Add(_currentContent.id);
 
             SeenCheckBox.IsChecked = false;

@@ -11,16 +11,16 @@
         <!-- Background -->
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78">
-                <GradientStop Color="#303030" Offset="0"/>
-                <GradientStop Color="#000000" Offset="0.567"/>
+                <GradientStop Color="#303030" Offset="0" />
+                <GradientStop Color="#000000" Offset="0.567" />
             </LinearGradientBrush>
         </Grid.Background>
 
         <!-- Row and column definitions -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
@@ -31,7 +31,8 @@
         <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="/Images/SamplePoster.png" />
 
         <!-- Buttons -->
-        <CheckBox Name="SeenCheckBox" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" 
+        <CheckBox Name="SeenCheckBox" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
                   ToolTip="Seen" Foreground="White" IsChecked="False">
             <iconPacks:BootstrapIcons Kind="Eye" />
         </CheckBox>

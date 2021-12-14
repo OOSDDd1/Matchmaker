@@ -51,7 +51,7 @@ namespace MovieMatcher
                     DateOfBirth.Text
                 );
                 MessageBox.Show(responseMessage);
-                
+
                 if (responseMessage.Equals("Your account has been registered!"))
                 {
                     var appLogin = new Login();
@@ -60,29 +60,29 @@ namespace MovieMatcher
                 }
             }
         }
-        
+
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             var appLogin = new Login();
             appLogin.Show();
             Close();
         }
-        
+
         private void UsernameChangedEventHandler(object sender, TextChangedEventArgs args)
         {
             if (BorderUsername.BorderBrush == Brushes.Red) BorderUsername.BorderBrush = Brushes.Black;
         }
-        
+
         private void PasswordChangedEventHandler(object sender, RoutedEventArgs args)
         {
             if (Password.Password.IsValidPassword()) BorderPassword.BorderBrush = Brushes.Black;
         }
-        
+
         private void EmailChangedEventHandler(object sender, TextChangedEventArgs args)
         {
             if (Email.Text.IsValidEmailAddress()) BorderEmail.BorderBrush = Brushes.Black;
         }
-        
+
         private void DateOfBirthChangedEventHandler(object sender, RoutedEventArgs args)
         {
             if (DateOfBirth.Text.IsValidDate()) BorderDateOfBirth.BorderBrush = Brushes.Black;
