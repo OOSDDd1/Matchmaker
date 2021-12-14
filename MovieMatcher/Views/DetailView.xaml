@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              xmlns:local="clr-namespace:MovieMatcher.Views"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Name="MainGrid">
@@ -22,20 +23,57 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Grid.Row="0" Name="LeftGrid">
+            <Grid Grid.Column="0" Grid.Row="0" Name="LeftGrid" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="350"></RowDefinition>
-                    <RowDefinition Height="360"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
-                       MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" />
-
+                <!-- <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top" -->
+                <!-- MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" /> -->
+                
                 <wpf:ChromiumWebBrowser
                     x:Name="Browser"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="216" Margin="25,5,25,5"
-                    Grid.Row="1" MaxWidth="640" MaxHeight="360" MinWidth="384">
+                    HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    Grid.Row="0" MinWidth="900" MinHeight="500">
                 </wpf:ChromiumWebBrowser>
+
+                <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Name="SeenCheckBox" Grid.Column="0" VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              ToolTip="Seen" Foreground="White" IsChecked="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                        </CheckBox.LayoutTransform>
+                        <iconPacks:BootstrapIcons Kind="Eye" Height="25" Width="25" />
+                    </CheckBox>
+                    <Button Click="OnLikeClick" Grid.Column="1" Background="#27FE1C" ToolTip="Like" HorizontalAlignment="Stretch" MaxWidth="150" MaxHeight="150" Padding="0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="150"/>
+                                <Setter Property="BorderBrush" Value="#00000000"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="../Images/Like.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
+                    </Button>
+                    <Button Click="OnDislikeClick" Grid.Column="2" Background="#F81515" ToolTip="Dislike" MaxWidth="150" MaxHeight="150" Padding="0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="150"/>
+                                <Setter Property="BorderBrush" Value="#00000000"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="../Images/Dislike.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
+                    </Button>
+
+                </Grid>
+
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="0" Name="RightGrid">

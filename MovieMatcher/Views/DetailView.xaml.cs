@@ -6,8 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
+using MovieMatcher.Models.Database;
 using MovieMatcher.Stores;
-using Newtonsoft.Json;
 
 namespace MovieMatcher.Views
 {
@@ -16,8 +16,7 @@ namespace MovieMatcher.Views
         public DetailView()
         {
             InitializeComponent();
-            Console.WriteLine(JsonConvert.SerializeObject(DetailViewStore.MediaType));
-
+            
             switch (DetailViewStore.MediaType)
             {
                 case "movie":
@@ -54,9 +53,9 @@ namespace MovieMatcher.Views
 
 
             // Left
-            Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.poster_path}"));
+            // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.poster_path}"));
 
-            string videoKey;
+            string videoKey = "";
             try
             {
                 videoKey = movie.videos.results
@@ -64,14 +63,15 @@ namespace MovieMatcher.Views
             }
             catch
             {
-                videoKey = movie.videos.results
-                    .First(res => res.official && res.site.Equals("YouTube")).key;
+                if (movie.videos.results.Count != 0)
+                    videoKey = movie.videos.results.First().key;
             }
 
             Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
 
             // Right
             Title.Content = movie.title ?? "";
+            TageLine.Content = movie.tagline ?? "";
 
             AgeRating.Content = releaseDate.certification;
             Year.Content = movie.release_date.Substring(0, 4) ?? "";
@@ -96,7 +96,7 @@ namespace MovieMatcher.Views
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdrop_path}"));
 
             // Left
-            Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.poster_path}"));
+            // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.poster_path}"));
             string videoKey;
             try
             {
@@ -105,8 +105,7 @@ namespace MovieMatcher.Views
             }
             catch
             {
-                videoKey = show.videos.results
-                    .First(res => res.official && res.site.Equals("YouTube")).key;
+                videoKey = show.videos.results.First().key;
             }
 
             Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
@@ -144,6 +143,27 @@ namespace MovieMatcher.Views
         private string GenresToString(List<Genre> genres)
         {
             return string.Join(", ", genres.Select(genre => genre.name));
+        }
+        
+        private void OnLikeClick(object sender, RoutedEventArgs e)
+        {
+            SubmitContentReview(true);
+        }
+
+        private void OnDislikeClick(object sender, RoutedEventArgs e)
+        {
+            SubmitContentReview(false);
+        }
+
+        private void SubmitContentReview(bool isLike)
+        {
+            Database.InsertItem(
+                DetailViewStore.Id,
+                UserInfo.Id,
+                isLike,
+                (bool) SeenCheckBox.IsChecked,
+                false
+            );
         }
     }
 }
