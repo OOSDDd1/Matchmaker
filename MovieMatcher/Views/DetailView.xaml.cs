@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -174,7 +174,7 @@ namespace MovieMatcher.Views
                     UserInfo.Id,
                     isLike,
                     (bool) SeenCheckBox.IsChecked,
-                    false
+                    DetailViewStore.MediaType.Equals("tv")
                 );
             }
         }
