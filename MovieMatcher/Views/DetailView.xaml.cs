@@ -29,6 +29,12 @@ namespace MovieMatcher.Views
                 default:
                     return;
             }
+
+            if (Database.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
+            {
+                SeenCheckBox.IsChecked = true;
+            }
+            
         }
 
         private void MovieDetail(int id)
@@ -83,6 +89,14 @@ namespace MovieMatcher.Views
             Genres.Content = GenresToString(movie.genres) ?? "";
 
             Description.Text = movie.overview ?? "";
+
+            BudgetAmount.Content = movie.budget;
+            ProductionCompanies.Content = string.Join(", ", movie.production_companies.Select(comp => comp.name));
+            Actors.Text = string.Join("\n", 
+                movie.credits.cast.OrderBy(person => person.order)
+                    .Where(person => person.known_for_department.Equals("Acting"))
+                    .Select(person => $"{person.name} ({person.character})")
+            );
         }
 
         private void ShowDetail(int id)
@@ -133,6 +147,13 @@ namespace MovieMatcher.Views
             Genres.Content = GenresToString(show.genres) ?? "";
 
             Description.Text = show.overview ?? "";
+            
+            ProductionCompanies.Content = string.Join(", ", show.production_companies.Select(comp => comp.name));
+            Actors.Text = string.Join("\n", 
+                show.credits.cast.OrderBy(person => person.order)
+                    .Where(person => person.known_for_department.Equals("Acting"))
+                    .Select(person => $"{person.name} ({person.character})")
+                );
         }
 
         private string CalculateRunTime(int length)

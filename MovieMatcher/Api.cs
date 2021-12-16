@@ -73,7 +73,7 @@ namespace MovieMatcher
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images,release_dates"}};
+                {{"append_to_response", "videos,images,release_dates,credits"}};
             return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
         }
 
@@ -113,7 +113,7 @@ namespace MovieMatcher
             var urlSegments = new Dictionary<string, string>
                 {{"id", id.ToString()}};
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images,content_ratings"}};
+                {{"append_to_response", "videos,images,content_ratings,credits"}};
             return Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters);
         }
 
