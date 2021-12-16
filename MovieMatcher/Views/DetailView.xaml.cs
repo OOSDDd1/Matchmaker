@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using CefSharp.Internals;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.Models.Database;
@@ -157,13 +158,25 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            Database.InsertItem(
-                DetailViewStore.Id,
-                UserInfo.Id,
-                isLike,
-                (bool) SeenCheckBox.IsChecked,
-                false
-            );
+            if (Database.CheckIfReviewed(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) )
+            {
+                Database.ChangeItem(
+                    DetailViewStore.Id,
+                    UserInfo.Id,
+                    isLike,
+                    (bool) SeenCheckBox.IsChecked
+                );
+            }
+            else
+            {
+                Database.InsertItem(
+                    DetailViewStore.Id,
+                    UserInfo.Id,
+                    isLike,
+                    (bool) SeenCheckBox.IsChecked,
+                    false
+                );
+            }
         }
     }
 }
