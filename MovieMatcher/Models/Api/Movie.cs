@@ -38,6 +38,7 @@ namespace MovieMatcher.Models.Api
         public List<ProductionCompany> production_companies { get; set; }
         public List<ProductionCountry> production_countries { get; set; }
         public List<SpokenLanguage> spoken_languages { get; set; }
+        public Credits credits { get; set; }
 
         public Movie(string poster_path)
         {
