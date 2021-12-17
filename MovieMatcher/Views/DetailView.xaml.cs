@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using CefSharp.Internals;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.Models.Database;
@@ -34,9 +33,8 @@ namespace MovieMatcher.Views
             {
                 SeenCheckBox.IsChecked = true;
             }
-            
         }
-
+        
         private void MovieDetail(int id)
         {
             Movie? movie = Api.GetMovie(id);

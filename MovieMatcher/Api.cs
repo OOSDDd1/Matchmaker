@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
 using Newtonsoft.Json;
 using RestSharp;
-using Season = MovieMatcher.Models.Api.Season;
 
 namespace MovieMatcher
 {
@@ -60,6 +58,8 @@ namespace MovieMatcher
         // SearchSizes
         public const string W185 = "w185";
 
+        private static Dictionary<string, dynamic> _cache = new Dictionary<string, dynamic>();
+
         public static dynamic? GetTrending(string time)
         {
             var urlSegments = new Dictionary<string, string>
@@ -87,12 +87,6 @@ namespace MovieMatcher
                 {"page", page.ToString()}
             };
             return Get<DiscoveredMovie>("", GetRandomMovie, urlSegments, urlParameters);
-
-            /*
-            urlSegments = new Dictionary<string, string>
-                {{"id", res.results[0].id.ToString()}};
-            return Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
-            */
         }
 
         // Gets recommended movies based on a movie's id
@@ -198,12 +192,21 @@ namespace MovieMatcher
             Dictionary<string, string> urlParameters)
             where T : IRoot
         {
+            var cacheKey = resourceBase + resource + string.Join("", urlSegments.Values) + string.Join("", urlParameters.Values);
+            
+            if (_cache.TryGetValue(cacheKey, out dynamic cachedResource))
+                return cachedResource;
+            
             var response = GenerateResponse(resourceBase + resource, urlSegments, urlParameters);
-
+            
             if (!response.IsSuccessful)
                 return ResponseToClass<Message>(response.Content);
-
-            return ResponseToClass<T>(response.Content);
+            
+            var classedResponse = ResponseToClass<T>(response.Content);
+            
+            _cache.TryAdd(cacheKey, classedResponse);
+            
+            return classedResponse;
         }
 
         private static IRestResponse GenerateResponse(string resource, Dictionary<string, string> urlSegments,
@@ -219,7 +222,7 @@ namespace MovieMatcher
 
             foreach (var (key, value) in urlSegments)
                 request.AddUrlSegment(key, value);
-            Trace.WriteLine(request);
+
             return client.Get(request);
         }
 
