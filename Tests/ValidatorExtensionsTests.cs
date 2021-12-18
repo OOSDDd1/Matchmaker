@@ -19,7 +19,7 @@ namespace Tests
         {
             Assert.True(ValidatorExtensions.IsValidEmailAddress(s));
         }
-        
+
         [TestCase("plainaddress")]
         [TestCase("#@%^%#$@#$@#.com")]
         [TestCase("@example.com")]
@@ -48,7 +48,7 @@ namespace Tests
         {
             Assert.True(ValidatorExtensions.IsValidPassword(s));
         }
-        
+
         [TestCase("AAaa1!!")]
         [TestCase("TestTest!")]
         [TestCase("DionPotkampGamingNL42069")]
@@ -74,7 +74,7 @@ namespace Tests
         {
             Assert.True(ValidatorExtensions.IsValidDate(s));
         }
-        
+
         [TestCase("32/11/1987")]
         [TestCase("32-11-1987")]
         [TestCase("3-11/1987")]

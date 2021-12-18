@@ -1,0 +1,170 @@
+<UserControl x:Class="MovieMatcher.Views.DetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             xmlns:local="clr-namespace:MovieMatcher.Views"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Grid Name="DescriptionGrid" Panel.ZIndex="33" Margin="10,10,10,10" HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Grid.Row="0" Name="LeftGrid" HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!-- <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
+                     MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" /> -->
+                
+                <wpf:ChromiumWebBrowser
+                    x:Name="Browser"
+                    HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    Grid.Row="0" MinWidth="900" MinHeight="500">
+                </wpf:ChromiumWebBrowser>
+
+                <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Name="SeenCheckBox" Grid.Column="0" VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              ToolTip="Seen" Foreground="White" IsChecked="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,0,0">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                        </CheckBox.LayoutTransform>
+                        <iconPacks:BootstrapIcons Kind="Eye" Height="25" Width="25" />
+                    </CheckBox>
+                    <Button Click="OnLikeClick" Grid.Column="1" Background="#27FE1C" ToolTip="Like" HorizontalAlignment="Stretch" MaxWidth="150" MaxHeight="150" Padding="0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="150"/>
+                                <Setter Property="BorderBrush" Value="#00000000"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="../Images/Like.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
+                    </Button>
+                    <Button Click="OnDislikeClick" Grid.Column="2" Background="#F81515" ToolTip="Dislike" MaxWidth="150" MaxHeight="150" Padding="0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="150"/>
+                                <Setter Property="BorderBrush" Value="#00000000"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="../Images/Dislike.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
+                    </Button>
+
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="0" Name="RightGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Name="Title" Content="No Title" Background="#01FFFFFF" Foreground="White"
+                       Padding="0,0,0,0" FontSize="30" Margin="0,0,0,0" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left" />
+                <Label Grid.Row="1" Name="TageLine" Content="No Tagline" Background="#01FFFFFF" Foreground="White"
+                       Padding="0,0,0,0" FontSize="20" Margin="5,0,0,15" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left" />
+
+                <Grid Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Name="AgeRating" Content="00" Background="#3F000000" Grid.Column="0" BorderBrush="#AF000000"
+                           BorderThickness="3" FontSize="16" Foreground="#FFD9D9D9" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" Margin="0,0,0,0" Padding="5,0,5,0" />
+                    <Label Name="Year" Content="0000" Grid.Column="1" FontSize="16" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Name="PlayTime" Content="0h 00m" Grid.Column="2" FontSize="16" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Name="Rating" Content="00.0/10" Grid.Column="3" FontSize="16" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" ToolTip="Rating from null votes"/>
+                    <Label Name="ShowStats" Grid.Column="4" FontSize="16" Foreground="White" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Margin="0,0,0,0" />
+                </Grid>
+
+                <Label Name="Genres" Content="No genres" Grid.Row="3" FontSize="16"
+                       Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" />
+
+                <Label Content="Description" Grid.Row="4" FontSize="18" Foreground="White" HorizontalAlignment="Left"
+                       VerticalAlignment="Top" Margin="0,0,0,0" Padding="0" />
+                <TextBlock TextWrapping="Wrap" Name="Description" Grid.Row="5" Text="None"
+                           FontSize="14" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Top"
+                           ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" MaxWidth="550" />
+                
+                <Label Content="General Info" Grid.Row="6" FontSize="18" Foreground="White" HorizontalAlignment="Left"
+                       VerticalAlignment="Top" Margin="0,5,0,0" Padding="0" />
+                <Grid Grid.Row="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Budget" Grid.Column="0" Grid.Row="0" Foreground="White"/>
+                    <Label Name="BudgetAmount" Content="Unknown" Grid.Column="1" Grid.Row="0" Foreground="White"/>
+
+                    <Label Content="Companies" Grid.Column="0" Grid.Row="1" Foreground="White"/>
+                    <Label Name="ProductionCompanies" Content="None" Grid.Column="1" Grid.Row="1" Foreground="White" />
+
+                    <Label Content="Actors" Grid.Column="0" Grid.Row="2" Foreground="White"/>
+                    <TextBlock TextWrapping="Wrap" Name="Actors" Grid.Column="1" Grid.Row="2" Text="None" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+        <Rectangle Panel.ZIndex="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78" SpreadMethod="Pad"
+                                     MappingMode="RelativeToBoundingBox">
+                    <GradientStop Color="#E5303030" Offset="0" />
+                    <GradientStop Color="#F2000000" Offset="0.567" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Image Name="BackDropImage" Panel.ZIndex="11" Stretch="UniformToFill" />
+    </Grid>
+</UserControl>

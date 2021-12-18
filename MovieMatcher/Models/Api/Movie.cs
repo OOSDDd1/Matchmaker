@@ -12,6 +12,7 @@ namespace MovieMatcher.Models.Api
         public string release_date { get; set; }
         public bool adult { get; set; }
         public List<Genre> genres { get; set; }
+        public MovieReleaseDates release_dates { get; set; }
         public List<int> genre_ids { get; set; }
 
         public bool video { get; set; }
@@ -37,6 +38,7 @@ namespace MovieMatcher.Models.Api
         public List<ProductionCompany> production_companies { get; set; }
         public List<ProductionCountry> production_countries { get; set; }
         public List<SpokenLanguage> spoken_languages { get; set; }
+        public Credits credits { get; set; }
 
         public Movie(string poster_path)
         {

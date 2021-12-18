@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieMatcher.Models.Api.Components
 {
-    public class MultiSearchResult : IResult
+    public class MultiSearchResult : Content
     {
         public string backdrop_path { get; set; }
         public List<int> genre_ids { get; set; }
@@ -30,8 +30,5 @@ namespace MovieMatcher.Models.Api.Components
         public string original_name { get; set; }
         public Providers Watch_Providers { get; set; }
         public bool adult { get; set; }
-
-
-
     }
 }
