@@ -5,20 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MovieMatcher.Views"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              mc:Ignorable="d"
-             Height="500" Width="300">
+             Height="700" Width="1000">
     <Grid Name="Grid">
-        <!-- Background -->
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78">
-                <GradientStop Color="#303030" Offset="0" />
-                <GradientStop Color="#000000" Offset="0.567" />
-            </LinearGradientBrush>
-        </Grid.Background>
-
         <!-- Row and column definitions -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -28,20 +20,33 @@
         </Grid.RowDefinitions>
 
         <!-- Content -->
-        <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="/Images/SamplePoster.png" />
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="/Images/tv.png" HorizontalAlignment="Center"/>
+        <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="" HorizontalAlignment="Center" Margin="0,50,0,195" Width="300"/>
+        <Border Width="672" Height="378" Margin="-4,56,0,202" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="5">
+            <wpf:ChromiumWebBrowser
+                x:Name="Browser"
+                HorizontalAlignment="Center"
+                Width="672" Height="378"
+            />
+        </Border>
 
         <!-- Buttons -->
-        <CheckBox Name="SeenCheckBox" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"
-                  HorizontalAlignment="Center"
-                  ToolTip="Seen" Foreground="White" IsChecked="False">
-            <iconPacks:BootstrapIcons Kind="Eye" />
+        <CheckBox Name="SeenCheckBox" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
+                  ToolTip="Seen" Foreground="White" IsChecked="False" Margin="132,485,171,0" >
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="3" ScaleY="3"></ScaleTransform>
+            </CheckBox.LayoutTransform>
+
+            Watched
         </CheckBox>
-        <Button Click="OnLikeClick" Grid.Column="1" Grid.Row="1" Background="SpringGreen" ToolTip="Like">
-            <Image Source="../Images/Like.png"></Image>
-        </Button>
-        <Button Click="OnDislikeClick" Grid.Column="2" Grid.Row="1" Background="Red" ToolTip="Dislike">
-            <!-- <iconPacks:PackIconBoxIcons Kind="RegularDislike" /> -->
+
+        <Button Click="OnDislikeClick" Grid.Column="0" Grid.Row="0" Background="Red" ToolTip="Dislike" Margin="107,636,0,0" Grid.RowSpan="2">
             <Image Source="../Images/Dislike.png"></Image>
         </Button>
+
+        <Button Click="OnLikeClick" Grid.Column="1" Grid.Row="0" Background="SpringGreen" ToolTip="Like" Margin="0,636,107,0" Grid.RowSpan="2">
+            <Image Source="../Images/Like.png"></Image>
+        </Button>
+
     </Grid>
 </UserControl>

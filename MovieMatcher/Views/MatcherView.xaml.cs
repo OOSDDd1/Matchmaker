@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using CefSharp;
+using CefSharp.Wpf;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Database;
 
@@ -23,6 +25,11 @@ namespace MovieMatcher.Views
 
         public MatcherView()
         {
+            // Browser/Trailer autoplay
+            var settings = new CefSettings();
+            settings.CefCommandLineArgs["autoplay-policy"] = "no-user-gesture-required";
+            Cef.Initialize(settings, true, browserProcessHandler: null);
+
             InitializeComponent();
             _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
             _likedAndInterestingMovies = Database.GetInterestingAndLikedMovies();
@@ -45,7 +52,39 @@ namespace MovieMatcher.Views
                     Source = bitmap,
                     Width = Width
                 };
-                ContentImage.Source = bitmap;
+                // ContentImage.Source = bitmap;
+
+                Movie? movie = Api.GetMovie(_currentContent.id);
+
+                if (movie == null)
+                {
+                    return;
+                }
+
+                string videoKey = "";
+                try
+                {
+                    videoKey = movie.videos.results
+                        .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                }
+                catch
+                {
+                    if (movie.videos.results.Count != 0)
+                        videoKey = movie.videos.results.First().key;
+                }
+
+                if (videoKey.IsValidYoutubeVideoId())
+                {
+                    Browser.Address = $"https://www.youtube.com/embed/{videoKey}?autoplay=1";
+                    if (ContentImage.Visibility == Visibility.Visible) ContentImage.Visibility = Visibility.Hidden;
+                    if (Browser.Visibility == Visibility.Hidden) Browser.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ContentImage.Source = bitmap;
+                    if (ContentImage.Visibility == Visibility.Hidden) ContentImage.Visibility = Visibility.Visible;
+                    if (Browser.Visibility == Visibility.Visible) Browser.Visibility = Visibility.Hidden;
+                }
             }
             // Update information
             else
@@ -108,7 +147,7 @@ namespace MovieMatcher.Views
                 _currentContent.id,
                 UserInfo.Id,
                 isLike,
-                (bool) SeenCheckBox.IsChecked,
+                (bool)SeenCheckBox.IsChecked,
                 false
             );
 
