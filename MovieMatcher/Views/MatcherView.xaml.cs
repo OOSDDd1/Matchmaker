@@ -10,6 +10,7 @@ using CefSharp;
 using CefSharp.Wpf;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Database;
+using MovieMatcher.Stores;
 
 namespace MovieMatcher.Views
 {
@@ -139,6 +140,22 @@ namespace MovieMatcher.Views
         {
             SubmitContentReview(false);
             SetNewContent();
+        }
+
+        private void OnMoreInfoClick(object sender, RoutedEventArgs e)
+        {
+            DetailViewStore.Id = _currentContent.id;
+            DetailViewStore.MediaType = _currentContent.media_type;
+
+            Window window = new()
+            {
+                Title = _currentContent.title,
+                Content = new DetailView()
+            };
+
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Width = SystemParameters.PrimaryScreenWidth;
+            window.ShowDialog();
         }
 
         private void SubmitContentReview(bool isLike)

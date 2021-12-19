@@ -8,6 +8,33 @@
              xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              mc:Ignorable="d"
              Height="700" Width="1000">
+    <UserControl.Resources>
+        <!-- Disable button hover background color -->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Rectangle x:Name="background" Fill="{TemplateBinding Background}"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="background" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter TargetName="background" Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+
     <Grid Name="Grid">
         <!-- Row and column definitions -->
         <Grid.ColumnDefinitions>
@@ -17,36 +44,49 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
         <!-- Content -->
         <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="/Images/tv.png" HorizontalAlignment="Center"/>
-        <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="" HorizontalAlignment="Center" Margin="0,50,0,195" Width="300"/>
-        <Border Width="672" Height="378" Margin="-4,56,0,202" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="5">
-            <wpf:ChromiumWebBrowser
-                x:Name="Browser"
-                HorizontalAlignment="Center"
-                Width="672" Height="378"
-            />
-        </Border>
+        <!-- Poster -->
+        <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="" HorizontalAlignment="Center"  Width="300"/>
+        <!-- Trailer -->
+        <wpf:ChromiumWebBrowser
+            x:Name="Browser"
+            HorizontalAlignment="Left"
+            Width="608" Height="342" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="193,47,0,180"
+        />
 
         <!-- Buttons -->
         <CheckBox Name="SeenCheckBox" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
-                  ToolTip="Seen" Foreground="White" IsChecked="False" Margin="132,485,171,0" >
+                  ToolTip="Seen" Foreground="White" IsChecked="False" Margin="163,447,140,0" >
             <CheckBox.LayoutTransform>
-                <ScaleTransform ScaleX="3" ScaleY="3"></ScaleTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2"></ScaleTransform>
             </CheckBox.LayoutTransform>
 
             Watched
         </CheckBox>
 
-        <Button Click="OnDislikeClick" Grid.Column="0" Grid.Row="0" Background="Red" ToolTip="Dislike" Margin="107,636,0,0" Grid.RowSpan="2">
-            <Image Source="../Images/Dislike.png"></Image>
+        <Button Click="OnMoreInfoClick" Grid.Column="1" Background="Transparent" Foreground="White" BorderThickness="0"
+                ToolTip="More information" Margin="112,431,171,90">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <Viewbox>
+                        <TextBlock>More Information ⧉</TextBlock>
+                    </Viewbox>
+                </DataTemplate>
+            </Button.ContentTemplate>
         </Button>
 
-        <Button Click="OnLikeClick" Grid.Column="1" Grid.Row="0" Background="SpringGreen" ToolTip="Like" Margin="0,636,107,0" Grid.RowSpan="2">
+        <Button Click="OnLikeClick" Background="Transparent" ToolTip="Like" Margin="262,489,80,6" 
+                Grid.RowSpan="2" BorderThickness="0">
             <Image Source="../Images/Like.png"></Image>
         </Button>
 
+        <Button Click="OnDislikeClick" Background="Transparent" ToolTip="Dislike" Margin="80,489,262,6" 
+                Grid.RowSpan="2" Grid.Column="1" BorderThickness="0">
+            <Image Source="../Images/Dislike.png"></Image>
+        </Button>
     </Grid>
 </UserControl>
