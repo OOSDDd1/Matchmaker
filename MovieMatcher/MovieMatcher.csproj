@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -12,6 +12,9 @@
     <None Remove="appsettings.json" />
     <None Remove="favicon.ico" />
     <None Remove="images\Dislike.png" />
+    <None Remove="images\eye-fill.png" />
+    <None Remove="images\eye-fill.svg" />
+    <None Remove="images\eye.png" />
     <None Remove="images\Like.png" />
     <None Remove="Images\loginScreen.jpg" />
     <None Remove="Images\logo.png" />
@@ -38,6 +41,7 @@
   <ItemGroup>
     <Resource Include="favicon.ico" />
     <Resource Include="images\Dislike.png" />
+    <Resource Include="images\eye.png" />
     <Resource Include="images\Like.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\SamplePoster.png" />

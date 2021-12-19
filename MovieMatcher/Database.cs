@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Microsoft.Data.SqlClient;
 using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Database;
+using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher
 {
@@ -251,6 +252,30 @@ namespace MovieMatcher
                         }
 
                         return reviewedMovies;
+                    }
+                }
+            }
+        }
+
+        public static List<DataBaseItem> GetReviewedItems(int userId)
+        {
+            using (SqlConnection connection = new(_sqlBuilder))
+            {
+                string sql =
+                    @$"SELECT content_id, user_id, liked, watched, isShow, modifiedDate FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{userId}' ORDER BY modifiedDate DESC";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<DataBaseItem> reviewedItems = new();
+                        if (!reader.HasRows) return reviewedItems;
+                        while (reader.Read())
+                        {
+                            reviewedItems.Add(new DataBaseItem(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2), reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5) ));
+                        }
+
+                        return reviewedItems;
                     }
                 }
             }

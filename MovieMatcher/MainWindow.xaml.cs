@@ -5,11 +5,13 @@ using MovieMatcher.ViewModels;
 using System;
 using Newtonsoft.Json;
 using MovieMatcher.Models.Database;
+using System.Windows.Threading;
 
 namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
+
         public static IConfigurationRoot Config =
             new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -42,6 +44,30 @@ namespace MovieMatcher
         private void ButtonView_Clicked(object sender, RoutedEventArgs e)
         {
             DataContext = new ButtonViewModel();
+        }
+
+        private void AccountArrow_Clicked(object sender, RoutedEventArgs e)
+        {
+            if(Collapsable.Visibility == Visibility.Visible)
+            {
+                Collapsable.Visibility = Visibility.Collapsed;
+                MenuButton.Content = "▼";
+            }
+            else
+            {
+                Collapsable.Visibility = Visibility.Visible;
+                MenuButton.Content = "▲";
+            }
+        }
+
+        private void Uitloggen_Clicked(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void History_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new HistoryViewModel();
         }
     }
 }
