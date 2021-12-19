@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="96.0.142" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.0" />

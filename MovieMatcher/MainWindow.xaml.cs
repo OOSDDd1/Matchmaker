@@ -43,5 +43,10 @@ namespace MovieMatcher
         {
             DataContext = new ButtonViewModel();
         }
+
+        private void Statics_Clicked(object sender, RoutedEventArgs e)
+        {
+            DataContext = new StaticsViewModel();
+        }
     }
 }
