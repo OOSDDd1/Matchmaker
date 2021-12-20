@@ -28,11 +28,11 @@ namespace MovieMatcher.Views
         public HistoryView()
         {
             InitializeComponent();
-            List<DataBaseItem> databaseItems = Database.GetReviewedItems(UserInfo.Id);
+            List<Review> databaseItems = Database.GetReviewedItems(UserInfo.Id);
 
             DateTime currentTime = new DateTime();
             ListBox box = new ListBox();
-            foreach (DataBaseItem item in databaseItems)
+            foreach (Review item in databaseItems)
             {
                 if (item.DateChanged.Date != currentTime.Date)
                 {

@@ -60,7 +60,7 @@ namespace MovieMatcher
             }
         }
 
-        private void Uitloggen_Clicked(object sender, RoutedEventArgs e)
+        private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
