@@ -175,6 +175,7 @@ namespace MovieMatcher
             }
             catch (SqlException ex)
             {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -192,6 +193,26 @@ namespace MovieMatcher
             }
             catch (SqlException ex)
             {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        
+        public static bool CheckIfReviewed(int id, int userId, bool isShow)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql =
+                    @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        int? result = null;
+                        while (reader.Read()) result = reader.GetInt32(0);
+                        return result != null;
+                    }
+                }
             }
         }
 
