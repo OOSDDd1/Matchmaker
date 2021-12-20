@@ -151,7 +151,7 @@
                         <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="Uitloggen_Clicked">
                             <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
                         </Button>
-                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="Uitloggen_Clicked">
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
                             <Label Content="Uitloggen" FontSize="16" Foreground="White"/>
                         </Button>
                     </StackPanel>

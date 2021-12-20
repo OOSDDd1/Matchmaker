@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieMatcher.Models.Database
 {
-    public class DataBaseItem
+    public class ReviewOid
     {
         public int ContentId { get; set; }
         public int UserId { get; set; }
@@ -16,7 +16,7 @@ namespace MovieMatcher.Models.Database
 
         public DateTime DateChanged { get; set; }
 
-        public DataBaseItem(int id, int uId, bool liked, bool watched, bool isShow, DateTime dateChanged)
+        public ReviewOid(int id, int uId, bool liked, bool watched, bool isShow, DateTime dateChanged)
         {
             ContentId = id;
             UserId = uId;
