@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using CefSharp;
-using CefSharp.Wpf;
 using MovieMatcher.Models.Api;
+using MovieMatcher.Models.Api.Components;
 using MovieMatcher.Models.Database;
 using MovieMatcher.Stores;
 
@@ -16,8 +13,8 @@ namespace MovieMatcher.Views
 {
     public partial class MatcherView : UserControl
     {
-        private Movie _currentContent;
-        private Queue<Movie> _moviesToRecommend = new();
+        private Movie _currentRecommendation;
+        private Queue<KeyValuePair<Movie, int>> _moviesToRecommend = new();
         private HashSet<int> _reviewedMovies;
         private HashSet<int> _likedAndInterestingMovies;
         private Dictionary<int, int> _pagePerLikedOrInterestingMovie = new();
@@ -37,9 +34,14 @@ namespace MovieMatcher.Views
             // Get new list of content
             if (_moviesToRecommend.Any())
             {
-                _currentContent = _moviesToRecommend.Dequeue();
+                var recommendation = _moviesToRecommend.Dequeue();
+                _currentRecommendation = recommendation.Key;
+                var currentRecommendationSource = recommendation.Value;
 
-                Movie? movie = Api.GetMovie(_currentContent.id);
+                Movie? movie = Api.GetMovie(_currentRecommendation.id);
+                Movie? movieSource;
+                if (currentRecommendationSource != -1) movieSource = Api.GetMovie(currentRecommendationSource);
+                else movieSource = null;
 
                 if (movie == null)
                 {
@@ -48,7 +50,18 @@ namespace MovieMatcher.Views
 
                 Title.Text = movie.title;
                 Tagline.Text = movie.tagline;
+                Genres.Text = GenresToString(movie.genres) ?? "";
                 Description.Text = movie.overview;
+
+                if (movieSource != null)
+                {
+                    RecommendationSource.Text = movieSource.title;
+                    if (RecommendationSourceLabel.Visibility == Visibility.Hidden) RecommendationSourceLabel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    if (RecommendationSourceLabel.Visibility == Visibility.Visible) RecommendationSourceLabel.Visibility = Visibility.Hidden;
+                }
 
                 // Set trailer or poster
                 string videoKey = "";
@@ -65,26 +78,25 @@ namespace MovieMatcher.Views
 
                 if (videoKey.IsValidYoutubeVideoId())
                 {
-                    Browser.Address = $"https://www.youtube.com/embed/{videoKey}?autoplay=1";
+                    Browser.Address = $"https://www.youtube.com/embed/{videoKey}?autoplay=1&loop=1&modestbranding=1&rel=0&playlist={videoKey}";
                     if (ContentImage.Visibility == Visibility.Visible) ContentImage.Visibility = Visibility.Hidden;
                     if (Browser.Visibility == Visibility.Hidden) Browser.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    BitmapImage bitmap = new BitmapImage();
+                    BitmapImage bitmap = new();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path,
+                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentRecommendation.poster_path,
                         UriKind.Absolute);
                     bitmap.EndInit();
-                    Image image = new()
-                    {
-                        Source = bitmap,
-                        Width = Width
-                    };
 
                     ContentImage.Source = bitmap;
                     if (ContentImage.Visibility == Visibility.Hidden) ContentImage.Visibility = Visibility.Visible;
                     if (Browser.Visibility == Visibility.Visible) Browser.Visibility = Visibility.Hidden;
+                    // Navigate to black screen video with no sound so:
+                    // - The previous player stops playing
+                    // - The transition to the next trailer is comparable to a transition between trailers
+                    Browser.Address = "https://www.youtube.com/embed/AjWfY7SnMBI?autoplay=1&loop=1&modestbranding=1&rel=0&playlist=AjWfY7SnMBI";
                 }
             }
             // Update information
@@ -105,7 +117,7 @@ namespace MovieMatcher.Views
                 {
                     if (!_reviewedMovies.Contains(movie.id))
                     {
-                        _moviesToRecommend.Enqueue(movie);
+                        _moviesToRecommend.Enqueue(new KeyValuePair<Movie, int>(movie, -1));
                     }
                 }
 
@@ -122,7 +134,7 @@ namespace MovieMatcher.Views
                 {
                     if (!_reviewedMovies.Contains(movie.id))
                     {
-                        _moviesToRecommend.Enqueue(movie);
+                        _moviesToRecommend.Enqueue(new KeyValuePair<Movie, int>(movie, id));
                     }
                 }
             }
@@ -144,12 +156,12 @@ namespace MovieMatcher.Views
 
         private void OnMoreInfoClick(object sender, RoutedEventArgs e)
         {
-            DetailViewStore.Id = _currentContent.id;
-            DetailViewStore.MediaType = _currentContent.media_type;
+            DetailViewStore.Id = _currentRecommendation.id;
+            DetailViewStore.MediaType = _currentRecommendation.media_type;
 
             Window window = new()
             {
-                Title = _currentContent.title,
+                Title = _currentRecommendation.title,
                 Content = new DetailView()
             };
 
@@ -161,15 +173,15 @@ namespace MovieMatcher.Views
         private void SubmitContentReview(bool isLike)
         {
             Database.InsertItem(
-                _currentContent.id,
+                _currentRecommendation.id,
                 UserInfo.Id,
                 isLike,
                 (bool)SeenCheckBox.IsChecked,
                 false
             );
 
-            if (isLike) _likedAndInterestingMovies.Add(_currentContent.id);
-            _reviewedMovies.Add(_currentContent.id);
+            if (isLike) _likedAndInterestingMovies.Add(_currentRecommendation.id);
+            _reviewedMovies.Add(_currentRecommendation.id);
 
             SeenCheckBox.IsChecked = false;
         }
@@ -185,6 +197,11 @@ namespace MovieMatcher.Views
                 _pagePerLikedOrInterestingMovie.Add(id, 1);
                 return 1;
             }
+        }
+
+        private string GenresToString(List<Genre> genres)
+        {
+            return string.Join(", ", genres.Select(genre => genre.name));
         }
     }
 }
