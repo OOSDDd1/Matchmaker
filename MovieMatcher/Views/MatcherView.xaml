@@ -40,6 +40,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
@@ -48,19 +50,32 @@
         </Grid.RowDefinitions>
 
         <!-- Content -->
-        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="/Images/tv.png" HorizontalAlignment="Center"/>
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="/Images/tv.png" HorizontalAlignment="Center"/>
         <!-- Poster -->
-        <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="" HorizontalAlignment="Center"  Width="300"/>
+        <Image Name="ContentImage" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="" HorizontalAlignment="Center" 
+               Width="230" Height="342" Margin="0,53,230,230"/>
         <!-- Trailer -->
         <wpf:ChromiumWebBrowser
             x:Name="Browser"
             HorizontalAlignment="Left"
-            Width="608" Height="342" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="193,47,0,180"
+            Width="608" Height="342" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="68,47,0,180"
         />
+
+
+        <!-- Information -->
+        <TextBox Grid.Row="0" Grid.Column="3" Name="Title" Text="No Title" Background="#01FFFFFF" Foreground="White"
+               Padding="0,0,0,0" FontSize="30" Margin="0,0,-264,544" TextWrapping="WrapWithOverflow"
+               BorderThickness="0" IsReadOnly="True"/>
+        <TextBox Grid.Row="0" Grid.Column="3"  Name="Tagline" Text="No Tagline" Background="#01FFFFFF" Foreground="White"
+               Padding="0,0,0,0" FontSize="20" Margin="0,44,-264,509" TextWrapping="WrapWithOverflow"
+               BorderThickness="0" IsReadOnly="True"/>
+        <TextBox Grid.Row="0" Grid.Column="3"  Name="Description" Text="No description" Background="#01FFFFFF" Foreground="White"
+                     Padding="0,0,0,0" FontSize="20" Margin="0,96,-264,162" TextWrapping="WrapWithOverflow"
+                     BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
 
         <!-- Buttons -->
         <CheckBox Name="SeenCheckBox" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
-                  ToolTip="Seen" Foreground="White" IsChecked="False" Margin="163,447,140,0" >
+                  ToolTip="Seen" Foreground="White" IsChecked="False" Grid.ColumnSpan="2" Margin="77,450,173,0" >
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="2" ScaleY="2"></ScaleTransform>
             </CheckBox.LayoutTransform>
@@ -79,13 +94,11 @@
             </Button.ContentTemplate>
         </Button>
 
-        <Button Click="OnLikeClick" Background="Transparent" ToolTip="Like" Margin="262,489,80,6" 
-                Grid.RowSpan="2" BorderThickness="0">
+        <Button Click="OnLikeClick" Background="Transparent" ToolTip="Like" Margin="145,486,143,29" BorderThickness="0" Grid.RowSpan="3" Grid.ColumnSpan="2">
             <Image Source="../Images/Like.png"></Image>
         </Button>
 
-        <Button Click="OnDislikeClick" Background="Transparent" ToolTip="Dislike" Margin="80,489,262,6" 
-                Grid.RowSpan="2" Grid.Column="1" BorderThickness="0">
+        <Button Click="OnDislikeClick" Background="Transparent" ToolTip="Dislike" Margin="144,489,144,26" BorderThickness="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Grid.Column="1">
             <Image Source="../Images/Dislike.png"></Image>
         </Button>
     </Grid>

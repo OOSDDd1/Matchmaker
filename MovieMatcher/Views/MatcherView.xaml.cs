@@ -26,11 +26,6 @@ namespace MovieMatcher.Views
 
         public MatcherView()
         {
-            // Browser/Trailer autoplay
-            var settings = new CefSettings();
-            settings.CefCommandLineArgs["autoplay-policy"] = "no-user-gesture-required";
-            Cef.Initialize(settings, true, browserProcessHandler: null);
-
             InitializeComponent();
             _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
             _likedAndInterestingMovies = Database.GetInterestingAndLikedMovies();
@@ -43,17 +38,6 @@ namespace MovieMatcher.Views
             if (_moviesToRecommend.Any())
             {
                 _currentContent = _moviesToRecommend.Dequeue();
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path,
-                    UriKind.Absolute);
-                bitmap.EndInit();
-                Image image = new()
-                {
-                    Source = bitmap,
-                    Width = Width
-                };
-                // ContentImage.Source = bitmap;
 
                 Movie? movie = Api.GetMovie(_currentContent.id);
 
@@ -62,6 +46,11 @@ namespace MovieMatcher.Views
                     return;
                 }
 
+                Title.Text = movie.title;
+                Tagline.Text = movie.tagline;
+                Description.Text = movie.overview;
+
+                // Set trailer or poster
                 string videoKey = "";
                 try
                 {
@@ -82,6 +71,17 @@ namespace MovieMatcher.Views
                 }
                 else
                 {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentContent.poster_path,
+                        UriKind.Absolute);
+                    bitmap.EndInit();
+                    Image image = new()
+                    {
+                        Source = bitmap,
+                        Width = Width
+                    };
+
                     ContentImage.Source = bitmap;
                     if (ContentImage.Visibility == Visibility.Hidden) ContentImage.Visibility = Visibility.Visible;
                     if (Browser.Visibility == Visibility.Visible) Browser.Visibility = Visibility.Hidden;
