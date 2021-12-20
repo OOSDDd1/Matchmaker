@@ -278,7 +278,7 @@ namespace MovieMatcher
             }
         }
 
-        public static List<DataBaseItem> GetReviewedItems(int userId)
+        public static List<Review> GetReviewedItems(int userId)
         {
             using (SqlConnection connection = new(_sqlBuilder))
             {
@@ -289,11 +289,11 @@ namespace MovieMatcher
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        List<DataBaseItem> reviewedItems = new();
+                        List<Review> reviewedItems = new();
                         if (!reader.HasRows) return reviewedItems;
                         while (reader.Read())
                         {
-                            reviewedItems.Add(new DataBaseItem(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2), reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5) ));
+                            reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2), reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5) ));
                         }
 
                         return reviewedItems;
