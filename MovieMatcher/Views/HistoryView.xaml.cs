@@ -55,6 +55,8 @@ namespace MovieMatcher.Views
                     box.HorizontalAlignment = HorizontalAlignment.Center;
                     box.Background = null;
                     box.BorderBrush = null;
+                    box.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+                    
                     ItemsPanelTemplate template = new ItemsPanelTemplate();
                     var wrpP = new FrameworkElementFactory(typeof(WrapPanel));
                     wrpP.SetValue(WrapPanel.OrientationProperty, Orientation.Horizontal);
