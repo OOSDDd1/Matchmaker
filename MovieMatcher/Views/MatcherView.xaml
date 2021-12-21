@@ -63,7 +63,7 @@
 
         <!-- Information -->
         <TextBox Grid.Row="0" Grid.Column="2" Name="Title" Text="No Title" Background="#01FFFFFF" Foreground="White"
-               Padding="0,0,0,0" FontSize="30" Margin="202,0,-148,458" TextWrapping="WrapWithOverflow"
+               Padding="0,0,0,0" FontSize="25" Margin="202,0,-205,458" TextWrapping="WrapWithOverflow"
                BorderThickness="0" IsReadOnly="True" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" />
         <TextBox Grid.Row="0" Grid.Column="2"  Name="Tagline" Text="No Tagline" Background="#01FFFFFF" Foreground="White"
                Padding="0,0,0,0" FontSize="20" Margin="202,42,-148,428" TextWrapping="WrapWithOverflow"
