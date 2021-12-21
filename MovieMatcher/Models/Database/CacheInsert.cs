@@ -12,7 +12,7 @@ namespace MovieMatcher.Models.Database
         public string BackdropPath;
         public string TrailerUrl;
         public int Age;
-        public string json;
+        public string Json;
         public DateTime UpdatedAt;
     }
 }

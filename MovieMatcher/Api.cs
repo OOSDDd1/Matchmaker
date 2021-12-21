@@ -324,7 +324,7 @@ namespace MovieMatcher
                 BackdropPath = movie.backdrop_path,
                 TrailerUrl = YtTrailerUrl + videoKey,
                 Age = age,
-                json = JsonConvert.SerializeObject(movie),
+                Json = JsonConvert.SerializeObject(movie),
                 UpdatedAt = DateTime.Now,
             });
         }
@@ -363,7 +363,7 @@ namespace MovieMatcher
                 BackdropPath = value.backdrop_path,
                 TrailerUrl = YtTrailerUrl + videoKey,
                 Age = age,
-                json = JsonConvert.SerializeObject(value),
+                Json = JsonConvert.SerializeObject(value),
                 UpdatedAt = DateTime.Now,
             });
         }
