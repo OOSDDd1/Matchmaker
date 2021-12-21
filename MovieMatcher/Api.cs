@@ -10,7 +10,7 @@ using Season = MovieMatcher.Models.Api.Season;
 
 namespace MovieMatcher
 {
-    /**
+    /*
      * Get providers from movie Eternals (524434).
      *      Api.Get<Movie>(Api.MovieBase, Api.GetWatchProviders, 524434);
      *
@@ -77,16 +77,16 @@ namespace MovieMatcher
 
             var cacheKey = GenerateCacheKey(MovieBase, GetDetails, urlSegments, urlParameters);
 
-            if (CacheGetFromMemory(cacheKey, out var movie)) 
-                return movie;
+            if (CacheGetFromMemory(cacheKey, out var memMovie)) 
+                return memMovie;
             
-            if (CacheGetFromDatabase(cacheKey, out movie))
+            if (CacheGetFromDatabase<Movie>(cacheKey, out var dbMovie))
             {
-                CacheAddToMemory(cacheKey, movie);
-                return movie;
+                CacheAddToMemory(cacheKey, dbMovie);
+                return dbMovie;
             }
             
-            movie = Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
+            var movie = Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
             
             if (movie is Movie)
                 CacheAddMovieToDatabase(cacheKey, movie);
@@ -137,10 +137,16 @@ namespace MovieMatcher
             
             var cacheKey = GenerateCacheKey(ShowBase, GetDetails, urlSegments, urlParameters);
 
-            if (CacheGet(cacheKey, out var show)) 
-                return show;
+            if (CacheGetFromMemory(cacheKey, out var memShow)) 
+                return memShow;
+
+            if (CacheGetFromDatabase<Show>(cacheKey, out var dbShow))
+            {
+                CacheAddToMemory(cacheKey, dbShow);
+                return dbShow;
+            }
             
-            show = Get<Show>(MovieBase, GetDetails, urlSegments, urlParameters);
+            var show = Get<Show>(MovieBase, GetDetails, urlSegments, urlParameters);
             
             if (show is Show)
                 CacheAddShowToDatabase(cacheKey, show);
@@ -237,8 +243,14 @@ namespace MovieMatcher
         {
             var cacheKey = GenerateCacheKey(resourceBase, resource, urlSegments, urlParameters);
             
-            if (CacheGet(cacheKey, out var cachedResource))
-                return cachedResource;
+            if (CacheGetFromMemory(cacheKey, out var memValue)) 
+                return memValue;
+
+            if (CacheGetFromDatabase<T>(cacheKey, out var dbValue))
+            {
+                CacheAddToMemory(cacheKey, dbValue);
+                return dbValue;
+            }
             
             var response = GenerateResponse(resourceBase + resource, urlSegments, urlParameters);
             
@@ -317,7 +329,7 @@ namespace MovieMatcher
             List<Cast> actors = movie.credits.cast.OrderBy(person => person.order)
                 .Where(person => person.known_for_department.Equals("Acting")).ToList();
 
-            return Database.InsertCache<Movie>(new CacheInsert()
+            return Database.InsertCache(new CacheInsert()
             {
                 Id = movie.id,
                 CacheKey = key,
@@ -362,7 +374,7 @@ namespace MovieMatcher
             List<Cast> actors = show.credits.cast.OrderBy(person => person.order)
                 .Where(person => person.known_for_department.Equals("Acting")).ToList();
 
-            return Database.InsertCache<Show>(new CacheInsert()
+            return Database.InsertCache(new CacheInsert()
             {
                 Id = show.id,
                 CacheKey = key,
@@ -380,28 +392,16 @@ namespace MovieMatcher
             });
         }
 
-        private static bool CacheGet(string key, out dynamic? value)
-        {
-            if (CacheGetFromMemory(key, out value)) 
-                return true;
-
-            if (CacheGetFromDatabase(key, out value))
-            {
-                CacheAddToMemory(key, value);
-                return true;
-            }
-
-            return false;
-        }
-        
         private static bool CacheGetFromMemory(string key, out dynamic? value)
         {
             return _cache.TryGetValue(key, out value);
         }
         
-        private static bool CacheGetFromDatabase(string key, out dynamic? value)
+        private static bool CacheGetFromDatabase<T>(string key, out T? value) where T : IRoot
         {
-            return _cache.TryGetValue(key, out value);
+            var cache = Database.GetCache(key);
+            value = ResponseToClass<T>(cache);
+            return value != null;
         }
         
         #endregion
