@@ -81,7 +81,7 @@
                  BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         <TextBox Grid.Row="0" Grid.Column="3"  Name="RecommendationSource" Background="#01FFFFFF" Foreground="White"
                  Padding="0,0,0,0" FontSize="20" Margin="95,550,-472,0" TextWrapping="WrapWithOverflow"
-                 BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextChanged="RecommendationSource_TextChanged"/>
+                 BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
 
         <!-- Buttons -->
         <CheckBox Name="SeenCheckBox" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
