@@ -1,7 +1,7 @@
 ﻿create table Matchmaker.content
 (
     id            int                 not null,
-    cache_key     int                 not null,
+    cache_key     varchar(255)        not null,
     title         varchar(255)        not null,
     overview      varchar(255)        not null,
     poster_path   varchar(255)        not null,
