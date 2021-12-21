@@ -269,7 +269,7 @@ namespace MovieMatcher
             return client.Get(request);
         }
 
-        private static T? ResponseToClass<T>(string response) where T : IRoot
+        public static T? ResponseToClass<T>(string response) where T : IRoot
         {
             return JsonConvert.DeserializeObject<T>(response);
         }
@@ -331,6 +331,7 @@ namespace MovieMatcher
                 Genres = movie.genres,
                 Json = JsonConvert.SerializeObject(movie),
                 UpdatedAt = DateTime.Now,
+                IsShow = false,
             });
         }
 
@@ -375,6 +376,7 @@ namespace MovieMatcher
                 Genres = show.genres,
                 Json = JsonConvert.SerializeObject(show),
                 UpdatedAt = DateTime.Now,
+                IsShow = true,
             });
         }
 

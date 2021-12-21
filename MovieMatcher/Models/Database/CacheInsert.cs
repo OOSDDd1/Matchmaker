@@ -18,5 +18,6 @@ namespace MovieMatcher.Models.Database
         public List<Genre> Genres;
         public string Json;
         public DateTime UpdatedAt;
+        public bool IsShow;
     }
 }
