@@ -314,6 +314,9 @@ namespace MovieMatcher
             }
             int.TryParse(releaseDate.certification, out int age);
 
+            List<Cast> actors = movie.credits.cast.OrderBy(person => person.order)
+                .Where(person => person.known_for_department.Equals("Acting")).ToList();
+
             return Database.InsertCache<Movie>(new CacheInsert()
             {
                 Id = movie.id,
@@ -324,46 +327,53 @@ namespace MovieMatcher
                 BackdropPath = movie.backdrop_path,
                 TrailerUrl = YtTrailerUrl + videoKey,
                 Age = age,
+                Actors = actors,
+                Genres = movie.genres,
                 Json = JsonConvert.SerializeObject(movie),
                 UpdatedAt = DateTime.Now,
             });
         }
 
-        private static bool CacheAddShowToDatabase(string key, Show value)
+        private static bool CacheAddShowToDatabase(string key, Show show)
         {
             string videoKey;
             try
             {
-                videoKey = value.videos.results
+                videoKey = show.videos.results
                     .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
             }
             catch
             {
-                videoKey = value.videos.results.First().key;
+                videoKey = show.videos.results.First().key;
             }
 
             string ageRating;
             try
             {
-                ageRating = value.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
+                ageRating = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
             }
             catch
             {
-                ageRating = value.content_ratings.results.First().rating;
+                ageRating = show.content_ratings.results.First().rating;
             }
             int.TryParse(ageRating, out int age);
-            
+
+            List<Cast> actors = show.credits.cast.OrderBy(person => person.order)
+                .Where(person => person.known_for_department.Equals("Acting")).ToList();
+
             return Database.InsertCache<Show>(new CacheInsert()
             {
-                Id = value.id,
+                Id = show.id,
                 CacheKey = key,
-                Title = value.name,
-                Overview = value.overview,
-                PosterPath = value.poster_path,
-                BackdropPath = value.backdrop_path,
+                Title = show.name,
+                Overview = show.overview,
+                PosterPath = show.poster_path,
+                BackdropPath = show.backdrop_path,
                 TrailerUrl = YtTrailerUrl + videoKey,
                 Age = age,
-                Json = JsonConvert.SerializeObject(value),
+                Actors = actors,
+                Genres = show.genres,
+                Json = JsonConvert.SerializeObject(show),
                 UpdatedAt = DateTime.Now,
             });
         }

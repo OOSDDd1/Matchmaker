@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher.Models.Database
 {
@@ -12,6 +14,8 @@ namespace MovieMatcher.Models.Database
         public string BackdropPath;
         public string TrailerUrl;
         public int Age;
+        public List<Cast> Actors;
+        public List<Genre> Genres;
         public string Json;
         public DateTime UpdatedAt;
     }
