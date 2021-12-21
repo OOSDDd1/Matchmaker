@@ -5,6 +5,6 @@
     name           varchar(255) not null,
     character_name varchar(255) not null,
     constraint actor_pk
-        primary key (content_id, id)
+        primary key (content_id, id, character_name)
 )
 go

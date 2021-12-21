@@ -3,7 +3,7 @@
     id            int                 not null,
     cache_key     varchar(255)        not null,
     title         varchar(255)        not null,
-    overview      varchar(255)        not null,
+    overview      nvarchar(max)       not null,
     poster_path   varchar(255)        not null,
     backdrop_path varchar(255)        not null,
     trailer_url   varchar(255)        not null,

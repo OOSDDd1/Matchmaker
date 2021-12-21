@@ -146,7 +146,7 @@ namespace MovieMatcher
                 return dbShow;
             }
             
-            var show = Get<Show>(MovieBase, GetDetails, urlSegments, urlParameters);
+            var show = Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters);
             
             if (show is Show)
                 CacheAddShowToDatabase(cacheKey, show);
@@ -162,7 +162,7 @@ namespace MovieMatcher
                 {"season", season.ToString()}
             };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                {{"append_to_response", "videos,images,content_ratings,credits"}};
             
             return Get<Season>(ShowBase, GetShowSeason, urlSegments, urlParameters);
         }
@@ -176,7 +176,7 @@ namespace MovieMatcher
                 {"episode", episode.ToString()}
             };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                {{"append_to_response", "videos,images,content_ratings,credits"}};
             
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters);
         }

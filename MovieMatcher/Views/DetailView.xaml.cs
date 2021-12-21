@@ -37,7 +37,15 @@ namespace MovieMatcher.Views
         
         private void MovieDetail(int id)
         {
-            Movie? movie = Api.GetMovie(id);
+            Movie? movie;
+            try
+            {
+                movie = Api.GetMovie(id);
+            }
+            catch
+            {
+                return;
+            }
 
             if (movie == null)
             {
@@ -99,7 +107,15 @@ namespace MovieMatcher.Views
 
         private void ShowDetail(int id)
         {
-            Show? show = Api.GetShow(id);
+            Show? show;
+            try
+            {
+                show = Api.GetShow(id);
+            }
+            catch 
+            {
+                return;
+            }
 
             if (show == null)
             {
