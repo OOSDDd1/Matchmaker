@@ -53,15 +53,15 @@ namespace MovieMatcher.Views
             }
 
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdrop_path}"));
-            MovieReleaseDate releaseDate;
+            string age;
             try
             {
-                releaseDate = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL"))
-                    .release_dates.First();
+                age = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL"))
+                    .release_dates.First().certification;
             }
             catch
             {
-                releaseDate = movie.release_dates.results.First().release_dates.First();
+                age = "0";
             }
 
 
@@ -86,7 +86,7 @@ namespace MovieMatcher.Views
             Title.Content = movie.title ?? "";
             TageLine.Content = movie.tagline ?? "";
 
-            AgeRating.Content = releaseDate.certification;
+            AgeRating.Content = age;
             Year.Content = movie.release_date.Substring(0, 4) ?? "";
             PlayTime.Content = CalculateRunTime(movie.runtime) ?? "";
             Rating.Content = movie.vote_average + "/10";
@@ -144,17 +144,19 @@ namespace MovieMatcher.Views
             TageLine.Content = show.tagline ?? "";
             ShowStats.Content = $"{show.number_of_seasons}S {show.number_of_episodes}E" ?? "";
 
+            string age;
             try
             {
-                AgeRating.Content = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
+                age = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
             }
             catch
             {
-                AgeRating.Content = show.content_ratings.results.First().rating;
+                age = "0";
             }
 
+            AgeRating.Content = age;
             Year.Content = show.first_air_date.Substring(0, 4) ?? "";
-            PlayTime.Content = CalculateRunTime(show.number_of_episodes * show.episode_run_time.First()) ?? "";
+            PlayTime.Content = CalculateRunTime(show.number_of_episodes * show.episode_run_time.Count > 0 ? show.episode_run_time.First() : 0 ) ?? "";
             Rating.Content = show.vote_average + "/10" ?? "";
             Rating.ToolTip = $"Rating from {show.vote_count} votes" ?? "";
 

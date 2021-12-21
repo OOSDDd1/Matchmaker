@@ -2,12 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Diagnostics;
-using Microsoft.Data.SqlClient;
-using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Database;
-using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher
 {
@@ -109,14 +104,14 @@ namespace MovieMatcher
 
                         while (reader.Read())
                         {
-                            if ((bool) reader.GetValue(1) == true)
+                            if ((bool)reader.GetValue(1) == true)
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 1};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
                                 result.Add(content);
                             }
                             else
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 0};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
                                 result.Add(content);
                             }
                         }
@@ -142,14 +137,14 @@ namespace MovieMatcher
 
                         while (reader.Read())
                         {
-                            if ((bool) reader.GetValue(1) == true)
+                            if ((bool)reader.GetValue(1) == true)
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 1};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
                                 result.Add(content);
                             }
                             else
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 0};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
                                 result.Add(content);
                             }
                         }
@@ -195,7 +190,7 @@ namespace MovieMatcher
                 Console.WriteLine(ex.Message);
             }
         }
-        
+
         public static bool CheckIfReviewed(int id, int userId, bool isShow)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
@@ -292,7 +287,8 @@ namespace MovieMatcher
                         if (!reader.HasRows) return reviewedItems;
                         while (reader.Read())
                         {
-                            reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2), reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5) ));
+                            reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2),
+                                reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5)));
                         }
 
                         return reviewedItems;
@@ -331,13 +327,13 @@ namespace MovieMatcher
         {
             using SqlConnection connection = new(_sqlBuilder);
             connection.Open();
-            
+
             using SqlCommand command = new(
-                @$"SELECT json from MatchMaker.Matchmaker.[content] WHERE cache_key = @CacheKey", 
+                @$"SELECT json from MatchMaker.Matchmaker.[content] WHERE cache_key = @CacheKey",
                 connection
-                );
+            );
             command.Parameters.Add("@CacheKey", SqlDbType.VarChar).Value = cacheKey;
-            
+
             using SqlDataReader reader = command.ExecuteReader();
             string json = string.Empty;
             while (reader.Read())
@@ -347,17 +343,17 @@ namespace MovieMatcher
 
             return json;
         }
-        
+
         public static bool InsertCache(CacheInsert cacheInsert)
         {
             using SqlConnection connection = new(_sqlBuilder);
             connection.Open();
-            
+
             // Inserting Movie or Show into Content
             using SqlCommand contentCommand = new(
                 @$"INSERT INTO MatchMaker.Matchmaker.[content] (id,cache_key,title,overview,poster_path,backdrop_path,trailer_url,age,json,is_show) VALUES (@Id,@CacheKey,@Title,@Overview,@PosterPath,@BackdropPath,@TrailerUrl,@Age,@Json,@IsShow);",
                 connection
-                );
+            );
             contentCommand.Parameters.Add("@Id", SqlDbType.Int).Value = cacheInsert.Id;
             contentCommand.Parameters.Add("@CacheKey", SqlDbType.VarChar).Value = cacheInsert.CacheKey;
             contentCommand.Parameters.Add("@Title", SqlDbType.VarChar).Value = cacheInsert.Title;
@@ -373,9 +369,9 @@ namespace MovieMatcher
 
             // Inserting Actors
             using SqlCommand actorsCommand = new(
-                $@"INSERT INTO MatchMaker.Matchmaker.[actor] (id,content_id,name,character_name) VALUES (@Id,@ContentId,@Name,@CharacterName)", 
+                $@"INSERT INTO MatchMaker.Matchmaker.[actor] (id,content_id,name,character_name) VALUES (@Id,@ContentId,@Name,@CharacterName)",
                 connection
-                );
+            );
             actorsCommand.Parameters.Add("@Id", SqlDbType.Int);
             actorsCommand.Parameters.Add("@ContentId", SqlDbType.Int);
             actorsCommand.Parameters.Add("@Name", SqlDbType.VarChar);
@@ -389,12 +385,12 @@ namespace MovieMatcher
                 actorsCommand.Parameters[3].Value = actor.character;
                 actorsCommand.ExecuteNonQuery();
             }
-            
+
             // Inserting Genres
             using SqlCommand genresCommand = new(
-                $@"INSERT INTO MatchMaker.Matchmaker.[genre] (id,content_id,name) VALUES (@Id,@ContentId,@Name)", 
+                $@"INSERT INTO MatchMaker.Matchmaker.[genre] (id,content_id,name) VALUES (@Id,@ContentId,@Name)",
                 connection
-                );
+            );
             genresCommand.Parameters.Add("@Id", SqlDbType.Int);
             genresCommand.Parameters.Add("@ContentId", SqlDbType.Int);
             genresCommand.Parameters.Add("@Name", SqlDbType.VarChar);
@@ -406,7 +402,7 @@ namespace MovieMatcher
                 genresCommand.Parameters[2].Value = genre.name;
                 genresCommand.ExecuteNonQuery();
             }
-            
+
             return true;
         }
 
