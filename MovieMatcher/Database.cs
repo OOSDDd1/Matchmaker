@@ -325,5 +325,19 @@ namespace MovieMatcher
                 }
             }
         }
+
+        #region Cache queries
+
+        public static bool GetCache<T>(string cacheKey, int contentId)
+        {
+            return true;
+        }
+        
+        public static bool InsertCache<T>(CacheInsert cacheInsert)
+        {
+            return true;
+        }
+
+        #endregion
     }
 }

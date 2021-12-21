@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using MovieMatcher.Models.Api;
+using MovieMatcher.Models.Api.Components;
+using MovieMatcher.Models.Database;
 using Newtonsoft.Json;
 using RestSharp;
+using Season = MovieMatcher.Models.Api.Season;
 
 namespace MovieMatcher
 {
@@ -56,10 +61,12 @@ namespace MovieMatcher
 
         // SearchSizes
         public const string W185 = "w185";
+
+        public const string YtTrailerUrl = "https://www.youtube.com/embed/";
         
         #endregion
 
-        private static Dictionary<string, dynamic> _cache = new Dictionary<string, dynamic>();
+        private static Dictionary<string, dynamic> _cache = new();
 
         public static dynamic? GetMovie(int id)
         {
@@ -82,7 +89,7 @@ namespace MovieMatcher
             movie = Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
             
             if (movie is Movie)
-                CacheAddToDatabase(cacheKey, movie);
+                CacheAddMovieToDatabase(cacheKey, movie);
 
             return movie;
         }
@@ -136,7 +143,7 @@ namespace MovieMatcher
             show = Get<Show>(MovieBase, GetDetails, urlSegments, urlParameters);
             
             if (show is Show)
-                CacheAddToDatabase(cacheKey, show);
+                CacheAddShowToDatabase(cacheKey, show);
 
             return show;
         }
@@ -280,12 +287,87 @@ namespace MovieMatcher
         {
             return _cache.TryAdd(key, value);
         }
-        
-        private static bool CacheAddToDatabase(string key, dynamic? value)
+
+        private static bool CacheAddMovieToDatabase(string key, Movie movie)
         {
-            return _cache.TryAdd(key, value);
+            string videoKey = "";
+            try
+            {
+                videoKey = movie.videos.results
+                    .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+            }
+            catch
+            {
+                if (movie.videos.results.Count != 0)
+                    videoKey = movie.videos.results.First().key;
+            }
+
+            MovieReleaseDate releaseDate;
+            try
+            {
+                releaseDate = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL"))
+                    .release_dates.First();
+            }
+            catch
+            {
+                releaseDate = movie.release_dates.results.First().release_dates.First();
+            }
+            int.TryParse(releaseDate.certification, out int age);
+
+            return Database.InsertCache<Movie>(new CacheInsert()
+            {
+                Id = movie.id,
+                CacheKey = key,
+                Title = movie.title,
+                Overview = movie.overview,
+                PosterPath = movie.poster_path,
+                BackdropPath = movie.backdrop_path,
+                TrailerUrl = YtTrailerUrl + videoKey,
+                Age = age,
+                json = JsonConvert.SerializeObject(movie),
+                UpdatedAt = DateTime.Now,
+            });
         }
-        
+
+        private static bool CacheAddShowToDatabase(string key, Show value)
+        {
+            string videoKey;
+            try
+            {
+                videoKey = value.videos.results
+                    .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+            }
+            catch
+            {
+                videoKey = value.videos.results.First().key;
+            }
+
+            string ageRating;
+            try
+            {
+                ageRating = value.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
+            }
+            catch
+            {
+                ageRating = value.content_ratings.results.First().rating;
+            }
+            int.TryParse(ageRating, out int age);
+            
+            return Database.InsertCache<Show>(new CacheInsert()
+            {
+                Id = value.id,
+                CacheKey = key,
+                Title = value.name,
+                Overview = value.overview,
+                PosterPath = value.poster_path,
+                BackdropPath = value.backdrop_path,
+                TrailerUrl = YtTrailerUrl + videoKey,
+                Age = age,
+                json = JsonConvert.SerializeObject(value),
+                UpdatedAt = DateTime.Now,
+            });
+        }
+
         private static bool CacheGet(string key, out dynamic? value)
         {
             if (CacheGetFromMemory(key, out value)) 
