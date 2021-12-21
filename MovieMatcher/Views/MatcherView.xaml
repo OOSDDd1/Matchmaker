@@ -7,7 +7,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              mc:Ignorable="d"
-             Height="700" Width="1000">
+             Height="600" Width="900">
     <UserControl.Resources>
         <!-- Disable button hover background color -->
         <Style TargetType="{x:Type Button}">
@@ -52,40 +52,40 @@
         <!-- Content -->
         <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="/Images/tv.png" HorizontalAlignment="Center"/>
         <!-- Poster -->
-        <Image Name="ContentImage" Grid.Row="0" Margin="8,52,8,187" Grid.Column="1"/>
+        <Image Name="ContentImage" Grid.Row="0" Margin="8,46,8,160" Grid.Column="1"/>
         <!-- Trailer -->
         <wpf:ChromiumWebBrowser
             x:Name="Browser"
             HorizontalAlignment="Left"
-            Width="608" Height="342" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="68,47,0,180"
+            Width="514" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="79,44,0,159"
         />
 
 
         <!-- Information -->
-        <TextBox Grid.Row="0" Grid.Column="3" Name="Title" Text="No Title" Background="#01FFFFFF" Foreground="White"
-               Padding="0,0,0,0" FontSize="30" Margin="0,0,-472,544" TextWrapping="WrapWithOverflow"
-               BorderThickness="0" IsReadOnly="True"/>
-        <TextBox Grid.Row="0" Grid.Column="3"  Name="Tagline" Text="No Tagline" Background="#01FFFFFF" Foreground="White"
-               Padding="0,0,0,0" FontSize="20" Margin="0,44,-472,509" TextWrapping="WrapWithOverflow"
-               BorderThickness="0" IsReadOnly="True"/>
-        <TextBox Grid.Row="0" Grid.Column="3"  Name="Genres" Text="No Genres" Background="#01FFFFFF" Foreground="White"
-                 Padding="0,0,0,0" FontSize="20" Margin="0,79,-472,475" TextWrapping="WrapWithOverflow"
-                 BorderThickness="0" IsReadOnly="True"/>
-        <TextBox Grid.Row="0" Grid.Column="3"  Name="Description" Text="No description" Background="#01FFFFFF" Foreground="White"
-                     Padding="0,0,0,0" FontSize="20" Margin="0,128,-129,128" TextWrapping="WrapWithOverflow"
-                     BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        <TextBox Grid.Row="0" Grid.Column="2" Name="Title" Text="No Title" Background="#01FFFFFF" Foreground="White"
+               Padding="0,0,0,0" FontSize="30" Margin="202,0,-148,458" TextWrapping="WrapWithOverflow"
+               BorderThickness="0" IsReadOnly="True" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" />
+        <TextBox Grid.Row="0" Grid.Column="2"  Name="Tagline" Text="No Tagline" Background="#01FFFFFF" Foreground="White"
+               Padding="0,0,0,0" FontSize="20" Margin="202,42,-148,428" TextWrapping="WrapWithOverflow"
+               BorderThickness="0" IsReadOnly="True" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" />
+        <TextBox Grid.Row="0" Grid.Column="2"  Name="Genres" Text="No Genres" Background="#01FFFFFF" Foreground="White"
+                 Padding="0,0,0,0" FontSize="20" Margin="202,77,-148,372" TextWrapping="WrapWithOverflow"
+                 BorderThickness="0" IsReadOnly="True" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" />
+        <TextBox Grid.Row="0" Grid.Column="2"  Name="Description" Text="No description" Background="#01FFFFFF" Foreground="White"
+                     Padding="0,0,0,0" FontSize="20" Margin="202,128,-78,68" TextWrapping="WrapWithOverflow"
+                     BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2"/>
 
 
-        <TextBox Grid.Row="0" Grid.Column="3"  Name="RecommendationSourceLabel" Text="Based on:" Background="#01FFFFFF" Foreground="White"
-                 Padding="0,0,0,0" FontSize="20" Margin="0,550,146,0" TextWrapping="WrapWithOverflow"
-                 BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
-        <TextBox Grid.Row="0" Grid.Column="3"  Name="RecommendationSource" Background="#01FFFFFF" Foreground="White"
-                 Padding="0,0,0,0" FontSize="20" Margin="95,550,-472,0" TextWrapping="WrapWithOverflow"
+        <TextBox Grid.Column="2"  Name="RecommendationSourceLabel" Text="Based on:" Background="#01FFFFFF" Foreground="White"
+                 Padding="0,0,0,0" FontSize="20" Margin="202,470,157,0" TextWrapping="WrapWithOverflow"
+                 BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Hidden" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="3"  Name="RecommendationSource" Background="#01FFFFFF" Foreground="White"
+                 Padding="0,0,0,0" FontSize="20" Margin="73,470,-450,0" TextWrapping="WrapWithOverflow"
                  BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
 
         <!-- Buttons -->
         <CheckBox Name="SeenCheckBox" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top"
-                  ToolTip="Seen" Foreground="White" IsChecked="False" Grid.ColumnSpan="2" Margin="77,450,173,0" >
+                  ToolTip="Seen" Foreground="White" IsChecked="False" Grid.ColumnSpan="2" Margin="68,383,182,0" >
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="2" ScaleY="2"></ScaleTransform>
             </CheckBox.LayoutTransform>
@@ -104,11 +104,15 @@
             </Button.ContentTemplate>
         </Button>
 
-        <Button Click="OnDislikeClick" Background="Transparent" ToolTip="Dislike" Margin="176,502,150,45" BorderThickness="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Grid.Column="1">
+
+        <Button Click="OnLikeClick" Background="Transparent" ToolTip="Like" Margin="148,438,146,35" BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="3">
+            <Image Source="../Images/Like.png"></Image>
+        </Button>
+
+        <Button Click="OnDislikeClick" Background="Transparent" ToolTip="Dislike" Margin="148,438,146,35" BorderThickness="0" Grid.ColumnSpan="2" Grid.Column="1" Grid.RowSpan="3">
             <Image Source="../Images/Dislike.png"></Image>
         </Button>
-        <Button Click="OnLikeClick" Background="Transparent" ToolTip="Like" Margin="153,502,173,45" BorderThickness="0" Grid.RowSpan="3" Grid.ColumnSpan="2">
-            <Image Source="/images/Like.png"/>
-        </Button>
+
+
     </Grid>
 </UserControl>
