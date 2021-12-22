@@ -38,7 +38,7 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(UserInfo.BirthYear));
+            var getMovieResult = ApiService.Search(searchTxt.Text, GreaterThan18(UserInfo.BirthYear));
 
             if (getMovieResult is Message || getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
@@ -57,10 +57,10 @@ namespace MovieMatcher.Views
                     switch (s.media_type)
                     {
                         case "movie":
-                            s.Watch_Providers = Api.GetProviders(Api.MovieBase, s.id);
+                            s.Watch_Providers = ApiService.GetProviders(ApiService.MovieBase, s.id);
                             break;
                         case "tv":
-                            s.Watch_Providers = Api.GetProviders(Api.ShowBase, s.id);
+                            s.Watch_Providers = ApiService.GetProviders(ApiService.ShowBase, s.id);
                             break;
                         default:
                             break;
@@ -83,11 +83,11 @@ namespace MovieMatcher.Views
                     }
                     else if (s.poster_path == null)
                     {
-                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.profile_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.profile_path}"));
                     }
                     else
                     {
-                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.poster_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.poster_path}"));
                     }
 
                     img.Stretch = Stretch.Fill;
@@ -233,7 +233,7 @@ namespace MovieMatcher.Views
         private Image CreateLogo(string source)
         {
             Image pImg = new Image();
-            pImg.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{source}", UriKind.Absolute));
+            pImg.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{source}", UriKind.Absolute));
             pImg.VerticalAlignment = VerticalAlignment.Top;
             pImg.HorizontalAlignment = HorizontalAlignment.Left;
             pImg.Width = 25;

@@ -41,11 +41,11 @@ namespace MovieMatcher.Views
                 Content contentItem;
                 if (LikedItem.isShow == 1)
                 {
-                    contentItem = Api.GetShow(LikedItem.content);
+                    contentItem = ApiService.GetShow(LikedItem.content);
                 }
                 else
                 {
-                    contentItem = Api.GetMovie(LikedItem.content);
+                    contentItem = ApiService.GetMovie(LikedItem.content);
                 }
 
                 ContentList.Add(contentItem);
@@ -64,11 +64,11 @@ namespace MovieMatcher.Views
                 Content contentItem;
                 if (InterestedItem.isShow == 1)
                 {
-                    contentItem = Api.GetShow(InterestedItem.content);
+                    contentItem = ApiService.GetShow(InterestedItem.content);
                 }
                 else
                 {
-                    contentItem = Api.GetMovie(InterestedItem.content);
+                    contentItem = ApiService.GetMovie(InterestedItem.content);
                 }
 
                 ContentList.Add(contentItem);
@@ -79,7 +79,7 @@ namespace MovieMatcher.Views
 
         public void GenerateTrendingMovieList()
         {
-            MultiSearch TrendingItems = Api.GetTrending("week");
+            MultiSearch TrendingItems = ApiService.GetTrending("week");
             List<Content> ContentList = new List<Content>();
             if (TrendingItems.results != null && TrendingItems.results.Count > 0)
             {

@@ -16,14 +16,14 @@ namespace Tests
         [Test]
         public void GetMovie_ShouldReturnMovieWhenGivenId()
         {
-            var result = Api.GetMovie(370172);
+            var result = ApiService.GetMovie(370172);
             Assert.IsInstanceOf<Movie>(result);
         }
 
         [Test]
         public void GetMovie_ShouldReturnMessageWithBadId()
         {
-            var result = Api.GetMovie(1);
+            var result = ApiService.GetMovie(1);
             Assert.IsInstanceOf<Message>(result);
         }
 
@@ -34,14 +34,14 @@ namespace Tests
         [Test]
         public void GetShow_ShouldReturnShowWhenGivenId()
         {
-            var result = Api.GetShow(94605);
+            var result = ApiService.GetShow(94605);
             Assert.IsInstanceOf<Show>(result);
         }
 
         [Test]
         public void GetShow_ShouldReturnMessageWithBadId()
         {
-            var result = Api.GetShow(999999999);
+            var result = ApiService.GetShow(999999999);
             Assert.IsInstanceOf<Message>(result);
         }
 
@@ -52,14 +52,14 @@ namespace Tests
         [Test]
         public void GetSeason_ShouldReturnSeason()
         {
-            var result = Api.GetSeason(94605, 1);
+            var result = ApiService.GetSeason(94605, 1);
             Assert.IsInstanceOf<MovieMatcher.Models.Api.Season>(result);
         }
 
         [Test]
         public void GetSeason_ShouldReturnMessageWithBadSeason()
         {
-            var result = Api.GetSeason(94605, 999);
+            var result = ApiService.GetSeason(94605, 999);
             Assert.IsInstanceOf<Message>(result);
         }
 
@@ -70,14 +70,14 @@ namespace Tests
         [Test]
         public void GetEpisode_ShouldReturnEpisode()
         {
-            var result = Api.GetEpisode(94605, 1, 1);
+            var result = ApiService.GetEpisode(94605, 1, 1);
             Assert.IsInstanceOf<Episode>(result);
         }
 
         [Test]
         public void GetEpisode_ShouldReturnMessageWithBadEpisode()
         {
-            var result = Api.GetEpisode(94605, 1, 999);
+            var result = ApiService.GetEpisode(94605, 1, 999);
             Assert.IsInstanceOf<Message>(result);
         }
 
@@ -88,21 +88,21 @@ namespace Tests
         [Test]
         public void GetProviders_ShouldReturnProviders()
         {
-            var result = Api.GetProviders(Api.ShowBase, 94605);
+            var result = ApiService.GetProviders(ApiService.ShowBase, 94605);
             Assert.IsInstanceOf<Providers>(result);
         }
 
         [Test]
         public void GetProviders_ShouldReturnMessageWithBadId()
         {
-            var result = Api.GetProviders(Api.MovieBase, 1);
+            var result = ApiService.GetProviders(ApiService.MovieBase, 1);
             Assert.IsInstanceOf<Message>(result);
         }
 
         [Test]
         public void GetProviders_ShouldReturnMessageWithBadApiBase()
         {
-            var result = Api.GetProviders(Api.ShowBase, 566525);
+            var result = ApiService.GetProviders(ApiService.ShowBase, 566525);
             Assert.IsInstanceOf<Message>(result);
         }
 
@@ -111,14 +111,14 @@ namespace Tests
         [Test]
         public void Search_ShouldReturnMovieresultWhenGivenQuery()
         {
-            var result = Api.Search("stranger", false);
+            var result = ApiService.Search("stranger", false);
             Assert.IsInstanceOf<MultiSearch>(result);
         }
 
         [Test]
         public void Search_ShouldReturnMessageWithBadApiBase()
         {
-            var result = Api.Search("", false);
+            var result = ApiService.Search("", false);
             Assert.IsInstanceOf<Message>(result);
         }
 
@@ -126,7 +126,7 @@ namespace Tests
         public void search_ShouldReturnMovieResultWithoutAdult_WhenInsertFalse()
         {
             bool adult = false;
-            MultiSearch result = Api.Search("organ", false);
+            MultiSearch result = ApiService.Search("organ", false);
             foreach (MultiSearchResult item in result.results)
             {
                 if (item.adult == true)
@@ -141,7 +141,7 @@ namespace Tests
         public void Search_ShouldReturnMovieResultWithAdult_WhenInsertTrue()
         {
             bool adult = false;
-            MultiSearch result = Api.Search("organ", true);
+            MultiSearch result = ApiService.Search("organ", true);
             foreach (MultiSearchResult item in result.results)
             {
                 if (item.adult == true)
@@ -174,7 +174,7 @@ namespace Tests
             var urlParameters = new Dictionary<string, string>
                 {{"append_to_response", "videos,images"}};
 
-            var result = Api.Get<Episode>(Api.ShowBase, Api.GetShowEpsiode, urlSegments, urlParameters);
+            var result = ApiService.Get<Episode>(ApiService.ShowBase, ApiService.GetShowEpsiode, urlSegments, urlParameters);
 
             Assert.IsInstanceOf<Episode>(result);
         }
@@ -191,7 +191,7 @@ namespace Tests
             var urlParameters = new Dictionary<string, string>
                 {{"append_to_response", "videos,images"}};
 
-            var result = Api.Get<Episode>(Api.ShowBase, Api.GetShowEpsiode, urlSegments, urlParameters);
+            var result = ApiService.Get<Episode>(ApiService.ShowBase, ApiService.GetShowEpsiode, urlSegments, urlParameters);
 
             Assert.IsInstanceOf<Message>(result);
         }

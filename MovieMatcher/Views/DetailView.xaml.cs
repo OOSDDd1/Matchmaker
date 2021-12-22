@@ -40,7 +40,7 @@ namespace MovieMatcher.Views
             Movie? movie;
             try
             {
-                movie = Api.GetMovie(id);
+                movie = ApiService.GetMovie(id);
             }
             catch
             {
@@ -110,7 +110,7 @@ namespace MovieMatcher.Views
             Show? show;
             try
             {
-                show = Api.GetShow(id);
+                show = ApiService.GetShow(id);
             }
             catch 
             {

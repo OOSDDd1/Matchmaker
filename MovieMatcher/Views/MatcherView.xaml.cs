@@ -38,9 +38,9 @@ namespace MovieMatcher.Views
                 _currentRecommendation = recommendation.Key;
                 var currentRecommendationSource = recommendation.Value;
 
-                Movie? movie = Api.GetMovie(_currentRecommendation.id);
+                Movie? movie = ApiService.GetMovie(_currentRecommendation.id);
                 Movie? movieSource;
-                if (currentRecommendationSource != -1) movieSource = Api.GetMovie(currentRecommendationSource);
+                if (currentRecommendationSource != -1) movieSource = ApiService.GetMovie(currentRecommendationSource);
                 else movieSource = null;
 
                 if (movie == null)
@@ -111,7 +111,7 @@ namespace MovieMatcher.Views
             // Recommend movies from discovery endpoint if user has not liked any movies
             if (_likedAndInterestingMovies.Count == 0)
             {
-                var movies = Api.GetDiscoveredMovies(_pageCount);
+                var movies = ApiService.GetDiscoveredMovies(_pageCount);
 
                 foreach (var movie in movies.results)
                 {
@@ -128,7 +128,7 @@ namespace MovieMatcher.Views
                 var id =
                     _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
                 var page = GetPageForLikedOrInterestingMovie(id);
-                var movies = Api.GetRecommendedMovies(id, page);
+                var movies = ApiService.GetRecommendedMovies(id, page);
 
                 foreach (var movie in movies.results)
                 {
