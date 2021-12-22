@@ -1,12 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics;
-using Microsoft.Data.SqlClient;
-using MovieMatcher.Models.Api;
+using System.Data;
 using MovieMatcher.Models.Database;
-using MovieMatcher.Models.Api.Components;
 
 namespace MovieMatcher
 {
@@ -98,8 +94,7 @@ namespace MovieMatcher
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
                 string sql =
-                    "SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'true' AND user_id = " +
-                    userid;
+                    $"SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'true' AND user_id = {userid}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -109,14 +104,14 @@ namespace MovieMatcher
 
                         while (reader.Read())
                         {
-                            if ((bool) reader.GetValue(1) == true)
+                            if ((bool)reader.GetValue(1) == true)
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 1};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
                                 result.Add(content);
                             }
                             else
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 0};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
                                 result.Add(content);
                             }
                         }
@@ -132,8 +127,7 @@ namespace MovieMatcher
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
                 string sql =
-                    "SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'false' AND user_id = " +
-                    userid;
+                    $"SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'false' AND user_id = {userid}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -143,14 +137,14 @@ namespace MovieMatcher
 
                         while (reader.Read())
                         {
-                            if ((bool) reader.GetValue(1) == true)
+                            if ((bool)reader.GetValue(1) == true)
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 1};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
                                 result.Add(content);
                             }
                             else
                             {
-                                var content = new {content = (int) reader.GetValue(0), isShow = 0};
+                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
                                 result.Add(content);
                             }
                         }
@@ -196,7 +190,7 @@ namespace MovieMatcher
                 Console.WriteLine(ex.Message);
             }
         }
-        
+
         public static bool CheckIfReviewed(int id, int userId, bool isShow)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
@@ -293,7 +287,8 @@ namespace MovieMatcher
                         if (!reader.HasRows) return reviewedItems;
                         while (reader.Read())
                         {
-                            reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2), reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5) ));
+                            reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2),
+                                reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5)));
                         }
 
                         return reviewedItems;
@@ -325,5 +320,92 @@ namespace MovieMatcher
                 }
             }
         }
+
+        #region Cache queries
+
+        public static string GetCache(string cacheKey)
+        {
+            using SqlConnection connection = new(_sqlBuilder);
+            connection.Open();
+
+            using SqlCommand command = new(
+                @$"SELECT json from MatchMaker.Matchmaker.[content] WHERE cache_key = @CacheKey",
+                connection
+            );
+            command.Parameters.Add("@CacheKey", SqlDbType.VarChar).Value = cacheKey;
+
+            using SqlDataReader reader = command.ExecuteReader();
+            string json = string.Empty;
+            while (reader.Read())
+            {
+                json = reader.GetString(0);
+            }
+
+            return json;
+        }
+
+        public static bool InsertCache(CacheInsert cacheInsert)
+        {
+            using SqlConnection connection = new(_sqlBuilder);
+            connection.Open();
+
+            // Inserting Movie or Show into Content
+            using SqlCommand contentCommand = new(
+                @$"INSERT INTO MatchMaker.Matchmaker.[content] (id,cache_key,title,overview,poster_path,backdrop_path,trailer_url,age,json,is_show) VALUES (@Id,@CacheKey,@Title,@Overview,@PosterPath,@BackdropPath,@TrailerUrl,@Age,@Json,@IsShow);",
+                connection
+            );
+            contentCommand.Parameters.Add("@Id", SqlDbType.Int).Value = cacheInsert.Id;
+            contentCommand.Parameters.Add("@CacheKey", SqlDbType.VarChar).Value = cacheInsert.CacheKey;
+            contentCommand.Parameters.Add("@Title", SqlDbType.VarChar).Value = cacheInsert.Title;
+            contentCommand.Parameters.Add("@Overview", SqlDbType.VarChar).Value = cacheInsert.Overview;
+            contentCommand.Parameters.Add("@PosterPath", SqlDbType.VarChar).Value = cacheInsert.PosterPath;
+            contentCommand.Parameters.Add("@BackdropPath", SqlDbType.VarChar).Value = cacheInsert.BackdropPath;
+            contentCommand.Parameters.Add("@TrailerUrl", SqlDbType.VarChar).Value = cacheInsert.TrailerUrl;
+            contentCommand.Parameters.Add("@Age", SqlDbType.Int).Value = cacheInsert.Age;
+            contentCommand.Parameters.Add("@Json", SqlDbType.VarChar).Value = cacheInsert.Json;
+            contentCommand.Parameters.Add("@IsShow", SqlDbType.Bit).Value = cacheInsert.IsShow;
+
+            contentCommand.ExecuteNonQuery();
+
+            // Inserting Actors
+            using SqlCommand actorsCommand = new(
+                $@"INSERT INTO MatchMaker.Matchmaker.[actor] (id,content_id,name,character_name) VALUES (@Id,@ContentId,@Name,@CharacterName)",
+                connection
+            );
+            actorsCommand.Parameters.Add("@Id", SqlDbType.Int);
+            actorsCommand.Parameters.Add("@ContentId", SqlDbType.Int);
+            actorsCommand.Parameters.Add("@Name", SqlDbType.VarChar);
+            actorsCommand.Parameters.Add("@CharacterName", SqlDbType.VarChar);
+
+            foreach (var actor in cacheInsert.Actors)
+            {
+                actorsCommand.Parameters[0].Value = actor.id;
+                actorsCommand.Parameters[1].Value = cacheInsert.Id;
+                actorsCommand.Parameters[2].Value = actor.name;
+                actorsCommand.Parameters[3].Value = actor.character;
+                actorsCommand.ExecuteNonQuery();
+            }
+
+            // Inserting Genres
+            using SqlCommand genresCommand = new(
+                $@"INSERT INTO MatchMaker.Matchmaker.[genre] (id,content_id,name) VALUES (@Id,@ContentId,@Name)",
+                connection
+            );
+            genresCommand.Parameters.Add("@Id", SqlDbType.Int);
+            genresCommand.Parameters.Add("@ContentId", SqlDbType.Int);
+            genresCommand.Parameters.Add("@Name", SqlDbType.VarChar);
+
+            foreach (var genre in cacheInsert.Genres)
+            {
+                genresCommand.Parameters[0].Value = genre.id;
+                genresCommand.Parameters[1].Value = cacheInsert.Id;
+                genresCommand.Parameters[2].Value = genre.name;
+                genresCommand.ExecuteNonQuery();
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }
