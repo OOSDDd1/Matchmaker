@@ -96,11 +96,11 @@
         <Grid Name="Grid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="210" />
+                <RowDefinition Height="220" />
                 <RowDefinition Height="30" />
-                <RowDefinition Height="210" />
+                <RowDefinition Height="220" />
                 <RowDefinition Height="30" />
-                <RowDefinition Height="210" />
+                <RowDefinition Height="220" />
             </Grid.RowDefinitions>
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.504,1.25" StartPoint="0.504,0.78">
@@ -111,7 +111,7 @@
             <Label Grid.Row="0" Foreground="White" FontSize="15" Name="lab">Trending</Label>
             <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
                           VerticalAlignment="Top" HorizontalAlignment="Left" CanContentScroll="True">
-                <ListBox Height="205" Background="{x:Null}" HorizontalContentAlignment="Center"
+                <ListBox Height="215" Background="{x:Null}" HorizontalContentAlignment="Center" BorderThickness="0"
                          Name="ListItemsRecommended">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -123,7 +123,7 @@
             <Label Grid.Row="2" Foreground="White" FontSize="15">Interested</Label>
             <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch"
                           VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" CanContentScroll="True">
-                <ListBox Height="205" Background="{x:Null}" HorizontalContentAlignment="Center"
+                <ListBox Height="215" Background="{x:Null}" HorizontalContentAlignment="Center"  BorderThickness="0"
                          Name="ListItemsInterested">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -135,7 +135,7 @@
             <Label Grid.Row="4" Foreground="#FFFAFAFA" FontSize="15">Liked</Label>
             <ScrollViewer Grid.Row="5" HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch"
                           VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" CanContentScroll="True">
-                <ListBox Height="205" Background="{x:Null}" HorizontalContentAlignment="Center" Name="ListItemsLiked">
+                <ListBox Height="215" Background="{x:Null}" HorizontalContentAlignment="Center" Name="ListItemsLiked" BorderThickness="0">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" />
