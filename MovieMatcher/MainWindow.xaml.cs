@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Models.Database;
+using MovieMatcher.Views;
 using Stores;
 
 namespace MovieMatcher

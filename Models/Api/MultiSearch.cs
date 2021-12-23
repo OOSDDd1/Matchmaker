@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Models.Api.Components;
+using Newtonsoft.Json;
 
 namespace Models.Api
 {
@@ -7,7 +8,9 @@ namespace Models.Api
     {
         public int page { get; set; }
         public List<MultiSearchResult> results { get; set; }
-        public int total_pages { get; set; }
-        public int total_results { get; set; }
+        [JsonProperty("total_pages")]
+        public int totalPages { get; set; }
+        [JsonProperty("total_results")]
+        public int totalResults { get; set; }
     }
 }

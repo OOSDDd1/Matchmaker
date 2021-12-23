@@ -1,9 +1,13 @@
-﻿namespace Models.Api
+﻿using Newtonsoft.Json;
+
+namespace Models.Api
 {
     public class Message : IRoot
     {
         public bool success { get; set; }
-        public int status_code { get; set; }
-        public string status_message { get; set; }
+        [JsonProperty("status_code")]
+        public int statusCode { get; set; }
+        [JsonProperty("status_message")]
+        public string statusMessage { get; set; }
     }
 }

@@ -1,8 +1,11 @@
-﻿namespace Models.Api.Components
+﻿using Newtonsoft.Json;
+
+namespace Models.Api.Components
 {
     public class ShowContentRatingsResults
     {
-        public string iso_3166_1 { get; set; }
+        [JsonProperty("iso_3166_1")]
+        public string iso31661 { get; set; }
         public string rating { get; set; }
     }
 }

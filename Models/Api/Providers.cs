@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Models.Api.Components;
+using Newtonsoft.Json;
 
 namespace Models.Api
 {
@@ -18,11 +19,15 @@ namespace Models.Api
         public List<Buy> buy { get; set; }
     }
 
-    public interface ProviderGegevens
+    public interface IProviderData
     {
-        public int display_priority { get; set; }
-        public string logo_path { get; set; }
-        public int provider_id { get; set; }
-        public string provider_name { get; set; }
+        [JsonProperty("display_priority")]
+        public int displayPriority { get; set; }
+        [JsonProperty("logo_path")]
+        public string logoPath { get; set; }
+        [JsonProperty("provider_id")]
+        public int providerId { get; set; }
+        [JsonProperty("provider_name")]
+        public string providerName { get; set; }
     }
 }

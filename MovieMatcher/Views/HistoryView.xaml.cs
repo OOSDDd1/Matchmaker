@@ -95,13 +95,13 @@ namespace MovieMatcher.Views
             Grid grd = new Grid();
 
             Image img = new Image();
-            if (s.poster_path == null)
+            if (s.posterPath == null)
             {
                 img.Source = new BitmapImage(new Uri(@"/Images/SamplePoster.png", UriKind.Relative));
             }
             else
             {
-                img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.poster_path}"));
+                img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.posterPath}"));
             }
 
             img.Stretch = Stretch.Fill;
@@ -151,7 +151,7 @@ namespace MovieMatcher.Views
             Button RealButton = (Button)sender;
             var tmp = (Content)RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
-            DetailViewStore.MediaType = tmp.media_type;
+            DetailViewStore.MediaType = tmp.mediaType;
 
             Application.Current.Windows[0].DataContext = new DetailView();
         }

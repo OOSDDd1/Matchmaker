@@ -3,6 +3,6 @@
     public interface IResult
     {
         public int id { get; set; }
-        public string media_type { get; set; }
+        public string mediaType { get; set; }
     }
 }

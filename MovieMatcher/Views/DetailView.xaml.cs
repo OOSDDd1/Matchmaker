@@ -48,12 +48,12 @@ namespace MovieMatcher.Views
             if(movie == null)
                 return false;
 
-            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdrop_path}"));
+            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdropPath}"));
             string age;
             try
             {
-                age = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL"))
-                    .release_dates.First().certification;
+                age = movie.releaseDates.results.First(result => result.iso31661.Equals("NL"))
+                    .releaseDates.First().certification;
             }
             catch
             {
@@ -83,20 +83,20 @@ namespace MovieMatcher.Views
             TageLine.Content = movie.tagline ?? "";
 
             AgeRating.Content = age;
-            Year.Content = movie.release_date.Substring(0, 4) ?? "";
+            Year.Content = movie.releaseDate.Substring(0, 4) ?? "";
             PlayTime.Content = CalculateRunTime(movie.runtime) ?? "";
-            Rating.Content = movie.vote_average + "/10";
-            Rating.ToolTip = $"Rating from {movie.vote_count} votes" ?? "";
+            Rating.Content = movie.voteAverage + "/10";
+            Rating.ToolTip = $"Rating from {movie.voteCount} votes" ?? "";
 
             Genres.Content = GenresToString(movie.genres) ?? "";
 
             Description.Text = movie.overview ?? "";
 
             BudgetAmount.Content = movie.budget;
-            ProductionCompanies.Content = string.Join(", ", movie.production_companies.Select(comp => comp.name));
+            ProductionCompanies.Content = string.Join(", ", movie.productionCompanies.Select(comp => comp.name));
             Actors.Text = string.Join("\n", 
                 movie.credits.cast.OrderBy(person => person.order)
-                    .Where(person => person.known_for_department.Equals("Acting"))
+                    .Where(person => person.knownForDepartment.Equals("Acting"))
                     .Select(person => $"{person.name} ({person.character})")
             );
             return true;
@@ -109,7 +109,7 @@ namespace MovieMatcher.Views
             if (show == null)
                 return false;
 
-            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdrop_path}"));
+            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdropPath}"));
 
             // Left
             // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.poster_path}"));
@@ -129,12 +129,12 @@ namespace MovieMatcher.Views
             // Right
             Title.Content = show.name;
             TageLine.Content = show.tagline ?? "";
-            ShowStats.Content = $"{show.number_of_seasons}S {show.number_of_episodes}E" ?? "";
+            ShowStats.Content = $"{show.numberOfSeasons}S {show.numberOfEpisodes}E" ?? "";
 
             string age;
             try
             {
-                age = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
+                age = show.contentRatings.results.First(rating => rating.iso31661.Equals("NL")).rating;
             }
             catch
             {
@@ -142,19 +142,19 @@ namespace MovieMatcher.Views
             }
 
             AgeRating.Content = age;
-            Year.Content = show.first_air_date.Substring(0, 4) ?? "";
-            PlayTime.Content = CalculateRunTime(show.number_of_episodes * show.episode_run_time.Count > 0 ? show.episode_run_time.First() : 0 ) ?? "";
-            Rating.Content = show.vote_average + "/10" ?? "";
-            Rating.ToolTip = $"Rating from {show.vote_count} votes" ?? "";
+            Year.Content = show.firstAirDate.Substring(0, 4) ?? "";
+            PlayTime.Content = CalculateRunTime(show.numberOfEpisodes * show.episodeRunTime.Count > 0 ? show.episodeRunTime.First() : 0 ) ?? "";
+            Rating.Content = show.voteAverage + "/10" ?? "";
+            Rating.ToolTip = $"Rating from {show.voteCount} votes" ?? "";
 
             Genres.Content = GenresToString(show.genres) ?? "";
 
             Description.Text = show.overview ?? "";
             
-            ProductionCompanies.Content = string.Join(", ", show.production_companies.Select(comp => comp.name));
+            ProductionCompanies.Content = string.Join(", ", show.productionCompanies.Select(comp => comp.name));
             Actors.Text = string.Join("\n", 
                 show.credits.cast.OrderBy(person => person.order)
-                    .Where(person => person.known_for_department.Equals("Acting"))
+                    .Where(person => person.knownForDepartment.Equals("Acting"))
                     .Select(person => $"{person.name} ({person.character})")
                 );
             

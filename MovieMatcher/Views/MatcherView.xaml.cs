@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -88,7 +88,7 @@ namespace MovieMatcher.Views
                 {
                     BitmapImage bitmap = new();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentRecommendation.poster_path,
+                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentRecommendation.posterPath,
                         UriKind.Absolute);
                     bitmap.EndInit();
 
@@ -165,7 +165,7 @@ namespace MovieMatcher.Views
         private void OnMoreInfoClick(object sender, RoutedEventArgs e)
         {
             DetailViewStore.Id = _currentRecommendation.id;
-            DetailViewStore.MediaType = _currentRecommendation.media_type;
+            DetailViewStore.MediaType = _currentRecommendation.mediaType;
 
             Window window = new()
             {

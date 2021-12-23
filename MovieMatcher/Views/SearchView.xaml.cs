@@ -45,21 +45,21 @@ namespace MovieMatcher.Views
             {
                 foreach (MultiSearchResult s in getMovieResult.results)
                 {
-                    switch (s.media_type)
+                    switch (s.mediaType)
                     {
                         case "movie":
                             if (!ApiService.GetProviders(ApiService.MovieBase, s.id, out var movieProviders))
                                 continue;
                             if (movieProviders == null) 
                                 continue;
-                            s.Watch_Providers = movieProviders;
+                            s.watchProviders = movieProviders;
                             break;
                         case "tv":
                             if (!ApiService.GetProviders(ApiService.ShowBase, s.id, out var showProviders))
                                 continue;
                             if (showProviders == null) 
                                 continue;
-                            s.Watch_Providers = showProviders;
+                            s.watchProviders = showProviders;
                             break;
                         default:
                             break;
@@ -76,17 +76,17 @@ namespace MovieMatcher.Views
                     Grid grd = new Grid();
 
                     Image img = new Image();
-                    if (s.poster_path == null && s.profile_path == null)
+                    if (s.posterPath == null && s.profilePath == null)
                     {
                         img.Source = new BitmapImage(new Uri(@"/Images/SamplePoster.png", UriKind.Relative));
                     }
-                    else if (s.poster_path == null)
+                    else if (s.posterPath == null)
                     {
-                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.profile_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.profilePath}"));
                     }
                     else
                     {
-                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.poster_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.posterPath}"));
                     }
 
                     img.Stretch = Stretch.Fill;
@@ -146,9 +146,9 @@ namespace MovieMatcher.Views
 
                 tGrd.Children.Add(txt);
 
-                if (msr.Watch_Providers != null && msr.Watch_Providers.results.ContainsKey("NL"))
+                if (msr.watchProviders != null && msr.watchProviders.results.ContainsKey("NL"))
                 {
-                    Provider provider = msr.Watch_Providers.results["NL"];
+                    Provider provider = msr.watchProviders.results["NL"];
                     WrapPanel wPanel = new WrapPanel();
                     wPanel.Orientation = Orientation.Horizontal;
                     wPanel.HorizontalAlignment = HorizontalAlignment.Left;
@@ -202,7 +202,7 @@ namespace MovieMatcher.Views
             Button RealButton = (Button) sender;
             var tmp = (Content) RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
-            DetailViewStore.MediaType = tmp.media_type;
+            DetailViewStore.MediaType = tmp.mediaType;
 
             Application.Current.Windows[0].DataContext = new DetailView();
         }
@@ -217,13 +217,13 @@ namespace MovieMatcher.Views
         }
 
         //Adds logopaths to dictionary for later use, used generic to get all types(ads, buy, rent, flatrate) in one strain of code
-        private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : ProviderGegevens
+        private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : IProviderData
         {
             foreach (T item in provider)
             {
-                if (!logoSources.ContainsKey(item.provider_id))
+                if (!logoSources.ContainsKey(item.providerId))
                 {
-                    logoSources.Add(item.provider_id, item.logo_path);
+                    logoSources.Add(item.providerId, item.logoPath);
                 }
             }
         }
