@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Models.Api;
 using Services;
@@ -23,8 +23,8 @@ namespace MovieMatcher.Views
                 return;
             Result = result;
 
-            bool? liked = DatabaseService.CheckForLiked(Result.id, UserStore.id ?? 0, Result.media_type.Equals("tv"));
-            bool? watched = DatabaseService.CheckForWatched(Result.id, UserStore.id ?? 0, Result.media_type.Equals("tv"));
+            bool? liked = DatabaseService.CheckForLiked(Result.id, UserStore.id ?? 0, Result.mediaType.Equals("tv"));
+            bool? watched = DatabaseService.CheckForWatched(Result.id, UserStore.id ?? 0, Result.mediaType.Equals("tv"));
 
             switch (liked)
             {
@@ -75,7 +75,7 @@ namespace MovieMatcher.Views
             {
                 DislikeButton.DataContext = true;
                 ((Image) DislikeButton.Content).Opacity = 0.5;
-                if (Result.media_type == "tv")
+                if (Result.mediaType == "tv")
                 {
                     DatabaseService.InsertItem(Result.id, UserStore.id ?? 0, false, (bool) SeenBox.IsChecked, true);
                 }
@@ -102,7 +102,7 @@ namespace MovieMatcher.Views
             {
                 LikeButton.DataContext = true;
                 ((Image) LikeButton.Content).Opacity = 0.5;
-                if (Result.media_type == "tv")
+                if (Result.mediaType == "tv")
                 {
                     DatabaseService.InsertItem(Result.id, UserStore.id ?? 0, true, (bool) SeenBox.IsChecked, true);
                 }

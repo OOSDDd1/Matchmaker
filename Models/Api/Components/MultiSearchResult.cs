@@ -1,30 +1,44 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Models.Api.Components
 {
     public class MultiSearchResult : Content
     {
-        public string backdrop_path { get; set; }
-        public List<int> genre_ids { get; set; }
+        [JsonProperty("backdrop_path")]
+        public string backdropPath { get; set; }
+        [JsonProperty("genre_ids")]
+        public List<int> genreIds { get; set; }
         public int id { get; set; }
-        public string media_type { get; set; }
-        public string original_language { get; set; }
-        public string original_title { get; set; }
+        [JsonProperty("media_type")]
+        public string mediaType { get; set; }
+        [JsonProperty("original_language")]
+        public string originalLanguage { get; set; }
+        [JsonProperty("original_title")]
+        public string originalTitle { get; set; }
         public string overview { get; set; }
         public double popularity { get; set; }
-        public string poster_path { get; set; }
+        public string posterPath { get; set; }
 
-        public string profile_path { get; set; }
-        public string release_date { get; set; }
+        [JsonProperty("profile_path")]
+        public string profilePath { get; set; }
+        [JsonProperty("release_date")]
+        public string releaseDate { get; set; }
         public string title { get; set; }
         public bool video { get; set; }
-        public double vote_average { get; set; }
-        public int vote_count { get; set; }
-        public string first_air_date { get; set; }
+        [JsonProperty("vote_average")]
+        public double voteAverage { get; set; }
+        [JsonProperty("vote_count")]
+        public int voteCount { get; set; }
+        [JsonProperty("first_air_date")]
+        public string firstAirDate { get; set; }
         public string name { get; set; }
-        public List<string> origin_country { get; set; }
-        public string original_name { get; set; }
-        public Providers Watch_Providers { get; set; }
+        [JsonProperty("origin_country")]
+        public List<string> originCountry { get; set; }
+        [JsonProperty("original_name")]
+        public string originalName { get; set; }
+        [JsonProperty("watch_providers")]
+        public Providers watchProviders { get; set; }
         public bool adult { get; set; }
     }
 }

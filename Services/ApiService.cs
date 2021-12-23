@@ -326,8 +326,8 @@ namespace Services
             string releaseDate;
             try
             {
-                releaseDate = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL"))
-                    .release_dates.First().certification;
+                releaseDate = movie.releaseDates.results.First(result => result.iso31661.Equals("NL"))
+                    .releaseDates.First().certification;
             }
             catch
             {
@@ -337,7 +337,7 @@ namespace Services
             int.TryParse(releaseDate, out int age);
 
             List<Cast> actors = movie.credits.cast.OrderBy(person => person.order)
-                .Where(person => person.known_for_department.Equals("Acting")).ToList();
+                .Where(person => person.knownForDepartment.Equals("Acting")).ToList();
 
             return DatabaseService.InsertCache(new CacheInsert()
             {
@@ -345,8 +345,8 @@ namespace Services
                 CacheKey = key,
                 Title = movie.title,
                 Overview = movie.overview,
-                PosterPath = movie.poster_path,
-                BackdropPath = movie.backdrop_path,
+                PosterPath = movie.posterPath,
+                BackdropPath = movie.backdropPath,
                 TrailerUrl = YtTrailerUrl + videoKey,
                 Age = age,
                 Actors = actors,
@@ -376,7 +376,7 @@ namespace Services
             string ageRating;
             try
             {
-                ageRating = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
+                ageRating = show.contentRatings.results.First(rating => rating.iso31661.Equals("NL")).rating;
             }
             catch
             {
@@ -386,7 +386,7 @@ namespace Services
             int.TryParse(ageRating, out int age);
 
             List<Cast> actors = show.credits.cast.OrderBy(person => person.order)
-                .Where(person => person.known_for_department.Equals("Acting")).ToList();
+                .Where(person => person.knownForDepartment.Equals("Acting")).ToList();
 
             return DatabaseService.InsertCache(new CacheInsert()
             {
@@ -394,8 +394,8 @@ namespace Services
                 CacheKey = key,
                 Title = show.name,
                 Overview = show.overview,
-                PosterPath = show.poster_path,
-                BackdropPath = show.backdrop_path,
+                PosterPath = show.posterPath,
+                BackdropPath = show.backdropPath,
                 TrailerUrl = YtTrailerUrl + videoKey,
                 Age = age,
                 Actors = actors,

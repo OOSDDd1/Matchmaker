@@ -1,18 +1,25 @@
-﻿namespace Models.Api.Components
+﻿using Newtonsoft.Json;
+
+namespace Models.Api.Components
 {
     public class Cast
     {
         public bool adult { get; set; }
         public int gender { get; set; }
         public int id { get; set; }
-        public string known_for_department { get; set; }
+        [JsonProperty("known_for_department")]
+        public string knownForDepartment { get; set; }
         public string name { get; set; }
-        public string original_name { get; set; }
+        [JsonProperty("original_name")]
+        public string originalName { get; set; }
         public double popularity { get; set; }
-        public string profile_path { get; set; }
-        public int cast_id { get; set; }
+        [JsonProperty("profile_path")]
+        public string profilePath { get; set; }
+        [JsonProperty("cast_id")]
+        public int castId { get; set; }
         public string character { get; set; }
-        public string credit_id { get; set; }
+        [JsonProperty("credit_id")]
+        public string creditId { get; set; }
         public int order { get; set; }
     }
 }

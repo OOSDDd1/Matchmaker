@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Models.Api.Components
 {
@@ -12,14 +13,17 @@ namespace Models.Api.Components
             public string name { get; set; }
             public string site { get; set; }
             public string key { get; set; }
-            public string published_at { get; set; }
+            [JsonProperty("published_at")]
+            public string publishedAt { get; set; }
 
             public bool official { get; set; }
             public int size { get; set; }
             public string type { get; set; }
 
-            public string iso_639_1 { get; set; }
-            public string iso_3166_1 { get; set; }
+            [JsonProperty("iso_639_1")]
+            public string iso6391 { get; set; }
+            [JsonProperty("iso_3166_1")]
+            public string iso31661 { get; set; }
         }
     }
 }

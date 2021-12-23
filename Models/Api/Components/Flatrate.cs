@@ -1,10 +1,16 @@
-﻿namespace Models.Api.Components
+﻿using Newtonsoft.Json;
+
+namespace Models.Api.Components
 {
-    public class Flatrate : ProviderGegevens
+    public class Flatrate : IProviderData
     {
-        public int display_priority { get; set; }
-        public string logo_path { get; set; }
-        public int provider_id { get; set; }
-        public string provider_name { get; set; }
+        [JsonProperty("display_priority")]
+        public int displayPriority { get; set; }
+        [JsonProperty("logo_path")]
+        public string logoPath { get; set; }
+        [JsonProperty("provider_id")]
+        public int providerId { get; set; }
+        [JsonProperty("provider_name")]
+        public string providerName { get; set; }
     }
 }
