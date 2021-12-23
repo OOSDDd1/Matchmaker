@@ -151,10 +151,13 @@
                 </Grid.RowDefinitions>
                 <Viewbox StretchDirection="Both" MinWidth="120" MaxWidth="255" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <StackPanel Background="#FF2B2B2B" Name="Collapsable" Visibility="Collapsed">
-                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
                             <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
                         </Button>
-                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="Statics_Clicked">
+                            <Label Content="Statistics" FontSize="16" Foreground="White"/>
+                        </Button>
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
                             <Label Content="Uitloggen" FontSize="16" Foreground="White"/>
                         </Button>
                     </StackPanel>
