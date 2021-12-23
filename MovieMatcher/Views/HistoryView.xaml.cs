@@ -1,5 +1,4 @@
-﻿using MovieMatcher.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -154,7 +153,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
 
-            Application.Current.Windows[0].DataContext = new DetailViewModel();
+            Application.Current.Windows[0].DataContext = new DetailView();
         }
     }
 }

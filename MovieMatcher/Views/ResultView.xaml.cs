@@ -7,7 +7,6 @@ using System.Windows.Media.Imaging;
 using Models.Api;
 using Models.Api.Components;
 using Models.Database;
-using MovieMatcher.ViewModels;
 using Services;
 using Stores;
 
@@ -183,7 +182,7 @@ namespace MovieMatcher.Views
         
         public void ButtonMatcherPage(object sender, RoutedEventArgs e)
         {
-            Application.Current.Windows[0].DataContext = new MatcherViewModel();
+            Application.Current.Windows[0].DataContext = new MatcherView();
         }
 
         public void ButtonDetailPage(object sender, RoutedEventArgs e)
@@ -193,7 +192,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
 
-            Application.Current.Windows[0].DataContext = new DetailViewModel();
+            Application.Current.Windows[0].DataContext = new DetailView();
         }
     }
 }
