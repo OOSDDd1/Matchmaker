@@ -1,22 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
+using Models.Api;
+using Models.Api.Components;
+using Models.Database;
 using MovieMatcher.ViewModels;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -33,7 +26,7 @@ namespace MovieMatcher.Views
 
         public void GenerateLikedList()
         {
-            List<dynamic> LikedItems = Database.GetLikedContent(UserInfo.Id);
+            List<dynamic> LikedItems = DatabaseService.GetLikedContent(UserInfo.Id);
             List<Content> ContentList = new List<Content>();
 
             foreach (dynamic LikedItem in LikedItems)
@@ -64,7 +57,7 @@ namespace MovieMatcher.Views
 
         public void GenerateInterestedList()
         {
-            List<dynamic> InterestedItems = Database.GetInterestedContent(Models.Database.UserInfo.Id);
+            List<dynamic> InterestedItems = DatabaseService.GetInterestedContent(Models.Database.UserInfo.Id);
             List<Content> ContentList = new List<Content>();
 
             foreach (dynamic InterestedItem in InterestedItems)

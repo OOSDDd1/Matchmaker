@@ -2,7 +2,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using MovieMatcher.Models.Database;
+using Models.Database;
+using Services;
 
 namespace MovieMatcher
 {
@@ -45,9 +46,9 @@ namespace MovieMatcher
             }
             else
             {
-                if (Database.GetUserInfo(txtUsername.Text.ToString()))
+                if (DatabaseService.GetUserInfo(txtUsername.Text.ToString()))
                 {
-                    if (UserInfo.Password != null && PasswordHasher.Verify(txtPassword.Password.ToString(), UserInfo.Password))
+                    if (UserInfo.Password != null && PasswordService.Verify(txtPassword.Password.ToString(), UserInfo.Password))
                     {
                         //doorverwijzig naar het homescherm
                         var appMainWindow = new MainWindow();
