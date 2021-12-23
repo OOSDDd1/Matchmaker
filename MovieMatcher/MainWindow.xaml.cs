@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using Models.Database;
-using MovieMatcher.ViewModels;
+using Stores;
 
 namespace MovieMatcher
 {
@@ -9,28 +9,28 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
-            UserName.Content = UserInfo.Username;
-            DataContext = new ResultViewModel();
+            UserName.Content = UserStore.username;
+            DataContext = new ResultView();
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new ResultViewModel();
+            DataContext = new ResultView();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new SearchViewModel();
+            DataContext = new SearchView();
         }
 
         private void Matcher_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new MatcherViewModel();
+            DataContext = new MatcherView();
         }
 
-        private void ButtonView_Clicked(object sender, RoutedEventArgs e)
+        private void History_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new ButtonViewModel();
+            DataContext = new HistoryView();
         }
 
         private void AccountArrow_Clicked(object sender, RoutedEventArgs e)
@@ -50,11 +50,6 @@ namespace MovieMatcher
         private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
-        }
-
-        private void History_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new HistoryViewModel();
         }
     }
 }

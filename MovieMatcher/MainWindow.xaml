@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MovieMatcher"
-        xmlns:ViewModels="clr-namespace:MovieMatcher.ViewModels"
         xmlns:Views="clr-namespace:MovieMatcher.Views"
         mc:Ignorable="d"
         Icon="favicon.ico"
@@ -13,22 +12,19 @@
         Height="450"
         WindowState="Maximized">
     <Window.Resources>
-        <DataTemplate x:Name="ResultViewTemplate" DataType="{x:Type ViewModels:ResultViewModel}">
+        <DataTemplate DataType="Views:ResultView">
             <Views:ResultView DataContext="{Binding}" />
         </DataTemplate>
-        <DataTemplate x:Name="SearchViewTemplate" DataType="{x:Type ViewModels:SearchViewModel}">
+        <DataTemplate DataType="Views:SearchView">
             <Views:SearchView DataContext="{Binding}" />
         </DataTemplate>
-        <DataTemplate x:Name="MatcherViewTemplate" DataType="{x:Type ViewModels:MatcherViewModel}">
+        <DataTemplate DataType="Views:MatcherView">
             <Views:MatcherView DataContext="{Binding}" />
         </DataTemplate>
-        <DataTemplate x:Name="ButtonViewTemplate" DataType="{x:Type ViewModels:ButtonViewModel}">
-            <Views:ButtonView DataContext="{Binding}" />
-        </DataTemplate>
-        <DataTemplate x:Name="DetailViewTemplate" DataType="{x:Type ViewModels:DetailViewModel}">
+        <DataTemplate DataType="Views:DetailView">
             <Views:DetailView DataContext="{Binding}" />
         </DataTemplate>
-        <DataTemplate x:Name="HistoryViewTemplate" DataType="{x:Type ViewModels:HistoryViewModel}">
+        <DataTemplate DataType="Views:HistoryView">
             <Views:HistoryView DataContext="{Binding}"/>
         </DataTemplate>
     </Window.Resources>

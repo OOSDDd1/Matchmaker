@@ -1,4 +1,3 @@
-using MovieMatcher.ViewModels;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Models.Api;
 using Models.Api.Components;
-using Models.Database;
 using Stores;
 
 namespace MovieMatcher.Views
@@ -30,7 +28,7 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserInfo.BirthYear)))
+            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserStore.birthYear ?? DateTime.Now)))
                 return;
 
             if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
@@ -206,7 +204,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
 
-            Application.Current.Windows[0].DataContext = new DetailViewModel();
+            Application.Current.Windows[0].DataContext = new DetailView();
         }
 
         //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)

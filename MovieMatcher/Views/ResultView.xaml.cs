@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +7,6 @@ using System.Windows.Media.Imaging;
 using Models.Api;
 using Models.Api.Components;
 using Models.Database;
-using MovieMatcher.ViewModels;
 using Services;
 using Stores;
 
@@ -26,7 +25,7 @@ namespace MovieMatcher.Views
 
         public void GenerateLikedList()
         {
-            List<LikedContent> LikedItems = DatabaseService.GetLikedContent(UserInfo.Id);
+            List<LikedContent> LikedItems = DatabaseService.GetLikedContent(UserStore.id ?? 0);
             List<Content> ContentList = new List<Content>();
 
             foreach (LikedContent LikedItem in LikedItems)
@@ -57,7 +56,7 @@ namespace MovieMatcher.Views
 
         public void GenerateInterestedList()
         {
-            List<InterestedContent> InterestedItems = DatabaseService.GetInterestedContent(UserInfo.Id);
+            List<InterestedContent> InterestedItems = DatabaseService.GetInterestedContent(UserStore.id ?? 0);
             List<Content> ContentList = new List<Content>();
 
             foreach (InterestedContent InterestedItem in InterestedItems)
@@ -183,7 +182,7 @@ namespace MovieMatcher.Views
         
         public void ButtonMatcherPage(object sender, RoutedEventArgs e)
         {
-            Application.Current.Windows[0].DataContext = new MatcherViewModel();
+            Application.Current.Windows[0].DataContext = new MatcherView();
         }
 
         public void ButtonDetailPage(object sender, RoutedEventArgs e)
@@ -193,7 +192,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.media_type;
 
-            Application.Current.Windows[0].DataContext = new DetailViewModel();
+            Application.Current.Windows[0].DataContext = new DetailView();
         }
     }
 }

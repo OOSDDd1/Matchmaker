@@ -29,9 +29,9 @@
 
   <ItemGroup>
     <Resource Include="favicon.ico" />
-    <Resource Include="images\Dislike.png" />
-    <Resource Include="images\eye.png" />
-    <Resource Include="images\Like.png" />
+    <Resource Include="Images\Dislike.png" />
+    <Resource Include="Images\eye.png" />
+    <Resource Include="Images\Like.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\SamplePoster.png" />
     <Resource Include="Images\loginScreen.jpg" />
