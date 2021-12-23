@@ -369,11 +369,12 @@ namespace MovieMatcher
 
             // Inserting Actors
             using SqlCommand actorsCommand = new(
-                $@"INSERT INTO MatchMaker.Matchmaker.[actor] (id,content_id,name,character_name) VALUES (@Id,@ContentId,@Name,@CharacterName)",
+                $@"INSERT INTO MatchMaker.Matchmaker.[actor] (id,content_id,is_show,name,character_name) VALUES (@Id,@ContentId,@IsShow,@Name,@CharacterName)",
                 connection
             );
             actorsCommand.Parameters.Add("@Id", SqlDbType.Int);
             actorsCommand.Parameters.Add("@ContentId", SqlDbType.Int);
+            actorsCommand.Parameters.Add("@IsShow", SqlDbType.Bit);
             actorsCommand.Parameters.Add("@Name", SqlDbType.VarChar);
             actorsCommand.Parameters.Add("@CharacterName", SqlDbType.VarChar);
 
@@ -381,25 +382,28 @@ namespace MovieMatcher
             {
                 actorsCommand.Parameters[0].Value = actor.id;
                 actorsCommand.Parameters[1].Value = cacheInsert.Id;
-                actorsCommand.Parameters[2].Value = actor.name;
-                actorsCommand.Parameters[3].Value = actor.character;
+                actorsCommand.Parameters[2].Value = cacheInsert.IsShow;
+                actorsCommand.Parameters[3].Value = actor.name;
+                actorsCommand.Parameters[4].Value = actor.character;
                 actorsCommand.ExecuteNonQuery();
             }
 
             // Inserting Genres
             using SqlCommand genresCommand = new(
-                $@"INSERT INTO MatchMaker.Matchmaker.[genre] (id,content_id,name) VALUES (@Id,@ContentId,@Name)",
+                $@"INSERT INTO MatchMaker.Matchmaker.[genre] (id,content_id,is_show,name) VALUES (@Id,@ContentId,@IsShow,@Name)",
                 connection
             );
             genresCommand.Parameters.Add("@Id", SqlDbType.Int);
             genresCommand.Parameters.Add("@ContentId", SqlDbType.Int);
+            genresCommand.Parameters.Add("@IsShow", SqlDbType.Bit);
             genresCommand.Parameters.Add("@Name", SqlDbType.VarChar);
 
             foreach (var genre in cacheInsert.Genres)
             {
                 genresCommand.Parameters[0].Value = genre.id;
                 genresCommand.Parameters[1].Value = cacheInsert.Id;
-                genresCommand.Parameters[2].Value = genre.name;
+                genresCommand.Parameters[2].Value = cacheInsert.IsShow;
+                genresCommand.Parameters[3].Value = genre.name;
                 genresCommand.ExecuteNonQuery();
             }
 
