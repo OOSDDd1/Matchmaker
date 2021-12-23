@@ -9,7 +9,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Models.Api;
 using Models.Api.Components;
-using Models.Database;
 using Stores;
 
 namespace MovieMatcher.Views
@@ -30,7 +29,7 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserInfo.BirthYear)))
+            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserStore.birthYear ?? DateTime.Now)))
                 return;
 
             if (getMovieResult?.results == null || getMovieResult.results.Count == 0)

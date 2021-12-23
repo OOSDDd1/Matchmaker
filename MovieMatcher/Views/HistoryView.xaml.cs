@@ -1,4 +1,4 @@
-﻿using MovieMatcher.ViewModels;
+using MovieMatcher.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -21,7 +21,7 @@ namespace MovieMatcher.Views
         public HistoryView()
         {
             InitializeComponent();
-            List<Review> databaseItems = DatabaseService.GetReviewedItems(UserInfo.Id);
+            List<Review> databaseItems = DatabaseService.GetReviewedItems(UserStore.id ?? 0);
 
             DateTime currentTime = new DateTime();
             ListBox box = new ListBox();

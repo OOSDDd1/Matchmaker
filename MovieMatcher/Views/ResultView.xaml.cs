@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +26,7 @@ namespace MovieMatcher.Views
 
         public void GenerateLikedList()
         {
-            List<LikedContent> LikedItems = DatabaseService.GetLikedContent(UserInfo.Id);
+            List<LikedContent> LikedItems = DatabaseService.GetLikedContent(UserStore.id ?? 0);
             List<Content> ContentList = new List<Content>();
 
             foreach (LikedContent LikedItem in LikedItems)
@@ -57,7 +57,7 @@ namespace MovieMatcher.Views
 
         public void GenerateInterestedList()
         {
-            List<InterestedContent> InterestedItems = DatabaseService.GetInterestedContent(UserInfo.Id);
+            List<InterestedContent> InterestedItems = DatabaseService.GetInterestedContent(UserStore.id ?? 0);
             List<Content> ContentList = new List<Content>();
 
             foreach (InterestedContent InterestedItem in InterestedItems)

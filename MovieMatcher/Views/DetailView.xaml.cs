@@ -35,7 +35,7 @@ namespace MovieMatcher.Views
             {
                 // TODO: show error message
             }
-            else if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
+            else if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
             {
                 SeenCheckBox.IsChecked = true;
             }
@@ -184,11 +184,11 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            if (DatabaseService.CheckIfReviewed(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) )
+            if (DatabaseService.CheckIfReviewed(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) )
             {
                 DatabaseService.ChangeItem(
                     DetailViewStore.Id,
-                    UserInfo.Id,
+                    UserStore.id ?? 0,
                     isLike,
                     (bool) SeenCheckBox.IsChecked
                 );
@@ -197,7 +197,7 @@ namespace MovieMatcher.Views
             {
                 DatabaseService.InsertItem(
                     DetailViewStore.Id,
-                    UserInfo.Id,
+                    UserStore.id ?? 0,
                     isLike,
                     (bool) SeenCheckBox.IsChecked,
                     DetailViewStore.MediaType.Equals("tv")

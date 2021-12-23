@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Models.Database;
 using MovieMatcher.ViewModels;
+using Stores;
 
 namespace MovieMatcher
 {
@@ -9,7 +10,7 @@ namespace MovieMatcher
         public MainWindow()
         {
             InitializeComponent();
-            UserName.Content = UserInfo.Username;
+            UserName.Content = UserStore.username;
             DataContext = new ResultViewModel();
         }
 

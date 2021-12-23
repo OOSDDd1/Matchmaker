@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Models.Database;
+using Stores;
 
 namespace Services
 {
@@ -47,11 +48,11 @@ namespace Services
                         {
                             while (reader.Read())
                             {
-                                UserInfo.Id = reader.GetInt32(0);
-                                UserInfo.Username = reader.GetString(1);
-                                UserInfo.Email = reader.GetString(2);
-                                UserInfo.Password = reader.GetString(3);
-                                UserInfo.BirthYear = reader.GetDateTime(4);
+                                UserStore.id = reader.GetInt32(0);
+                                UserStore.username = reader.GetString(1);
+                                UserStore.email = reader.GetString(2);
+                                UserStore.password = reader.GetString(3);
+                                UserStore.birthYear = reader.GetDateTime(4);
                                 return true;
                             }
                         }
@@ -276,7 +277,7 @@ namespace Services
             using (SqlConnection connection = new(_sqlBuilder))
             {
                 string sql =
-                    @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{UserInfo.Id}' AND liked='true' AND isShow = 'false'";
+                    @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{UserStore.id}' AND liked='true' AND isShow = 'false'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();

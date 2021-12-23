@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -25,7 +25,7 @@ namespace MovieMatcher.Views
         public MatcherView()
         {
             InitializeComponent();
-            _reviewedMovies = DatabaseService.GetReviewedMovies(UserInfo.Id);
+            _reviewedMovies = DatabaseService.GetReviewedMovies(UserStore.id ?? 0);
             _likedAndInterestingMovies = DatabaseService.GetInterestingAndLikedMovies();
             SetNewContent();
         }
@@ -182,7 +182,7 @@ namespace MovieMatcher.Views
         {
             DatabaseService.InsertItem(
                 _currentRecommendation.id,
-                UserInfo.Id,
+                UserStore.id ?? 0,
                 isLike,
                 (bool)SeenCheckBox.IsChecked,
                 false
