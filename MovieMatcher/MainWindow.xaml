@@ -1,4 +1,4 @@
-<Window x:Class="MovieMatcher.MainWindow"
+﻿<Window x:Class="MovieMatcher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,6 +28,9 @@
         <DataTemplate x:Name="DetailViewTemplate" DataType="{x:Type ViewModels:DetailViewModel}">
             <Views:DetailView DataContext="{Binding}" />
         </DataTemplate>
+        <DataTemplate x:Name="HistoryViewTemplate" DataType="{x:Type ViewModels:HistoryViewModel}">
+            <Views:HistoryView DataContext="{Binding}"/>
+        </DataTemplate>
         <DataTemplate x:Name="StaticsViewTemplate" DataType="{x:Type ViewModels:StaticsViewModel}">
             <Views:StaticsView DataContext="{Binding}" />
         </DataTemplate>
@@ -54,6 +57,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
+        
 
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
             <DockPanel.Background>
@@ -70,36 +74,92 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center" />
-                    <Label Name="UserName" Content="SAMPLE" Foreground="White" FontSize="16" VerticalAlignment="Center" />
-                </StackPanel>
+                <Grid HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="50"/>
+                        <ColumnDefinition MinWidth="50"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" HorizontalAlignment="Left" Background="{x:Null}" Width="100" Height="50"
-                        BorderBrush="{x:Null}" Click="SearchView_Clicked">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/search.png" Width="20" Height="20" />
-                        <Label Content="Search" Foreground="White" FontSize="16" />
-                    </StackPanel>
-                </Button>
+                    <Viewbox StretchDirection="Both" Grid.Column="0" Grid.Row="1" MaxHeight="50">
+                        <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                    </Viewbox>
+                    <Viewbox StretchDirection="Both" Grid.Column="1" MaxHeight="50">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Name="UserName" Content="SAMPLE" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                            <Button Name="MenuButton" Content="▼" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" Click="AccountArrow_Clicked"/>
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
 
-                <Image Grid.Column="2" Width="150" Source="/Images/logo.png" HorizontalAlignment="Stretch"
-                       VerticalAlignment="Stretch" />
+                <Viewbox Grid.Column="1" Grid.Row="1" MaxHeight="50" MinWidth="60">
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="SearchView_Clicked">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Images/search.png" Width="20" Height="20" />
+                            <Label Content="Search" Foreground="White" FontSize="16" />
+                        </StackPanel>
+                    </Button>
+                </Viewbox>
 
-                <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right"
-                            Height="50" Margin="0,0,0,0">
-                    <Button Content="Home" Click="ResultView_Clicked" Background="{x:Null}" Foreground="White"
-                            BorderBrush="{x:Null}" FontSize="16" />
-                    <Button Content="Matcher" Click="Matcher_Clicked" Background="{x:Null}" Foreground="White"
-                            BorderBrush="{x:Null}" FontSize="16" />
-                    <Button Content="Statics" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}"
-                            FontSize="16" Click="Statics_Clicked" />
-                </StackPanel>
+                <Viewbox Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                    <Image Source="/Images/logo.png" HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch" Margin="0,10,0,0" />
+                </Viewbox>
 
+                <Grid Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="60"/>
+                        <ColumnDefinition MinWidth="60"/>
+                        <ColumnDefinition MinWidth="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Click="ResultView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
+                        <Viewbox StretchDirection="Both">
+                            <Label Content="Home" FontSize="16" Foreground="White"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Click="Matcher_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="2">
+                        <Viewbox StretchDirection="Both">
+                            <Label Content="Matcher" FontSize="16" Foreground="White"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="3" Click="History_Clicked">
+                        <Viewbox StretchDirection="Both">
+                            <Label Content="History" FontSize="16" Foreground="White"/>
+                        </Viewbox>
+                    </Button>
+                </Grid>
             </Grid>
 
+        </DockPanel>
+        <DockPanel Panel.ZIndex="1000" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Viewbox StretchDirection="Both" MinWidth="120" MaxWidth="255" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <StackPanel Background="#FF2B2B2B" Name="Collapsable" Visibility="Collapsed">
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
+                            <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
+                        </Button>
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
+                            <Label Content="Uitloggen" FontSize="16" Foreground="White"/>
+                        </Button>
+                    </StackPanel>
+                </Viewbox>
+            </Grid>
         </DockPanel>
 
         <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}" />

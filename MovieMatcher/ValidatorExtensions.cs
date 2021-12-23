@@ -29,5 +29,11 @@ namespace MovieMatcher
             Regex regex = new(@"^(?:0?[1-9]|[12]\d|3[01])([\/.-])(?:0?[1-9]|1[012])\1(?:19|20)\d\d$");
             return regex.IsMatch(s);
         }
+
+        public static bool IsValidYoutubeVideoId(this string s)
+        {
+            Regex regex = new Regex(@"^([a-zA-Z0-9_-]+)&?$");
+            return regex.IsMatch(s);
+        }
     }
 }
