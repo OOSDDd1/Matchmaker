@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using MovieMatcher;
-using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
+using Models.Api;
+using Models.Api.Components;
 using NUnit.Framework;
-using Season = MovieMatcher.Models.Api.Season;
+using Services;
+using Season = Models.Api.Season;
 
 namespace Tests
 {

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
+using Models.Api;
+using Models.Api.Components;
+using Models.Database;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -24,8 +25,8 @@ namespace MovieMatcher.Views
         public MatcherView()
         {
             InitializeComponent();
-            _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
-            _likedAndInterestingMovies = Database.GetInterestingAndLikedMovies();
+            _reviewedMovies = DatabaseService.GetReviewedMovies(UserInfo.Id);
+            _likedAndInterestingMovies = DatabaseService.GetInterestingAndLikedMovies();
             SetNewContent();
         }
 
@@ -179,7 +180,7 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            Database.InsertItem(
+            DatabaseService.InsertItem(
                 _currentRecommendation.id,
                 UserInfo.Id,
                 isLike,

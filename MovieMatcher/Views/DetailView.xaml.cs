@@ -4,9 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using MovieMatcher.Models.Api.Components;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
+using Models.Api.Components;
+using Models.Database;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -34,7 +35,7 @@ namespace MovieMatcher.Views
             {
                 // TODO: show error message
             }
-            else if (Database.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
+            else if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
             {
                 SeenCheckBox.IsChecked = true;
             }
@@ -183,9 +184,9 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            if (Database.CheckIfReviewed(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) )
+            if (DatabaseService.CheckIfReviewed(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) )
             {
-                Database.ChangeItem(
+                DatabaseService.ChangeItem(
                     DetailViewStore.Id,
                     UserInfo.Id,
                     isLike,
@@ -194,7 +195,7 @@ namespace MovieMatcher.Views
             }
             else
             {
-                Database.InsertItem(
+                DatabaseService.InsertItem(
                     DetailViewStore.Id,
                     UserInfo.Id,
                     isLike,

@@ -1,22 +1,15 @@
-﻿using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
-using MovieMatcher.ViewModels;
+﻿using MovieMatcher.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Models.Api;
+using Models.Database;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -28,7 +21,7 @@ namespace MovieMatcher.Views
         public HistoryView()
         {
             InitializeComponent();
-            List<Review> databaseItems = Database.GetReviewedItems(UserInfo.Id);
+            List<Review> databaseItems = DatabaseService.GetReviewedItems(UserInfo.Id);
 
             DateTime currentTime = new DateTime();
             ListBox box = new ListBox();

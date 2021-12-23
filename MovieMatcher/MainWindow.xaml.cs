@@ -1,24 +1,11 @@
-﻿using System.IO;
-using System.Windows;
-using Microsoft.Extensions.Configuration;
+﻿using System.Windows;
+using Models.Database;
 using MovieMatcher.ViewModels;
-using System;
-using Newtonsoft.Json;
-using MovieMatcher.Models.Database;
-using System.Windows.Threading;
 
 namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
-
-        public static IConfigurationRoot Config =
-            new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false)
-                .AddEnvironmentVariables()
-                .Build();
-
         public MainWindow()
         {
             InitializeComponent();
