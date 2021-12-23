@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -148,9 +148,9 @@ namespace MovieMatcher.Views
                     Btn.Content = Grd;
                     BitmapImage bi = new BitmapImage();
                     bi.BeginInit();
-                    if (content.poster_path != null)
+                    if (content.posterPath != null)
                     {
-                        bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.poster_path,
+                        bi.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + content.posterPath,
                             UriKind.Absolute);
                     }
                     else
@@ -190,7 +190,7 @@ namespace MovieMatcher.Views
             Button RealButton = (Button) sender;
             var tmp = (Content) RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
-            DetailViewStore.MediaType = tmp.media_type;
+            DetailViewStore.MediaType = tmp.mediaType;
 
             Application.Current.Windows[0].DataContext = new DetailView();
         }

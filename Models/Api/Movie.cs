@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Models.Api.Components;
+using Newtonsoft.Json;
 
 namespace Models.Api
 {
@@ -9,40 +10,55 @@ namespace Models.Api
         public string title { get; set; }
         public string overview { get; set; }
         public int runtime { get; set; }
-        public string release_date { get; set; }
+        [JsonProperty("release_date")]
+        public string releaseDate { get; set; }
         public bool adult { get; set; }
         public List<Genre> genres { get; set; }
-        public MovieReleaseDates release_dates { get; set; }
-        public List<int> genre_ids { get; set; }
+        [JsonProperty("release_dates")]
+        public MovieReleaseDates releaseDates { get; set; }
+        [JsonProperty("genre_ids")]
+        public List<int> genreIds { get; set; }
 
         public bool video { get; set; }
-        public string poster_path { get; set; }
-        public string backdrop_path { get; set; }
+        [JsonProperty("poster_path")]
+        public string posterPath { get; set; }
+        [JsonProperty("backdrop_path")]
+        public string backdropPath { get; set; }
         public Videos videos { get; set; }
         public Images images { get; set; }
 
-        public double vote_average { get; set; }
-        public int vote_count { get; set; }
+        [JsonProperty("vote_average")]
+        public double voteAverage { get; set; }
+        [JsonProperty("vote_count")]
+        public int voteCount { get; set; }
         public double popularity { get; set; }
 
-        public string imdb_id { get; set; }
+        [JsonProperty("imdb_id")]
+        public string imdbId { get; set; }
         public string homepage { get; set; }
         public string tagline { get; set; }
         public int budget { get; set; }
         public ulong revenue { get; set; }
         public string status { get; set; }
-        public string media_type { get; set; } = "movie";
-        public BelongsToCollection belongs_to_collection { get; set; }
-        public string original_language { get; set; }
-        public string original_title { get; set; }
-        public List<ProductionCompany> production_companies { get; set; }
-        public List<ProductionCountry> production_countries { get; set; }
-        public List<SpokenLanguage> spoken_languages { get; set; }
+        [JsonProperty("media_type")]
+        public string mediaType { get; set; } = "movie";
+        [JsonProperty("belongs_to_collection")]
+        public BelongsToCollection belongsToCollection { get; set; }
+        [JsonProperty("original_language")]
+        public string originalLanguage { get; set; }
+        [JsonProperty("original_title")]
+        public string originalTitle { get; set; }
+        [JsonProperty("production_companies")]
+        public List<ProductionCompany> productionCompanies { get; set; }
+        [JsonProperty("production_countries")]
+        public List<ProductionCountry> productionCountries { get; set; }
+        [JsonProperty("spoken_languages")]
+        public List<SpokenLanguage> spokenLanguages { get; set; }
         public Credits credits { get; set; }
 
-        public Movie(string poster_path)
+        public Movie(string posterPath)
         {
-            this.poster_path = poster_path;
+            this.posterPath = posterPath;
         }
     }
 }
