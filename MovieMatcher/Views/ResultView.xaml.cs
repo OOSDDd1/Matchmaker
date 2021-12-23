@@ -41,11 +41,19 @@ namespace MovieMatcher.Views
                 Content contentItem;
                 if (LikedItem.isShow == 1)
                 {
-                    contentItem = Api.GetShow(LikedItem.content);
+                    if (!ApiService.GetShow(LikedItem.content, out Show? show))
+                        continue;
+                    if (show == null)
+                        continue;
+                    contentItem = (Content) show;
                 }
                 else
                 {
-                    contentItem = Api.GetMovie(LikedItem.content);
+                    if (!ApiService.GetMovie(LikedItem.content, out Movie? movie))
+                        continue;
+                    if (movie == null) 
+                        continue;
+                    contentItem = (Content) movie;
                 }
 
                 ContentList.Add(contentItem);
@@ -64,11 +72,19 @@ namespace MovieMatcher.Views
                 Content contentItem;
                 if (InterestedItem.isShow == 1)
                 {
-                    contentItem = Api.GetShow(InterestedItem.content);
+                    if (!ApiService.GetShow(InterestedItem.content, out Show? show))
+                        continue;
+                    if (show == null)
+                        continue;
+                    contentItem = (Content) show;
                 }
                 else
                 {
-                    contentItem = Api.GetMovie(InterestedItem.content);
+                    if (!ApiService.GetMovie(InterestedItem.content, out Movie? movie))
+                        continue;
+                    if (movie == null) 
+                        continue;
+                    contentItem = (Content) movie;
                 }
 
                 ContentList.Add(contentItem);
@@ -79,17 +95,19 @@ namespace MovieMatcher.Views
 
         public void GenerateTrendingMovieList()
         {
-            MultiSearch TrendingItems = Api.GetTrending("week");
-            List<Content> ContentList = new List<Content>();
-            if (TrendingItems.results != null && TrendingItems.results.Count > 0)
+            if (!ApiService.GetTrending("week", out MultiSearch? trendingItems))
+                return;
+            
+            List<Content> contentList = new List<Content>();
+            if (trendingItems.results != null && trendingItems.results.Count > 0)
             {
-                foreach (MultiSearchResult TrendingItem in TrendingItems.results)
+                foreach (MultiSearchResult trendingItem in trendingItems.results)
                 {
-                    ContentList.Add(TrendingItem);
+                    contentList.Add(trendingItem);
                 }
             }
 
-            GenerateList(ContentList, "recommended");
+            GenerateList(contentList, "recommended");
         }
 
         public void GenerateList(List<Content> Content, string type)

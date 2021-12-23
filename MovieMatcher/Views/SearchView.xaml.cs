@@ -38,9 +38,10 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(UserInfo.BirthYear));
+            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserInfo.BirthYear)))
+                return;
 
-            if (getMovieResult is Message || getMovieResult?.results == null || getMovieResult.results.Count == 0)
+            if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
                 Label lbl = new Label();
                 lbl.Content = "No Results Found";
@@ -57,10 +58,18 @@ namespace MovieMatcher.Views
                     switch (s.media_type)
                     {
                         case "movie":
-                            s.Watch_Providers = Api.GetProviders(Api.MovieBase, s.id);
+                            if (!ApiService.GetProviders(ApiService.MovieBase, s.id, out var movieProviders))
+                                continue;
+                            if (movieProviders == null) 
+                                continue;
+                            s.Watch_Providers = movieProviders;
                             break;
                         case "tv":
-                            s.Watch_Providers = Api.GetProviders(Api.ShowBase, s.id);
+                            if (!ApiService.GetProviders(ApiService.ShowBase, s.id, out var showProviders))
+                                continue;
+                            if (showProviders == null) 
+                                continue;
+                            s.Watch_Providers = showProviders;
                             break;
                         default:
                             break;
@@ -83,11 +92,11 @@ namespace MovieMatcher.Views
                     }
                     else if (s.poster_path == null)
                     {
-                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.profile_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.profile_path}"));
                     }
                     else
                     {
-                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.poster_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.poster_path}"));
                     }
 
                     img.Stretch = Stretch.Fill;
@@ -233,7 +242,7 @@ namespace MovieMatcher.Views
         private Image CreateLogo(string source)
         {
             Image pImg = new Image();
-            pImg.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{source}", UriKind.Absolute));
+            pImg.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{source}", UriKind.Absolute));
             pImg.VerticalAlignment = VerticalAlignment.Top;
             pImg.HorizontalAlignment = HorizontalAlignment.Left;
             pImg.Width = 25;

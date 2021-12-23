@@ -72,12 +72,18 @@ namespace MovieMatcher.Views
                 ListBoxItem itmBox;
                 if (item.IsShow)
                 {
-                    Show show = Api.GetShow(item.ContentId);
+                    if (!ApiService.GetShow(item.ContentId, out var show))
+                        return;
+                    if (show == null)
+                        return;
                     itmBox = CreateItem(show, item.Liked, item.Watched);
                 }
                 else
                 {
-                    Movie movie = Api.GetMovie(item.ContentId);
+                    if (!ApiService.GetMovie(item.ContentId, out var movie))
+                        return;
+                    if (movie == null)
+                        return;
                     itmBox = CreateItem(movie, item.Liked, item.Watched);
                 }
                 box.Items.Add(itmBox);
@@ -103,7 +109,7 @@ namespace MovieMatcher.Views
             }
             else
             {
-                img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.poster_path}"));
+                img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.poster_path}"));
             }
 
             img.Stretch = Stretch.Fill;

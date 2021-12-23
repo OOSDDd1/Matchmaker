@@ -28,7 +28,11 @@ namespace MovieMatcher.Views
         {
             InitializeComponent();
 
-            Result = Api.GetShow(5);
+            if (!ApiService.GetShow(5, out var result))
+                return;
+            if (result == null)
+                return;
+            Result = result;
 
             bool? liked = Database.CheckForLiked(Result.id, UserInfo.Id, Result.media_type.Equals("tv"));
             bool? watched = Database.CheckForWatched(Result.id, UserInfo.Id, Result.media_type.Equals("tv"));
