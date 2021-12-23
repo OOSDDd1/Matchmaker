@@ -17,10 +17,13 @@ namespace MovieMatcher
      * Get show Arcane (Id 94605).
      *      Api.GetShow(94605);
      *
-     * Every method returns Api.Message on error.
+     * ApiService Methods are returning false on error (true on success) this is when the out parameter will be empty.
      */
     public static class ApiService
     {
+        /*
+         * These strings are used to compile an url which will be used to create a request to the movie database.
+         */
         #region Api strings
 
         private static readonly string ApiKey = MainWindow.Config["api-key"];
@@ -65,10 +68,16 @@ namespace MovieMatcher
         public const string YtTrailerUrl = "https://www.youtube.com/embed/";
 
         #endregion
+        
+        private static readonly Dictionary<string, dynamic> Cache = new();
 
-        private static Dictionary<string, dynamic> _cache = new();
-
-        public static dynamic? GetMovie(int id)
+        /*
+         * These functions are specific implementations of the Get<T> function.
+         *  Eg. GetMovie uses Get but with all the parameters filled in. The user only passes an id.
+         */
+        #region Non generalized api calls
+        
+        public static bool GetMovie(int id, out Movie? movie)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
@@ -77,32 +86,32 @@ namespace MovieMatcher
 
             var cacheKey = GenerateCacheKey(MovieBase, GetDetails, urlSegments, urlParameters);
 
-            if (CacheGetFromMemory(cacheKey, out var memMovie))
-                return memMovie;
+            if (CacheGetFromMemory(cacheKey, out movie))
+                return true;
 
-            if (CacheGetFromDatabase<Movie>(cacheKey, out var dbMovie))
+            if (CacheGetFromDatabase<Movie>(cacheKey, out movie))
             {
-                CacheAddToMemory(cacheKey, dbMovie);
-                return dbMovie;
+                CacheAddToMemory(cacheKey, movie); // CacheGetFromDatabase returns true -> movie is not null
+                return true;
             }
 
-            var movie = Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters);
+            if (!Get<Movie>(MovieBase, GetDetails, urlSegments, urlParameters, out movie))
+                return false;
 
-            if (movie is Movie)
-                CacheAddMovieToDatabase(cacheKey, movie);
+            CacheAddMovieToDatabase(cacheKey, movie);  // Get returns true -> movie is not null
 
-            return movie;
+            return true;
         }
 
-        public static dynamic? GetTrending(string time)
+        public static bool GetTrending(string time, out MultiSearch? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "media_type", "all" }, { "time_window", time } };
 
-            return Get<MultiSearch>(TrendingBase, GetTrendingList, urlSegments);
+            return Get<MultiSearch>(TrendingBase, GetTrendingList, urlSegments, out response);
         }
 
-        public static dynamic? GetDiscoveredMovies(int page)
+        public static bool GetDiscoveredMovies(int page, out DiscoveredMovie? response)
         {
             var urlSegments = new Dictionary<string, string> { };
             var urlParameters = new Dictionary<string, string>
@@ -111,11 +120,11 @@ namespace MovieMatcher
                 { "page", page.ToString() }
             };
 
-            return Get<DiscoveredMovie>(string.Empty, GetRandomMovie, urlSegments, urlParameters);
+            return Get<DiscoveredMovie>(string.Empty, GetRandomMovie, urlSegments, urlParameters, out response);
         }
 
         // Gets recommended movies based on a movie's id
-        public static dynamic? GetRecommendedMovies(int id, int page)
+        public static bool GetRecommendedMovies(int id, int page, out DiscoveredMovie? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
@@ -125,10 +134,10 @@ namespace MovieMatcher
                 { "page", page.ToString() }
             };
 
-            return Get<DiscoveredMovie>(MovieBase, GetRecommendations, urlSegments, urlParameters);
+            return Get<DiscoveredMovie>(MovieBase, GetRecommendations, urlSegments, urlParameters, out response);
         }
 
-        public static dynamic? GetShow(int id)
+        public static bool GetShow(int id, out Show? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
@@ -137,24 +146,24 @@ namespace MovieMatcher
 
             var cacheKey = GenerateCacheKey(ShowBase, GetDetails, urlSegments, urlParameters);
 
-            if (CacheGetFromMemory(cacheKey, out var memShow))
-                return memShow;
+            if (CacheGetFromMemory(cacheKey, out response))
+                return true;
 
-            if (CacheGetFromDatabase<Show>(cacheKey, out var dbShow))
+            if (CacheGetFromDatabase<Show>(cacheKey, out response))
             {
-                CacheAddToMemory(cacheKey, dbShow);
-                return dbShow;
+                CacheAddToMemory(cacheKey, response); // CacheGetFromDatabase returns true -> response is not null
+                return true;
             }
 
-            var show = Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters);
-
-            if (show is Show)
-                CacheAddShowToDatabase(cacheKey, show);
-
-            return show;
+            if (!Get<Show>(ShowBase, GetDetails, urlSegments, urlParameters, out response))
+                return false;
+            
+            CacheAddShowToDatabase(cacheKey, response); // Get returns true -> response is not null
+            
+            return true;
         }
 
-        public static dynamic? GetSeason(int id, int season)
+        public static bool GetSeason(int id, int season, out Season? response)
         {
             var urlSegments = new Dictionary<string, string>
             {
@@ -164,10 +173,10 @@ namespace MovieMatcher
             var urlParameters = new Dictionary<string, string>
                 { { "append_to_response", "videos,images,content_ratings,credits" } };
 
-            return Get<Season>(ShowBase, GetShowSeason, urlSegments, urlParameters);
+            return Get<Season>(ShowBase, GetShowSeason, urlSegments, urlParameters, out response);
         }
 
-        public static dynamic? GetEpisode(int id, int season, int episode)
+        public static bool GetEpisode(int id, int season, int episode, out Episode? response)
         {
             var urlSegments = new Dictionary<string, string>
             {
@@ -178,34 +187,34 @@ namespace MovieMatcher
             var urlParameters = new Dictionary<string, string>
                 { { "append_to_response", "videos,images,content_ratings,credits" } };
 
-            return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters);
+            return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters, out response);
         }
 
-        public static dynamic? GetProviders(string resourceBase, int id)
+        public static bool GetProviders(string resourceBase, int id, out Providers? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
 
-            return Get<Providers>(resourceBase, GetWatchProviders, urlSegments);
+            return Get<Providers>(resourceBase, GetWatchProviders, urlSegments, out response);
         }
 
-        public static dynamic? GetMovieReleaseDates(int id)
+        public static bool GetMovieReleaseDates(int id, out MovieReleaseDates? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
 
-            return Get<MovieReleaseDates>(MovieBase, ReleaseDates, urlSegments);
+            return Get<MovieReleaseDates>(MovieBase, ReleaseDates, urlSegments, out response);
         }
 
-        public static dynamic? GetSerieContentRatings(int id)
+        public static bool GetSerieContentRatings(int id, out ShowContentRatings? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
 
-            return Get<ShowContentRatings>(ShowBase, ContentRatings, urlSegments);
+            return Get<ShowContentRatings>(ShowBase, ContentRatings, urlSegments, out response);
         }
 
-        public static dynamic? Search(string query, bool adult = false)
+        public static bool Search(string query, out MultiSearch? response, bool adult = false)
         {
             var urlParameters = new Dictionary<string, string>
             {
@@ -213,50 +222,43 @@ namespace MovieMatcher
                 { "include_adult", adult.ToString().ToLower() }
             };
 
-            return Get<MultiSearch>(SearchBase, SearchMulti, new Dictionary<string, string>(), urlParameters);
+            return Get<MultiSearch>(SearchBase, SearchMulti, new Dictionary<string, string>(), urlParameters, out response);
         }
 
+        #endregion
+        
+        /*
+         * These functions communicate and transforms the requests to the movie database.
+         * The Api returns a json which is transformed to a class using an external library.
+         */
         #region Api Get + overloaders
 
-        public static dynamic? Get<T>(string resourceBase, string resource)
+        public static bool Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments, out T? response)
             where T : IRoot
         {
-            return Get<T>(resourceBase, resource, new Dictionary<string, string>());
+            return Get<T>(resourceBase, resource, urlSegments, new Dictionary<string, string>(), out response);
         }
 
-        public static dynamic? Get<T>(string resourceBase, string resource, int id)
-            where T : IRoot
-        {
-            var urlSegments = new Dictionary<string, string>
-                { { "id", id.ToString() } };
-            return Get<T>(resourceBase, resource, urlSegments);
-        }
-
-        public static dynamic? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments)
-            where T : IRoot
-        {
-            return Get<T>(resourceBase, resource, urlSegments, new Dictionary<string, string>());
-        }
-
-        public static dynamic? Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments,
-            Dictionary<string, string> urlParameters)
+        public static bool Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments,
+            Dictionary<string, string> urlParameters, out T? response)
             where T : IRoot
         {
             var cacheKey = GenerateCacheKey(resourceBase, resource, urlSegments, urlParameters);
 
-            if (CacheGetFromMemory(cacheKey, out var memValue))
-                return memValue;
+            if (CacheGetFromMemory<T>(cacheKey, out response))
+                return true;
 
-            var response = GenerateResponse(resourceBase + resource, urlSegments, urlParameters);
+            var apiResponse = GenerateResponse(resourceBase + resource, urlSegments, urlParameters);
 
-            if (!response.IsSuccessful)
-                return ResponseToClass<Message>(response.Content);
+            if (!apiResponse.IsSuccessful)
+                return false;
 
-            var classedResponse = ResponseToClass<T>(response.Content);
+            if (!ResponseToClass<T>(apiResponse.Content, out response))
+                return false;
 
-            CacheAddToMemory(cacheKey, classedResponse);
+            CacheAddToMemory(cacheKey, response); // ResponseToClass returns true -> response is not null
 
-            return classedResponse;
+            return true;
         }
 
         private static IRestResponse GenerateResponse(string resource, Dictionary<string, string> urlSegments,
@@ -276,13 +278,20 @@ namespace MovieMatcher
             return client.Get(request);
         }
 
-        public static T? ResponseToClass<T>(string response) where T : IRoot
+        private static bool ResponseToClass<T>(string response, out T? classifiedResponse) where T : IRoot
         {
-            return JsonConvert.DeserializeObject<T>(response);
+            classifiedResponse = JsonConvert.DeserializeObject<T>(response);
+            return classifiedResponse != null;
         }
 
         #endregion
 
+        /*
+         * Every call to the api is costly in time (but api is free), this is why an cache is inevitable.
+         * We have a memory and database cache.
+         * Every request is stored in memory.
+         * Only Movies and Shows are stored in the database, these are used for the statistics page.
+         */
         #region Cache Handling
 
         private static string GenerateCacheKey(string resourceBase, string resource,
@@ -291,14 +300,17 @@ namespace MovieMatcher
             return resourceBase + resource + string.Join("", urlSegments.Values) +
                    string.Join("", urlParameters.Values);
         }
-
-        private static bool CacheAddToMemory(string key, dynamic? value)
+        
+        private static bool CacheAddToMemory(string key, dynamic value)
         {
-            return _cache.TryAdd(key, value);
+            return Cache.TryAdd(key, value);
         }
 
-        private static bool CacheAddMovieToDatabase(string key, Movie movie)
+        private static bool CacheAddMovieToDatabase(string key, Movie? movie)
         {
+            if (movie == null)
+                return false;
+
             string videoKey = "";
             try
             {
@@ -345,8 +357,11 @@ namespace MovieMatcher
             });
         }
 
-        private static bool CacheAddShowToDatabase(string key, Show show)
+        private static bool CacheAddShowToDatabase(string key, Show? show)
         {
+            if (show == null)
+                return false;
+            
             string videoKey;
             try
             {
@@ -391,16 +406,26 @@ namespace MovieMatcher
             });
         }
 
-        private static bool CacheGetFromMemory(string key, out dynamic? value)
+        private static bool CacheGetFromMemory<T>(string key, out T? value) where T : IRoot
         {
-            return _cache.TryGetValue(key, out value);
+            Cache.TryGetValue(key, out var root);
+            
+            if (root != null)
+            {
+                value = (T) root;
+                return true;
+            }
+
+            value = default;
+            return false;
         }
 
         private static bool CacheGetFromDatabase<T>(string key, out T? value) where T : IRoot
         {
-            var cache = Database.GetCache(key);
-            value = ResponseToClass<T>(cache);
-            return value != null;
+            return ResponseToClass<T>(
+                Database.GetCache(key),
+                out value
+            );
         }
 
         #endregion

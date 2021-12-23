@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using MovieMatcher.Models.Api;
 using MovieMatcher.Models.Api.Components;
 using MovieMatcher.Models.Database;
 using MovieMatcher.Stores;
@@ -16,41 +15,37 @@ namespace MovieMatcher.Views
         public DetailView()
         {
             InitializeComponent();
-            
+
+            bool success;
             switch (DetailViewStore.MediaType)
             {
                 case "movie":
-                    MovieDetail(DetailViewStore.Id);
+                    success = MovieDetail(DetailViewStore.Id);
                     break;
                 case "tv":
-                    ShowDetail(DetailViewStore.Id);
+                    success = ShowDetail(DetailViewStore.Id);
                     break;
                 default:
+                    success = false;
                     return;
             }
 
-            if (Database.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
+            if (!success)
+            {
+                // TODO: show error message
+            }
+            else if (Database.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
             {
                 SeenCheckBox.IsChecked = true;
             }
         }
         
-        private void MovieDetail(int id)
+        private bool MovieDetail(int id)
         {
-            Movie? movie;
-            try
-            {
-                movie = ApiService.GetMovie(id);
-            }
-            catch
-            {
-                return;
-            }
-
-            if (movie == null)
-            {
-                return;
-            }
+            if(!ApiService.GetMovie(id, out var movie))
+                return false;
+            if(movie == null)
+                return false;
 
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdrop_path}"));
             string age;
@@ -103,24 +98,15 @@ namespace MovieMatcher.Views
                     .Where(person => person.known_for_department.Equals("Acting"))
                     .Select(person => $"{person.name} ({person.character})")
             );
+            return true;
         }
 
-        private void ShowDetail(int id)
+        private bool ShowDetail(int id)
         {
-            Show? show;
-            try
-            {
-                show = ApiService.GetShow(id);
-            }
-            catch 
-            {
-                return;
-            }
-
+            if(!ApiService.GetShow(id, out var show))
+                return false;
             if (show == null)
-            {
-                return;
-            }
+                return false;
 
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdrop_path}"));
 
@@ -170,6 +156,8 @@ namespace MovieMatcher.Views
                     .Where(person => person.known_for_department.Equals("Acting"))
                     .Select(person => $"{person.name} ({person.character})")
                 );
+            
+            return true;
         }
 
         private string CalculateRunTime(int length)
