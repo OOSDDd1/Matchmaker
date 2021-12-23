@@ -32,7 +32,7 @@ namespace Tests
         [TestCase("”(),:;<>[\\]@example.com")]
         [TestCase("just”not”right@example.com")]
         [TestCase("this\\ is\"really\"not\allowed@example.com")]
-        public void IsValidEmailAddress_ShouldReturnTrueWithInvalidEmail(string s)
+        public void IsValidEmailAddress_ShouldReturnFalseWithInvalidEmail(string s)
         {
             Assert.False(ValidatorExtensions.IsValidEmailAddress(s));
         }
@@ -57,7 +57,7 @@ namespace Tests
         [TestCase("!@#$%^&*()_+A69")]
         [TestCase("^yYaAbBasdxcsd")]
         [TestCase("               ")]
-        public void IsValidPassword_ShouldReturnTrueWithInvalidPassword(string s)
+        public void IsValidPassword_ShouldReturnFalseWithInvalidPassword(string s)
         {
             Assert.False(ValidatorExtensions.IsValidPassword(s));
         }
@@ -87,7 +87,7 @@ namespace Tests
         [TestCase("15/18-198")]
         [TestCase("15/18/198")]
         [TestCase("15-18-198")]
-        public void IsValidDate_ShouldReturnTrueWithInvalidDate(string s)
+        public void IsValidDate_ShouldReturnFalseWithInvalidDate(string s)
         {
             Assert.False(ValidatorExtensions.IsValidDate(s));
         }
