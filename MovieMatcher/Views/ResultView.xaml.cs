@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,15 +26,15 @@ namespace MovieMatcher.Views
 
         public void GenerateLikedList()
         {
-            List<dynamic> LikedItems = DatabaseService.GetLikedContent(UserInfo.Id);
+            List<LikedContent> LikedItems = DatabaseService.GetLikedContent(UserInfo.Id);
             List<Content> ContentList = new List<Content>();
 
-            foreach (dynamic LikedItem in LikedItems)
+            foreach (LikedContent LikedItem in LikedItems)
             {
                 Content contentItem;
-                if (LikedItem.isShow == 1)
+                if (LikedItem.IsShow)
                 {
-                    if (!ApiService.GetShow(LikedItem.content, out Show? show))
+                    if (!ApiService.GetShow(LikedItem.Content, out Show? show))
                         continue;
                     if (show == null)
                         continue;
@@ -42,7 +42,7 @@ namespace MovieMatcher.Views
                 }
                 else
                 {
-                    if (!ApiService.GetMovie(LikedItem.content, out Movie? movie))
+                    if (!ApiService.GetMovie(LikedItem.Content, out Movie? movie))
                         continue;
                     if (movie == null) 
                         continue;
@@ -57,15 +57,15 @@ namespace MovieMatcher.Views
 
         public void GenerateInterestedList()
         {
-            List<dynamic> InterestedItems = DatabaseService.GetInterestedContent(Models.Database.UserInfo.Id);
+            List<InterestedContent> InterestedItems = DatabaseService.GetInterestedContent(UserInfo.Id);
             List<Content> ContentList = new List<Content>();
 
-            foreach (dynamic InterestedItem in InterestedItems)
+            foreach (InterestedContent InterestedItem in InterestedItems)
             {
                 Content contentItem;
-                if (InterestedItem.isShow == 1)
+                if (InterestedItem.IsShow)
                 {
-                    if (!ApiService.GetShow(InterestedItem.content, out Show? show))
+                    if (!ApiService.GetShow(InterestedItem.Content, out Show? show))
                         continue;
                     if (show == null)
                         continue;
@@ -73,7 +73,7 @@ namespace MovieMatcher.Views
                 }
                 else
                 {
-                    if (!ApiService.GetMovie(InterestedItem.content, out Movie? movie))
+                    if (!ApiService.GetMovie(InterestedItem.Content, out Movie? movie))
                         continue;
                     if (movie == null) 
                         continue;

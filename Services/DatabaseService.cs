@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
@@ -89,70 +89,44 @@ namespace Services
             }
         }
 
-        public static List<dynamic> GetLikedContent(int userid)
+        public static List<LikedContent> GetLikedContent(int userid)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            using SqlConnection connection = new SqlConnection(_sqlBuilder);
+            connection.Open();
+            
+            string sql = $"SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'true' AND user_id = {userid}";
+            using SqlCommand command = new SqlCommand(sql, connection);
+
+            using SqlDataReader reader = command.ExecuteReader();
+            List<LikedContent> result = new List<LikedContent>();
+
+            while (reader.Read())
             {
-                string sql =
-                    $"SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'true' AND user_id = {userid}";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        List<dynamic> result = new List<dynamic>();
-
-                        while (reader.Read())
-                        {
-                            if ((bool)reader.GetValue(1) == true)
-                            {
-                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
-                                result.Add(content);
-                            }
-                            else
-                            {
-                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
-                                result.Add(content);
-                            }
-                        }
-
-                        return result;
-                    }
-                }
+                var content = new LikedContent() { Content = reader.GetInt32(0), IsShow = reader.GetBoolean(1) };
+                result.Add(content);
             }
+
+            return result;
         }
 
-        public static List<dynamic> GetInterestedContent(int userid)
+        public static List<InterestedContent> GetInterestedContent(int userid)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            using SqlConnection connection = new SqlConnection(_sqlBuilder);
+            connection.Open();
+            
+            string sql = $"SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'false' AND user_id = {userid}";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            List<InterestedContent> result = new List<InterestedContent>();
+
+            while (reader.Read())
             {
-                string sql =
-                    $"SELECT content_id, isShow FROM MatchMaker.Matchmaker.[content_review] WHERE liked = 'true' AND watched = 'false' AND user_id = {userid}";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        List<dynamic> result = new List<dynamic>();
-
-                        while (reader.Read())
-                        {
-                            if ((bool)reader.GetValue(1) == true)
-                            {
-                                var content = new { content = (int)reader.GetValue(0), isShow = 1 };
-                                result.Add(content);
-                            }
-                            else
-                            {
-                                var content = new { content = (int)reader.GetValue(0), isShow = 0 };
-                                result.Add(content);
-                            }
-                        }
-
-                        return result;
-                    }
-                }
+                var content = new InterestedContent() { Content = (int)reader.GetValue(0), IsShow = reader.GetBoolean(1) };
+                result.Add(content);
             }
+
+            return result;
         }
 
         public static void InsertItem(int id, int userId, bool liked, bool watched, bool isShow)
