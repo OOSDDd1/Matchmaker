@@ -26,11 +26,12 @@ namespace MovieMatcher.Views
     /// </summary>
     public partial class StaticsView : UserControl, INotifyPropertyChanged
     {
-        private bool _mariaSeriesVisibility;
-        private bool _charlesSeriesVisibility;
-        private bool _johnSeriesVisibility;
-        private bool _testSeriesVisibility;
         private Visibility vs = Visibility.Hidden;
+        private BooleanToVisibilityConverter converter;
+        public dynamic MariaSeries, CharlesSeries, JohnSeries, Testseries;
+
+
+        private HashSet<dynamic> TestSet;
 
         public SeriesCollection ChartSeries { get; set; }
 
@@ -38,11 +39,35 @@ namespace MovieMatcher.Views
         {
             ChartSeries = new SeriesCollection();
             InitializeComponent();
+            //TestSet---------------------------------------------------------------
+            TestSet = new();
+
+            MariaSeries = new ExpandoObject();
+            MariaSeries.Title = "Maria";
+            MariaSeries.Size = 5;
+            MariaSeries.Visible = true;
+
+            CharlesSeries = new ExpandoObject();
+            CharlesSeries.Title = "Charles";
+            CharlesSeries.Size = 3;
+            CharlesSeries.Visible = true;
+
+            JohnSeries = new ExpandoObject();
+            JohnSeries.Title = "John";
+            JohnSeries.Size = 7;
+            JohnSeries.Visible = true;
+
+            Testseries = new ExpandoObject();
+            Testseries.Title = "Test";
+            Testseries.Size = 4;
+            Testseries.Visible = true;
+
+            TestSet.Add(MariaSeries);
+            TestSet.Add(CharlesSeries);
+            TestSet.Add(JohnSeries);
+            TestSet.Add(Testseries);
+            //TestSet-----------------------------------------------------------------------------
             GenerateChart();
-            MariaSeriesVisibility = false;
-            CharlesSeriesVisibility = true;
-            JohnSeriesVisibility = true;
-            TestSeriesVisibility = false;
 
             DataContext = this;
         }
@@ -51,113 +76,48 @@ namespace MovieMatcher.Views
         {
             StackPanel StkPnl = new StackPanel();
             StkPnl.Orientation = Orientation.Horizontal;
-            CheckBox ChkBx = new CheckBox();
-            ChkBx.SetBinding(ToggleButton.IsCheckedProperty, "MariaSeriesVisibility"); 
-            ChkBx.Content = "1";
-            StkPnl.Children.Add(ChkBx);
-            CheckBox ChkBx2 = new CheckBox();
-            ChkBx2.SetBinding(ToggleButton.IsCheckedProperty, "CharlesSeriesVisibility");
-            ChkBx2.Content = "2";
-            StkPnl.Children.Add(ChkBx2);
-            CheckBox ChkBx3 = new CheckBox();
-            ChkBx3.SetBinding(ToggleButton.IsCheckedProperty, "JohnSeriesVisibility");
-            ChkBx3.Content = "3";
-            StkPnl.Children.Add(ChkBx3);
-            CheckBox ChkBx4 = new CheckBox();
-            ChkBx4.SetBinding(ToggleButton.IsCheckedProperty, "TestSeriesVisibility");
-            ChkBx4.Content = "4";
-            StkPnl.Children.Add(ChkBx4);
-            Grid.Children.Add(StkPnl);
             List<string> ls = new List<string>();
-            /*ls.Add("Maria");
-            ls.Add("Charles");
-            ls.Add("John");*/
+            foreach (dynamic item in TestSet)
+            {
+                CheckBox chkBx = GenerateCheckBox((string)item.Title, (bool)item.Visible);
+                StkPnl.Children.Add(chkBx);
+                AddColumnSeries(chkBx, (string)item.Title, (int) item.Size);
+            }
             ls.Add("XasItem1");
             XBar.Labels = ls;
+
+            Grid.Children.Add(StkPnl);
+
+        }
+
+        public CheckBox GenerateCheckBox(string content, bool visible)
+        {
+            CheckBox ChkBx = new CheckBox();
+            ChkBx.Content = content;
+            ChkBx.IsChecked = visible;
+            ChkBx.Checked += ClmVis;
+            ChkBx.Unchecked += ClmVis;
+            return ChkBx;
+        }
+
+        public void AddColumnSeries(CheckBox chkBx, string Title, int num)
+        {
             ColumnSeries ClmnSrs = new ColumnSeries();
-            ClmnSrs.Title = "test";
-            List<int> LsValues = new List<int> { 5 };
+            ClmnSrs.Title = Title;
+            List<int> LsValues = new List<int> { num };
             ClmnSrs.Values = LsValues.AsChartValues();
-            ClmnSrs.SetBinding(VisibilityProperty, "MariaSeriesVisibility");
+            chkBx.DataContext = ClmnSrs;
             ClmnSrs.MaxWidth = 1000;
             ClmnSrs.ColumnPadding = 0;
             ChartSeries.Add(ClmnSrs);
-
-            ClmnSrs = new ColumnSeries();
-            ClmnSrs.Title = "Maria";
-            LsValues = new List<int> { 4 };
-            ClmnSrs.Values = LsValues.AsChartValues();
-            ClmnSrs.SetBinding(ToggleButton.IsCheckedProperty, "CharlesSeriesVisibility");
-            ClmnSrs.MaxWidth = 1000;
-            ClmnSrs.ColumnPadding = 0;
-            ChartSeries.Add(ClmnSrs);
-
-            ClmnSrs = new ColumnSeries();
-            ClmnSrs.Title = "Charles";
-            LsValues = new List<int> { 2 };
-            ClmnSrs.Values = LsValues.AsChartValues();
-            ClmnSrs.Visibility = Visibility.Visible;
-            ClmnSrs.MaxWidth = 1000;
-            ClmnSrs.ColumnPadding = 0;
-            ChartSeries.Add(ClmnSrs);
-
-            ClmnSrs = new ColumnSeries();
-            ClmnSrs.Title = "John";
-            LsValues = new List<int> { 8 };
-            ClmnSrs.Values = LsValues.AsChartValues();
-            ClmnSrs.Visibility = Visibility.Visible;
-            ClmnSrs.MaxWidth = 1000;
-            ClmnSrs.ColumnPadding = 0;
-            ChartSeries.Add(ClmnSrs);
-
         }
 
-        public bool MariaSeriesVisibility
+        public void ClmVis(object sender, RoutedEventArgs e)
         {
-            get { return _mariaSeriesVisibility; }
-            set
-            {
-                /*if (value)
-                {
-                    _mariaSeriesVisibility = Visibility.Visible;
-                } else
-                {
-                    _mariaSeriesVisibility = Visibility.Hidden;
-                }*/
+            CheckBox chkBx = (CheckBox)sender;
+            ColumnSeries clmnSrs = (ColumnSeries)chkBx.DataContext;
 
-                _mariaSeriesVisibility = value;
-                OnPropertyChanged("MariaSeriesVisibility");
-            }
-        }
-
-        public bool CharlesSeriesVisibility
-        {
-            get { return _charlesSeriesVisibility; }
-            set
-            {
-                _charlesSeriesVisibility = value;
-                OnPropertyChanged("CharlesSeriesVisibility");
-            }
-        }
-
-        public bool JohnSeriesVisibility
-        {
-            get { return _johnSeriesVisibility; }
-            set
-            {
-                _johnSeriesVisibility = value;
-                OnPropertyChanged("JohnSeriesVisibility");
-            }
-        }
-
-        public bool TestSeriesVisibility
-        {
-            get { return _testSeriesVisibility; }
-            set
-            {
-                _testSeriesVisibility = value;
-                OnPropertyChanged("TestSeriesVisibility");
-            }
+            clmnSrs.Visibility = ((bool)chkBx.IsChecked) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
