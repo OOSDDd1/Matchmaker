@@ -38,15 +38,16 @@ namespace MovieMatcher.Views
                 _currentRecommendation = recommendation.Key;
                 var currentRecommendationSource = recommendation.Value;
 
-                Movie? movie = ApiService.GetMovie(_currentRecommendation.id);
-                Movie? movieSource;
-                if (currentRecommendationSource != -1) movieSource = ApiService.GetMovie(currentRecommendationSource);
-                else movieSource = null;
-
-                if (movie == null)
-                {
+                if(!ApiService.GetMovie(_currentRecommendation.id, out var movie))
                     return;
-                }
+                if(movie == null)
+                    return;
+
+                Movie? movieSource;
+                if (currentRecommendationSource != -1) 
+                    ApiService.GetMovie(currentRecommendationSource, out movieSource);
+                else 
+                    movieSource = null;
 
                 Title.Text = movie.title;
                 Tagline.Text = movie.tagline;
@@ -111,7 +112,10 @@ namespace MovieMatcher.Views
             // Recommend movies from discovery endpoint if user has not liked any movies
             if (_likedAndInterestingMovies.Count == 0)
             {
-                var movies = ApiService.GetDiscoveredMovies(_pageCount);
+                if (!ApiService.GetDiscoveredMovies(_pageCount, out var movies))
+                    return;
+                if (movies == null)
+                    return;
 
                 foreach (var movie in movies.results)
                 {
@@ -125,10 +129,13 @@ namespace MovieMatcher.Views
             }
             else
             {
-                var id =
-                    _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
+                var id = _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
                 var page = GetPageForLikedOrInterestingMovie(id);
-                var movies = ApiService.GetRecommendedMovies(id, page);
+                
+                if (!ApiService.GetRecommendedMovies(id, page, out var movies))
+                    return;
+                if (movies == null)
+                    return;
 
                 foreach (var movie in movies.results)
                 {

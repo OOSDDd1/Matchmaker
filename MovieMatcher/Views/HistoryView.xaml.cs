@@ -72,12 +72,18 @@ namespace MovieMatcher.Views
                 ListBoxItem itmBox;
                 if (item.IsShow)
                 {
-                    Show show = ApiService.GetShow(item.ContentId);
+                    if (!ApiService.GetShow(item.ContentId, out var show))
+                        return;
+                    if (show == null)
+                        return;
                     itmBox = CreateItem(show, item.Liked, item.Watched);
                 }
                 else
                 {
-                    Movie movie = ApiService.GetMovie(item.ContentId);
+                    if (!ApiService.GetMovie(item.ContentId, out var movie))
+                        return;
+                    if (movie == null)
+                        return;
                     itmBox = CreateItem(movie, item.Liked, item.Watched);
                 }
                 box.Items.Add(itmBox);

@@ -38,9 +38,10 @@ namespace MovieMatcher.Views
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            var getMovieResult = ApiService.Search(searchTxt.Text, GreaterThan18(UserInfo.BirthYear));
+            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserInfo.BirthYear)))
+                return;
 
-            if (getMovieResult is Message || getMovieResult?.results == null || getMovieResult.results.Count == 0)
+            if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
                 Label lbl = new Label();
                 lbl.Content = "No Results Found";
@@ -57,10 +58,18 @@ namespace MovieMatcher.Views
                     switch (s.media_type)
                     {
                         case "movie":
-                            s.Watch_Providers = ApiService.GetProviders(ApiService.MovieBase, s.id);
+                            if (!ApiService.GetProviders(ApiService.MovieBase, s.id, out var movieProviders))
+                                continue;
+                            if (movieProviders == null) 
+                                continue;
+                            s.Watch_Providers = movieProviders;
                             break;
                         case "tv":
-                            s.Watch_Providers = ApiService.GetProviders(ApiService.ShowBase, s.id);
+                            if (!ApiService.GetProviders(ApiService.ShowBase, s.id, out var showProviders))
+                                continue;
+                            if (showProviders == null) 
+                                continue;
+                            s.Watch_Providers = showProviders;
                             break;
                         default:
                             break;
