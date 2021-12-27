@@ -27,7 +27,7 @@
         <DataTemplate DataType="Views:HistoryView">
             <Views:HistoryView DataContext="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="StaticsViewTemplate" DataType="{x:Type ViewModels:StaticsViewModel}">
+        <DataTemplate DataType="Views:StaticsView">
             <Views:StaticsView DataContext="{Binding}" />
         </DataTemplate>
     </Window.Resources>
@@ -115,6 +115,7 @@
                         <ColumnDefinition MinWidth="60"/>
                         <ColumnDefinition MinWidth="60"/>
                         <ColumnDefinition MinWidth="60"/>
+                        <ColumnDefinition MinWidth="100"/>
                     </Grid.ColumnDefinitions>
                     <Button Click="ResultView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
                         <Viewbox StretchDirection="Both">
@@ -129,6 +130,11 @@
                     <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="3" Click="History_Clicked">
                         <Viewbox StretchDirection="Both">
                             <Label Content="History" FontSize="16" Foreground="White"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="4" Click="Statics_Clicked">
+                        <Viewbox StretchDirection="Both">
+                            <Label Content="Statistieken" FontSize="16" Foreground="White"/>
                         </Viewbox>
                     </Button>
                 </Grid>

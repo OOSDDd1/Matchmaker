@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
     <None Remove="favicon.ico" />
     <None Remove="images\Dislike.png" />
     <None Remove="images\eye-fill.png" />
@@ -20,12 +19,6 @@
     <None Remove="Images\logo.png" />
     <None Remove="Images\search.png" />
     <None Remove="Images\tv.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

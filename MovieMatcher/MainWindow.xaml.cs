@@ -35,7 +35,7 @@ namespace MovieMatcher
 
         private void Statics_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new StaticsViewModel();
+            DataContext = new StaticsView();
         }
 
         private void AccountArrow_Clicked(object sender, RoutedEventArgs e)

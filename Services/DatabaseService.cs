@@ -296,6 +296,60 @@ namespace Services
             }
         }
 
+        public static List<dynamic> GetWatchedCountGenres(int userid)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql =
+                    "SELECT COUNT(id), name FROM MatchMaker.Matchmaker.[genre] G JOIN " +
+                    "MatchMaker.Matchmaker.[content_review] CR ON G.content_id = CR.content_id WHERE watched = 'true' AND user_id = " +
+                    userid + " GROUP BY name";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<dynamic> result = new List<dynamic>();
+
+                        while (reader.Read())
+                        {
+                            var content = new { id = (int)reader.GetValue(0), name = reader.GetValue(1) };
+                            result.Add(content);
+                        }
+
+                        return result;
+                    }
+                }
+            }
+        }
+
+        public static List<dynamic> GetWatchedCountActors(int userid)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql =
+                    "SELECT COUNT(id), name FROM MatchMaker.Matchmaker.[actor] A JOIN " +
+                    "MatchMaker.Matchmaker.[content_review] CR ON A.content_id = CR.content_id WHERE watched = 'true' AND user_id = " +
+                    userid + " GROUP BY name";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<dynamic> result = new List<dynamic>();
+
+                        while (reader.Read())
+                        {
+                            var content = new { id = (int)reader.GetValue(0), name = reader.GetValue(1) };
+                            result.Add(content);
+                        }
+
+                        return result;
+                    }
+                }
+            }
+        }
+
         #region Cache queries
 
         public static string GetCache(string cacheKey)

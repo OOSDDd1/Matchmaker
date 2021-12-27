@@ -18,20 +18,19 @@ using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
-    /// <summary>
-    /// Interaction logic for StaticsView.xaml
-    /// </summary>
     public partial class StaticsView : UserControl, INotifyPropertyChanged
     {
         private Visibility vs = Visibility.Hidden;
         private BooleanToVisibilityConverter converter;
-        public dynamic MariaSeries, CharlesSeries, JohnSeries, Testseries;
+        public dynamic DynamicSeries;
 
 
-        private HashSet<dynamic> TestSet;
+        private HashSet<dynamic> CheckBoxSet = new();
 
         public SeriesCollection ChartSeries { get; set; }
 
@@ -39,37 +38,38 @@ namespace MovieMatcher.Views
         {
             ChartSeries = new SeriesCollection();
             InitializeComponent();
-            //TestSet---------------------------------------------------------------
-            TestSet = new();
-
-            MariaSeries = new ExpandoObject();
-            MariaSeries.Title = "Maria";
-            MariaSeries.Size = 5;
-            MariaSeries.Visible = true;
-
-            CharlesSeries = new ExpandoObject();
-            CharlesSeries.Title = "Charles";
-            CharlesSeries.Size = 3;
-            CharlesSeries.Visible = true;
-
-            JohnSeries = new ExpandoObject();
-            JohnSeries.Title = "John";
-            JohnSeries.Size = 7;
-            JohnSeries.Visible = true;
-
-            Testseries = new ExpandoObject();
-            Testseries.Title = "Test";
-            Testseries.Size = 4;
-            Testseries.Visible = true;
-
-            TestSet.Add(MariaSeries);
-            TestSet.Add(CharlesSeries);
-            TestSet.Add(JohnSeries);
-            TestSet.Add(Testseries);
-            //TestSet-----------------------------------------------------------------------------
+            SetPropertiesGenres();
+            SetPropertiesActors();
             GenerateChart();
-
             DataContext = this;
+        }
+
+        public void SetPropertiesGenres()
+        {
+            List<dynamic> WatchedGenres = DatabaseService.GetWatchedCountGenres(UserStore.id ?? 0);
+            foreach (var property in WatchedGenres)
+            {
+                DynamicSeries = new ExpandoObject();
+                DynamicSeries.Title = property.name;
+                DynamicSeries.Size = property.id;
+                DynamicSeries.Position = 0;
+                DynamicSeries.Visible = true;
+                CheckBoxSet.Add(DynamicSeries);
+            }
+        }
+
+        public void SetPropertiesActors()
+        {
+            List<dynamic> WatchedGenres = DatabaseService.GetWatchedCountActors(UserStore.id ?? 0);
+            foreach (var property in WatchedGenres)
+            {
+                DynamicSeries = new ExpandoObject();
+                DynamicSeries.Title = property.name;
+                DynamicSeries.Size = property.id;
+                DynamicSeries.Position = 1;
+                DynamicSeries.Visible = true;
+                CheckBoxSet.Add(DynamicSeries);
+            }
         }
 
         public void GenerateChart()
@@ -77,17 +77,17 @@ namespace MovieMatcher.Views
             StackPanel StkPnl = new StackPanel();
             StkPnl.Orientation = Orientation.Horizontal;
             List<string> ls = new List<string>();
-            foreach (dynamic item in TestSet)
+            foreach (dynamic item in CheckBoxSet)
             {
                 CheckBox chkBx = GenerateCheckBox((string)item.Title, (bool)item.Visible);
                 StkPnl.Children.Add(chkBx);
-                AddColumnSeries(chkBx, (string)item.Title, (int) item.Size);
+                AddColumnSeries(chkBx, (string)item.Title, (int)item.Size, (int)item.Position);
             }
-            ls.Add("XasItem1");
+            ls.Add("Genre");
+            ls.Add("Actor");
             XBar.Labels = ls;
 
             Grid.Children.Add(StkPnl);
-
         }
 
         public CheckBox GenerateCheckBox(string content, bool visible)
@@ -100,11 +100,17 @@ namespace MovieMatcher.Views
             return ChkBx;
         }
 
-        public void AddColumnSeries(CheckBox chkBx, string Title, int num)
+        public void AddColumnSeries(CheckBox chkBx, string Title, int num, int pos)
         {
             ColumnSeries ClmnSrs = new ColumnSeries();
             ClmnSrs.Title = Title;
-            List<int> LsValues = new List<int> { num };
+            List<int> LsValues = new List<int>();
+            for (int i = 0; i < pos; i++)
+            {
+                LsValues.Add(0);
+            }
+
+            LsValues.Add(num);
             ClmnSrs.Values = LsValues.AsChartValues();
             chkBx.DataContext = ClmnSrs;
             ClmnSrs.MaxWidth = 1000;
