@@ -1,49 +1,36 @@
-﻿using System.IO;
-using System.Windows;
-using Microsoft.Extensions.Configuration;
-using MovieMatcher.ViewModels;
-using System;
-using Newtonsoft.Json;
-using MovieMatcher.Models.Database;
-using System.Windows.Threading;
+﻿using System.Windows;
+using MovieMatcher.Views;
+using Stores;
 
 namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
-
-        public static IConfigurationRoot Config =
-            new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false)
-                .AddEnvironmentVariables()
-                .Build();
-
         public MainWindow()
         {
             InitializeComponent();
-            UserName.Content = UserInfo.Username;
-            DataContext = new ResultViewModel();
+            UserName.Content = UserStore.username;
+            DataContext = new ResultView();
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new ResultViewModel();
+            DataContext = new ResultView();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new SearchViewModel();
+            DataContext = new SearchView();
         }
 
         private void Matcher_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new MatcherViewModel();
+            DataContext = new MatcherView();
         }
 
-        private void ButtonView_Clicked(object sender, RoutedEventArgs e)
+        private void History_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new ButtonViewModel();
+            DataContext = new HistoryView();
         }
 
         private void Statics_Clicked(object sender, RoutedEventArgs e)
@@ -68,11 +55,6 @@ namespace MovieMatcher
         private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
-        }
-
-        private void History_Clicked(object sender, RoutedEventArgs e)
-        {
-            DataContext = new HistoryViewModel();
         }
     }
 }

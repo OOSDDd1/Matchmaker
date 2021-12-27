@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
+using Models.Api.Components;
+using Models.Database;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -16,48 +16,44 @@ namespace MovieMatcher.Views
         public DetailView()
         {
             InitializeComponent();
-            
+
+            bool success;
             switch (DetailViewStore.MediaType)
             {
                 case "movie":
-                    MovieDetail(DetailViewStore.Id);
+                    success = MovieDetail(DetailViewStore.Id);
                     break;
                 case "tv":
-                    ShowDetail(DetailViewStore.Id);
+                    success = ShowDetail(DetailViewStore.Id);
                     break;
                 default:
+                    success = false;
                     return;
             }
 
-            if (Database.CheckForWatched(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) == true)
+            if (!success)
+            {
+                // TODO: show error message
+            }
+            else if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
             {
                 SeenCheckBox.IsChecked = true;
             }
         }
         
-        private void MovieDetail(int id)
+        private bool MovieDetail(int id)
         {
-            Movie? movie;
-            try
-            {
-                movie = Api.GetMovie(id);
-            }
-            catch
-            {
-                return;
-            }
+            if(!ApiService.GetMovie(id, out var movie))
+                return false;
+            if(movie == null)
+                return false;
 
-            if (movie == null)
-            {
-                return;
-            }
-
-            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdrop_path}"));
+            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{movie.backdropPath}"));
             string age;
             try
             {
-                age = movie.release_dates.results.First(result => result.iso_3166_1.Equals("NL"))
-                    .release_dates.First().certification;
+                age = movie.releaseDates.results.First(result => result.iso31661.Equals("NL"))
+                    .releaseDates.First().certification;
             }
             catch
             {
@@ -87,42 +83,33 @@ namespace MovieMatcher.Views
             TageLine.Content = movie.tagline ?? "";
 
             AgeRating.Content = age;
-            Year.Content = movie.release_date.Substring(0, 4) ?? "";
+            Year.Content = movie.releaseDate.Substring(0, 4) ?? "";
             PlayTime.Content = CalculateRunTime(movie.runtime) ?? "";
-            Rating.Content = movie.vote_average + "/10";
-            Rating.ToolTip = $"Rating from {movie.vote_count} votes" ?? "";
+            Rating.Content = movie.voteAverage + "/10";
+            Rating.ToolTip = $"Rating from {movie.voteCount} votes" ?? "";
 
             Genres.Content = GenresToString(movie.genres) ?? "";
 
             Description.Text = movie.overview ?? "";
 
             BudgetAmount.Content = movie.budget;
-            ProductionCompanies.Content = string.Join(", ", movie.production_companies.Select(comp => comp.name));
+            ProductionCompanies.Content = string.Join(", ", movie.productionCompanies.Select(comp => comp.name));
             Actors.Text = string.Join("\n", 
                 movie.credits.cast.OrderBy(person => person.order)
-                    .Where(person => person.known_for_department.Equals("Acting"))
+                    .Where(person => person.knownForDepartment.Equals("Acting"))
                     .Select(person => $"{person.name} ({person.character})")
             );
+            return true;
         }
 
-        private void ShowDetail(int id)
+        private bool ShowDetail(int id)
         {
-            Show? show;
-            try
-            {
-                show = Api.GetShow(id);
-            }
-            catch 
-            {
-                return;
-            }
-
+            if(!ApiService.GetShow(id, out var show))
+                return false;
             if (show == null)
-            {
-                return;
-            }
+                return false;
 
-            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdrop_path}"));
+            BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdropPath}"));
 
             // Left
             // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.poster_path}"));
@@ -142,12 +129,12 @@ namespace MovieMatcher.Views
             // Right
             Title.Content = show.name;
             TageLine.Content = show.tagline ?? "";
-            ShowStats.Content = $"{show.number_of_seasons}S {show.number_of_episodes}E" ?? "";
+            ShowStats.Content = $"{show.numberOfSeasons}S {show.numberOfEpisodes}E" ?? "";
 
             string age;
             try
             {
-                age = show.content_ratings.results.First(rating => rating.iso_3166_1.Equals("NL")).rating;
+                age = show.contentRatings.results.First(rating => rating.iso31661.Equals("NL")).rating;
             }
             catch
             {
@@ -155,21 +142,23 @@ namespace MovieMatcher.Views
             }
 
             AgeRating.Content = age;
-            Year.Content = show.first_air_date.Substring(0, 4) ?? "";
-            PlayTime.Content = CalculateRunTime(show.number_of_episodes * show.episode_run_time.Count > 0 ? show.episode_run_time.First() : 0 ) ?? "";
-            Rating.Content = show.vote_average + "/10" ?? "";
-            Rating.ToolTip = $"Rating from {show.vote_count} votes" ?? "";
+            Year.Content = show.firstAirDate.Substring(0, 4) ?? "";
+            PlayTime.Content = CalculateRunTime(show.numberOfEpisodes * show.episodeRunTime.Count > 0 ? show.episodeRunTime.First() : 0 ) ?? "";
+            Rating.Content = show.voteAverage + "/10" ?? "";
+            Rating.ToolTip = $"Rating from {show.voteCount} votes" ?? "";
 
             Genres.Content = GenresToString(show.genres) ?? "";
 
             Description.Text = show.overview ?? "";
             
-            ProductionCompanies.Content = string.Join(", ", show.production_companies.Select(comp => comp.name));
+            ProductionCompanies.Content = string.Join(", ", show.productionCompanies.Select(comp => comp.name));
             Actors.Text = string.Join("\n", 
                 show.credits.cast.OrderBy(person => person.order)
-                    .Where(person => person.known_for_department.Equals("Acting"))
+                    .Where(person => person.knownForDepartment.Equals("Acting"))
                     .Select(person => $"{person.name} ({person.character})")
                 );
+            
+            return true;
         }
 
         private string CalculateRunTime(int length)
@@ -195,20 +184,20 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            if (Database.CheckIfReviewed(DetailViewStore.Id, UserInfo.Id, DetailViewStore.MediaType.Equals("tv")) )
+            if (DatabaseService.CheckIfReviewed(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) )
             {
-                Database.ChangeItem(
+                DatabaseService.ChangeItem(
                     DetailViewStore.Id,
-                    UserInfo.Id,
+                    UserStore.id ?? 0,
                     isLike,
                     (bool) SeenCheckBox.IsChecked
                 );
             }
             else
             {
-                Database.InsertItem(
+                DatabaseService.InsertItem(
                     DetailViewStore.Id,
-                    UserInfo.Id,
+                    UserStore.id ?? 0,
                     isLike,
                     (bool) SeenCheckBox.IsChecked,
                     DetailViewStore.MediaType.Equals("tv")

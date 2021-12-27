@@ -1,5 +1,6 @@
 ﻿using MovieMatcher;
 using NUnit.Framework;
+using Services;
 
 namespace Tests
 {
@@ -17,7 +18,7 @@ namespace Tests
         [TestCase("email@example.co.jp")]
         public void IsValidEmailAddress_ShouldReturnTrueWithValidEmail(string s)
         {
-            Assert.True(ValidatorExtensions.IsValidEmailAddress(s));
+            Assert.True(ValidatorExtensionsService.IsValidEmailAddress(s));
         }
 
         [TestCase("plainaddress")]
@@ -32,9 +33,9 @@ namespace Tests
         [TestCase("”(),:;<>[\\]@example.com")]
         [TestCase("just”not”right@example.com")]
         [TestCase("this\\ is\"really\"not\allowed@example.com")]
-        public void IsValidEmailAddress_ShouldReturnTrueWithInvalidEmail(string s)
+        public void IsValidEmailAddress_ShouldReturnFalseWithInvalidEmail(string s)
         {
-            Assert.False(ValidatorExtensions.IsValidEmailAddress(s));
+            Assert.False(ValidatorExtensionsService.IsValidEmailAddress(s));
         }
 
         [TestCase("AAaa11!!")]
@@ -46,7 +47,7 @@ namespace Tests
         [TestCase("^yYaAbB61")]
         public void IsValidPassword_ShouldReturnTrueWithValidPassword(string s)
         {
-            Assert.True(ValidatorExtensions.IsValidPassword(s));
+            Assert.True(ValidatorExtensionsService.IsValidPassword(s));
         }
 
         [TestCase("AAaa1!!")]
@@ -57,9 +58,9 @@ namespace Tests
         [TestCase("!@#$%^&*()_+A69")]
         [TestCase("^yYaAbBasdxcsd")]
         [TestCase("               ")]
-        public void IsValidPassword_ShouldReturnTrueWithInvalidPassword(string s)
+        public void IsValidPassword_ShouldReturnFalseWithInvalidPassword(string s)
         {
-            Assert.False(ValidatorExtensions.IsValidPassword(s));
+            Assert.False(ValidatorExtensionsService.IsValidPassword(s));
         }
 
         [TestCase("02/12/1984")]
@@ -72,7 +73,7 @@ namespace Tests
         [TestCase("2/1/2021")]
         public void IsValidDate_ShouldReturnTrueWithValidDate(string s)
         {
-            Assert.True(ValidatorExtensions.IsValidDate(s));
+            Assert.True(ValidatorExtensionsService.IsValidDate(s));
         }
 
         [TestCase("32/11/1987")]
@@ -87,9 +88,9 @@ namespace Tests
         [TestCase("15/18-198")]
         [TestCase("15/18/198")]
         [TestCase("15-18-198")]
-        public void IsValidDate_ShouldReturnTrueWithInvalidDate(string s)
+        public void IsValidDate_ShouldReturnFalseWithInvalidDate(string s)
         {
-            Assert.False(ValidatorExtensions.IsValidDate(s));
+            Assert.False(ValidatorExtensionsService.IsValidDate(s));
         }
     }
 }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
+using Models.Api;
+using Models.Api.Components;
+using Models.Database;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -24,8 +25,8 @@ namespace MovieMatcher.Views
         public MatcherView()
         {
             InitializeComponent();
-            _reviewedMovies = Database.GetReviewedMovies(UserInfo.Id);
-            _likedAndInterestingMovies = Database.GetInterestingAndLikedMovies();
+            _reviewedMovies = DatabaseService.GetReviewedMovies(UserStore.id ?? 0);
+            _likedAndInterestingMovies = DatabaseService.GetInterestingAndLikedMovies();
             SetNewContent();
         }
 
@@ -38,15 +39,16 @@ namespace MovieMatcher.Views
                 _currentRecommendation = recommendation.Key;
                 var currentRecommendationSource = recommendation.Value;
 
-                Movie? movie = Api.GetMovie(_currentRecommendation.id);
-                Movie? movieSource;
-                if (currentRecommendationSource != -1) movieSource = Api.GetMovie(currentRecommendationSource);
-                else movieSource = null;
-
-                if (movie == null)
-                {
+                if(!ApiService.GetMovie(_currentRecommendation.id, out var movie))
                     return;
-                }
+                if(movie == null)
+                    return;
+
+                Movie? movieSource;
+                if (currentRecommendationSource != -1) 
+                    ApiService.GetMovie(currentRecommendationSource, out movieSource);
+                else 
+                    movieSource = null;
 
                 Title.Text = movie.title;
                 Tagline.Text = movie.tagline;
@@ -86,7 +88,7 @@ namespace MovieMatcher.Views
                 {
                     BitmapImage bitmap = new();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentRecommendation.poster_path,
+                    bitmap.UriSource = new Uri("https://image.tmdb.org/t/p/w500/" + _currentRecommendation.posterPath,
                         UriKind.Absolute);
                     bitmap.EndInit();
 
@@ -111,7 +113,10 @@ namespace MovieMatcher.Views
             // Recommend movies from discovery endpoint if user has not liked any movies
             if (_likedAndInterestingMovies.Count == 0)
             {
-                var movies = Api.GetDiscoveredMovies(_pageCount);
+                if (!ApiService.GetDiscoveredMovies(_pageCount, out var movies))
+                    return;
+                if (movies == null)
+                    return;
 
                 foreach (var movie in movies.results)
                 {
@@ -125,10 +130,13 @@ namespace MovieMatcher.Views
             }
             else
             {
-                var id =
-                    _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
+                var id = _likedAndInterestingMovies.ElementAt(_random.Next(_likedAndInterestingMovies.Count));
                 var page = GetPageForLikedOrInterestingMovie(id);
-                var movies = Api.GetRecommendedMovies(id, page);
+                
+                if (!ApiService.GetRecommendedMovies(id, page, out var movies))
+                    return;
+                if (movies == null)
+                    return;
 
                 foreach (var movie in movies.results)
                 {
@@ -157,7 +165,7 @@ namespace MovieMatcher.Views
         private void OnMoreInfoClick(object sender, RoutedEventArgs e)
         {
             DetailViewStore.Id = _currentRecommendation.id;
-            DetailViewStore.MediaType = _currentRecommendation.media_type;
+            DetailViewStore.MediaType = _currentRecommendation.mediaType;
 
             Window window = new()
             {
@@ -172,9 +180,9 @@ namespace MovieMatcher.Views
 
         private void SubmitContentReview(bool isLike)
         {
-            Database.InsertItem(
+            DatabaseService.InsertItem(
                 _currentRecommendation.id,
-                UserInfo.Id,
+                UserStore.id ?? 0,
                 isLike,
                 (bool)SeenCheckBox.IsChecked,
                 false

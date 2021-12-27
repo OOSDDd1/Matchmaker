@@ -1,24 +1,14 @@
-using MovieMatcher.Models;
-using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Api.Components;
-using MovieMatcher.ViewModels;
-using Newtonsoft.Json;
+using Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
+using Models.Api;
+using Models.Api.Components;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -35,12 +25,13 @@ namespace MovieMatcher.Views
         //when the searchbutton is clicked, this function will fire filling the listbox with items
         private void SearchButton_Clicked(object sender, RoutedEventArgs e)
         {
+            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserStore.birthYear ?? DateTime.Now)))
+                return;
+
             Grid.SetRow(SearchBar, 0);
             ResultBox.Items.Clear();
 
-            var getMovieResult = Api.Search(searchTxt.Text, GreaterThan18(UserInfo.BirthYear));
-
-            if (getMovieResult is Message || getMovieResult?.results == null || getMovieResult.results.Count == 0)
+            if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
                 Label lbl = new Label();
                 lbl.Content = "No Results Found";
@@ -54,13 +45,21 @@ namespace MovieMatcher.Views
             {
                 foreach (MultiSearchResult s in getMovieResult.results)
                 {
-                    switch (s.media_type)
+                    switch (s.mediaType)
                     {
                         case "movie":
-                            s.Watch_Providers = Api.GetProviders(Api.MovieBase, s.id);
+                            if (!ApiService.GetProviders(ApiService.MovieBase, s.id, out var movieProviders))
+                                continue;
+                            if (movieProviders == null) 
+                                continue;
+                            s.watchProviders = movieProviders;
                             break;
                         case "tv":
-                            s.Watch_Providers = Api.GetProviders(Api.ShowBase, s.id);
+                            if (!ApiService.GetProviders(ApiService.ShowBase, s.id, out var showProviders))
+                                continue;
+                            if (showProviders == null) 
+                                continue;
+                            s.watchProviders = showProviders;
                             break;
                         default:
                             break;
@@ -77,17 +76,17 @@ namespace MovieMatcher.Views
                     Grid grd = new Grid();
 
                     Image img = new Image();
-                    if (s.poster_path == null && s.profile_path == null)
+                    if (s.posterPath == null && s.profilePath == null)
                     {
                         img.Source = new BitmapImage(new Uri(@"/Images/SamplePoster.png", UriKind.Relative));
                     }
-                    else if (s.poster_path == null)
+                    else if (s.posterPath == null)
                     {
-                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.profile_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.profilePath}"));
                     }
                     else
                     {
-                        img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.poster_path}"));
+                        img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.posterPath}"));
                     }
 
                     img.Stretch = Stretch.Fill;
@@ -147,9 +146,9 @@ namespace MovieMatcher.Views
 
                 tGrd.Children.Add(txt);
 
-                if (msr.Watch_Providers != null && msr.Watch_Providers.results.ContainsKey("NL"))
+                if (msr.watchProviders != null && msr.watchProviders.results.ContainsKey("NL"))
                 {
-                    Provider provider = msr.Watch_Providers.results["NL"];
+                    Provider provider = msr.watchProviders.results["NL"];
                     WrapPanel wPanel = new WrapPanel();
                     wPanel.Orientation = Orientation.Horizontal;
                     wPanel.HorizontalAlignment = HorizontalAlignment.Left;
@@ -203,9 +202,9 @@ namespace MovieMatcher.Views
             Button RealButton = (Button) sender;
             var tmp = (Content) RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
-            DetailViewStore.MediaType = tmp.media_type;
+            DetailViewStore.MediaType = tmp.mediaType;
 
-            Application.Current.Windows[0].DataContext = new DetailViewModel();
+            Application.Current.Windows[0].DataContext = new DetailView();
         }
 
         //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)
@@ -218,13 +217,13 @@ namespace MovieMatcher.Views
         }
 
         //Adds logopaths to dictionary for later use, used generic to get all types(ads, buy, rent, flatrate) in one strain of code
-        private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : ProviderGegevens
+        private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : IProviderData
         {
             foreach (T item in provider)
             {
-                if (!logoSources.ContainsKey(item.provider_id))
+                if (!logoSources.ContainsKey(item.providerId))
                 {
-                    logoSources.Add(item.provider_id, item.logo_path);
+                    logoSources.Add(item.providerId, item.logoPath);
                 }
             }
         }
@@ -233,7 +232,7 @@ namespace MovieMatcher.Views
         private Image CreateLogo(string source)
         {
             Image pImg = new Image();
-            pImg.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{source}", UriKind.Absolute));
+            pImg.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{source}", UriKind.Absolute));
             pImg.VerticalAlignment = VerticalAlignment.Top;
             pImg.HorizontalAlignment = HorizontalAlignment.Left;
             pImg.Width = 25;

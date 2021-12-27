@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Services;
 
 namespace MovieMatcher
 {
@@ -48,9 +49,9 @@ namespace MovieMatcher
                 DateTime convertedDate = Convert.ToDateTime(DateOfBirth.Text);
                 var dateOfBirth = convertedDate.ToString("MM-dd-yyyy");
                 
-                var responseMessage = Database.CreateUser(
+                var responseMessage = DatabaseService.CreateUser(
                     Username.Text,
-                    PasswordHasher.Hash(Password.Password),
+                    PasswordService.Hash(Password.Password),
                     Email.Text,
                     dateOfBirth
                 );

@@ -1,19 +1,8 @@
-﻿using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Models.Api;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -28,10 +17,14 @@ namespace MovieMatcher.Views
         {
             InitializeComponent();
 
-            Result = Api.GetShow(5);
+            if (!ApiService.GetShow(5, out var result))
+                return;
+            if (result == null)
+                return;
+            Result = result;
 
-            bool? liked = Database.CheckForLiked(Result.id, UserInfo.Id, Result.media_type.Equals("tv"));
-            bool? watched = Database.CheckForWatched(Result.id, UserInfo.Id, Result.media_type.Equals("tv"));
+            bool? liked = DatabaseService.CheckForLiked(Result.id, UserStore.id ?? 0, Result.mediaType.Equals("tv"));
+            bool? watched = DatabaseService.CheckForWatched(Result.id, UserStore.id ?? 0, Result.mediaType.Equals("tv"));
 
             switch (liked)
             {
@@ -61,7 +54,7 @@ namespace MovieMatcher.Views
         {
             if ((bool) DislikeButton.DataContext != false || (bool) LikeButton.DataContext != false)
             {
-                Database.ChangeItem(Result.id, UserInfo.Id, true, (bool) SeenBox.IsChecked);
+                DatabaseService.ChangeItem(Result.id, UserStore.id ?? 0, true, (bool) SeenBox.IsChecked);
             }
         }
 
@@ -69,7 +62,7 @@ namespace MovieMatcher.Views
         {
             if ((bool) LikeButton.DataContext == true)
             {
-                Database.ChangeItem(Result.id, UserInfo.Id, false, (bool) SeenBox.IsChecked);
+                DatabaseService.ChangeItem(Result.id, UserStore.id ?? 0, false, (bool) SeenBox.IsChecked);
 
                 LikeButton.DataContext = false;
                 ((Image) LikeButton.Content).Opacity = 1;
@@ -82,13 +75,13 @@ namespace MovieMatcher.Views
             {
                 DislikeButton.DataContext = true;
                 ((Image) DislikeButton.Content).Opacity = 0.5;
-                if (Result.media_type == "tv")
+                if (Result.mediaType == "tv")
                 {
-                    Database.InsertItem(Result.id, UserInfo.Id, false, (bool) SeenBox.IsChecked, true);
+                    DatabaseService.InsertItem(Result.id, UserStore.id ?? 0, false, (bool) SeenBox.IsChecked, true);
                 }
                 else
                 {
-                    Database.InsertItem(Result.id, UserInfo.Id, false, (bool) SeenBox.IsChecked, false);
+                    DatabaseService.InsertItem(Result.id, UserStore.id ?? 0, false, (bool) SeenBox.IsChecked, false);
                 }
             }
         }
@@ -97,7 +90,7 @@ namespace MovieMatcher.Views
         {
             if ((bool) DislikeButton.DataContext == true)
             {
-                Database.ChangeItem(Result.id, UserInfo.Id, true, (bool) SeenBox.IsChecked);
+                DatabaseService.ChangeItem(Result.id, UserStore.id ?? 0, true, (bool) SeenBox.IsChecked);
 
                 DislikeButton.DataContext = false;
                 ((Image) DislikeButton.Content).Opacity = 1;
@@ -109,13 +102,13 @@ namespace MovieMatcher.Views
             {
                 LikeButton.DataContext = true;
                 ((Image) LikeButton.Content).Opacity = 0.5;
-                if (Result.media_type == "tv")
+                if (Result.mediaType == "tv")
                 {
-                    Database.InsertItem(Result.id, UserInfo.Id, true, (bool) SeenBox.IsChecked, true);
+                    DatabaseService.InsertItem(Result.id, UserStore.id ?? 0, true, (bool) SeenBox.IsChecked, true);
                 }
                 else
                 {
-                    Database.InsertItem(Result.id, UserInfo.Id, true, (bool) SeenBox.IsChecked, false);
+                    DatabaseService.InsertItem(Result.id, UserStore.id ?? 0, true, (bool) SeenBox.IsChecked, false);
                 }
             }
         }

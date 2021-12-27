@@ -1,22 +1,14 @@
-﻿using MovieMatcher.Models.Api;
-using MovieMatcher.Models.Database;
-using MovieMatcher.Stores;
-using MovieMatcher.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Models.Api;
+using Models.Database;
+using Services;
+using Stores;
 
 namespace MovieMatcher.Views
 {
@@ -28,7 +20,7 @@ namespace MovieMatcher.Views
         public HistoryView()
         {
             InitializeComponent();
-            List<Review> databaseItems = Database.GetReviewedItems(UserInfo.Id);
+            List<Review> databaseItems = DatabaseService.GetReviewedItems(UserStore.id ?? 0);
 
             DateTime currentTime = new DateTime();
             ListBox box = new ListBox();
@@ -72,12 +64,18 @@ namespace MovieMatcher.Views
                 ListBoxItem itmBox;
                 if (item.IsShow)
                 {
-                    Show show = Api.GetShow(item.ContentId);
+                    if (!ApiService.GetShow(item.ContentId, out var show))
+                        return;
+                    if (show == null)
+                        return;
                     itmBox = CreateItem(show, item.Liked, item.Watched);
                 }
                 else
                 {
-                    Movie movie = Api.GetMovie(item.ContentId);
+                    if (!ApiService.GetMovie(item.ContentId, out var movie))
+                        return;
+                    if (movie == null)
+                        return;
                     itmBox = CreateItem(movie, item.Liked, item.Watched);
                 }
                 box.Items.Add(itmBox);
@@ -97,13 +95,13 @@ namespace MovieMatcher.Views
             Grid grd = new Grid();
 
             Image img = new Image();
-            if (s.poster_path == null)
+            if (s.posterPath == null)
             {
                 img.Source = new BitmapImage(new Uri(@"/Images/SamplePoster.png", UriKind.Relative));
             }
             else
             {
-                img.Source = new BitmapImage(new Uri($"{Api.ImageBase}{Api.W185}{s.poster_path}"));
+                img.Source = new BitmapImage(new Uri($"{ApiService.ImageBase}{ApiService.W185}{s.posterPath}"));
             }
 
             img.Stretch = Stretch.Fill;
@@ -153,9 +151,9 @@ namespace MovieMatcher.Views
             Button RealButton = (Button)sender;
             var tmp = (Content)RealButton.DataContext;
             DetailViewStore.Id = tmp.id;
-            DetailViewStore.MediaType = tmp.media_type;
+            DetailViewStore.MediaType = tmp.mediaType;
 
-            Application.Current.Windows[0].DataContext = new DetailViewModel();
+            Application.Current.Windows[0].DataContext = new DetailView();
         }
     }
 }
