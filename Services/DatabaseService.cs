@@ -296,7 +296,7 @@ namespace Services
             }
         }
 
-        public static List<dynamic> GetWatchedCountGenres(int userid)
+        public static List<Tuple<int, string>> GetWatchedCountGenres(int userid)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
@@ -309,11 +309,11 @@ namespace Services
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        List<dynamic> result = new List<dynamic>();
+                        List<Tuple<int, string>> result = new List<Tuple<int, string>>();
 
                         while (reader.Read())
                         {
-                            var content = new { id = (int)reader.GetValue(0), name = reader.GetValue(1) };
+                            Tuple<int, string> content = new Tuple<int, string>((int)reader.GetValue(0), (string)reader.GetValue(1));
                             result.Add(content);
                         }
 
@@ -323,7 +323,7 @@ namespace Services
             }
         }
 
-        public static List<dynamic> GetWatchedCountActors(int userid)
+        public static List<Tuple<int, string>> GetWatchedCountActors(int userid)
         {
             using (SqlConnection connection = new SqlConnection(_sqlBuilder))
             {
@@ -336,11 +336,11 @@ namespace Services
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        List<dynamic> result = new List<dynamic>();
+                        List<Tuple<int, string>> result = new List<Tuple<int, string>>();
 
                         while (reader.Read())
                         {
-                            var content = new { id = (int)reader.GetValue(0), name = reader.GetValue(1) };
+                            Tuple<int, string> content = new Tuple<int, string>((int)reader.GetValue(0), (string)reader.GetValue(1));
                             result.Add(content);
                         }
 

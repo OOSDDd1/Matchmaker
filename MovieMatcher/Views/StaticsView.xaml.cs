@@ -46,12 +46,12 @@ namespace MovieMatcher.Views
 
         public void SetPropertiesGenres()
         {
-            List<dynamic> WatchedGenres = DatabaseService.GetWatchedCountGenres(UserStore.id ?? 0);
+            List<Tuple<int,string>> WatchedGenres = DatabaseService.GetWatchedCountGenres(UserStore.id ?? 0);
             foreach (var property in WatchedGenres)
             {
                 DynamicSeries = new ExpandoObject();
-                DynamicSeries.Title = property.name;
-                DynamicSeries.Size = property.id;
+                DynamicSeries.Title = property.Item2;
+                DynamicSeries.Size = property.Item1;
                 DynamicSeries.Position = 0;
                 DynamicSeries.Visible = true;
                 CheckBoxSet.Add(DynamicSeries);
@@ -60,12 +60,12 @@ namespace MovieMatcher.Views
 
         public void SetPropertiesActors()
         {
-            List<dynamic> WatchedGenres = DatabaseService.GetWatchedCountActors(UserStore.id ?? 0);
+            List<Tuple<int, string>> WatchedGenres = DatabaseService.GetWatchedCountActors(UserStore.id ?? 0);
             foreach (var property in WatchedGenres)
             {
                 DynamicSeries = new ExpandoObject();
-                DynamicSeries.Title = property.name;
-                DynamicSeries.Size = property.id;
+                DynamicSeries.Title = property.Item2;
+                DynamicSeries.Size = property.Item1;
                 DynamicSeries.Position = 1;
                 DynamicSeries.Visible = true;
                 CheckBoxSet.Add(DynamicSeries);
