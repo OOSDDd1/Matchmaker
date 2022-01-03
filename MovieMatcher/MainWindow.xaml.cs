@@ -49,7 +49,13 @@ namespace MovieMatcher
 
         private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            UserStore.Clear();
+            DetailViewStore.Clear();
+            
+            var loginScreen = new Login();
+            loginScreen.Show();
+            
+            Close();
         }
     }
 }

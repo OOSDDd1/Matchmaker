@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace MovieMatcher
 {
+    /**
+     * WARNING: use for debugging only.
+     * Show a terminal by calling the Show function, print to the console as usual.
+     */
     internal static class ConsoleService
     {
         [DllImport(@"kernel32.dll", SetLastError = true)]
@@ -16,8 +20,7 @@ namespace MovieMatcher
 
         const int SwHide = 0;
         const int SwShow = 5;
-
-
+        
         public static void Show()
         {
             var handle = GetConsoleWindow();
