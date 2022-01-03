@@ -1,4 +1,4 @@
-<UserControl x:Class="MovieMatcher.Views.StatisticsView"
+﻿<UserControl x:Class="MovieMatcher.Views.StatisticsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -129,9 +129,10 @@
                 </ScrollViewer>
             </StackPanel>
         </StackPanel>
+        
         <lvc:CartesianChart x:Name="ChartComponent" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Hoverable="False" Series="{Binding ChartSeries}" Margin="0,10,82,0">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Name="XBar">
+                <lvc:Axis Name="XBar" Labels="Genre, Actors">
                     <lvc:Axis.Separator>
                         <lvc:Separator  Step="1"></lvc:Separator>
                     </lvc:Axis.Separator>
