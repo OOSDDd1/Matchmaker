@@ -10,6 +10,13 @@ MovieMatcher is an application that matches movies and series to the user and of
 2. Fill in variables.
 3. Use like this: `MainWindow.Config["config-key"]`.
 
+## Run
+Before you run the application run the following command in a terminal.
+```shell
+ssh -L 1433:localhost:1433 student@145.44.233.161
+```
+You will be asked for a password. This is the same as the password for the database.
+
 ## Contributors
 
 Windesheim HBO-ICT OOSDDd1.
