@@ -137,6 +137,14 @@ namespace Services
             return Get<DiscoveredMovie>(MovieBase, GetRecommendations, urlSegments, urlParameters, out response);
         }
 
+        public static bool GetMovieReleaseDates(int id, out MovieReleaseDates? response)
+        {
+            var urlSegments = new Dictionary<string, string>
+                { { "id", id.ToString() } };
+
+            return Get<MovieReleaseDates>(MovieBase, ReleaseDates, urlSegments, out response);
+        }
+
         public static bool GetShow(int id, out Show? response)
         {
             var urlSegments = new Dictionary<string, string>
@@ -190,28 +198,20 @@ namespace Services
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters, out response);
         }
 
-        public static bool GetProviders(string resourceBase, int id, out Providers? response)
-        {
-            var urlSegments = new Dictionary<string, string>
-                { { "id", id.ToString() } };
-
-            return Get<Providers>(resourceBase, GetWatchProviders, urlSegments, out response);
-        }
-
-        public static bool GetMovieReleaseDates(int id, out MovieReleaseDates? response)
-        {
-            var urlSegments = new Dictionary<string, string>
-                { { "id", id.ToString() } };
-
-            return Get<MovieReleaseDates>(MovieBase, ReleaseDates, urlSegments, out response);
-        }
-
         public static bool GetSerieContentRatings(int id, out ShowContentRatings? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
 
             return Get<ShowContentRatings>(ShowBase, ContentRatings, urlSegments, out response);
+        }
+
+        public static bool GetProviders(string resourceBase, int id, out Providers? response)
+        {
+            var urlSegments = new Dictionary<string, string>
+                { { "id", id.ToString() } };
+
+            return Get<Providers>(resourceBase, GetWatchProviders, urlSegments, out response);
         }
 
         public static bool Search(string query, out MultiSearch? response, bool adult = false)
@@ -231,7 +231,7 @@ namespace Services
          * These functions communicate and transforms the requests to the movie database.
          * The Api returns a json which is transformed to a class using an external library.
          */
-        #region Api Get + overloaders
+        #region General Api Get + overloader
 
         public static bool Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments, out T? response)
             where T : IRoot
@@ -239,6 +239,14 @@ namespace Services
             return Get<T>(resourceBase, resource, urlSegments, new Dictionary<string, string>(), out response);
         }
 
+        /**
+         * resourceBase defines if it is a movie or show(tv). Eg. `movie/`.
+         * resource is what information you want. Eg. `{id}/watch/providers` to get where the movie is available.
+         * urlSegments is the variable inside the resource. Eg. `movie/{id}/watch/providers` contains the variable id.
+         * urlParameters are the variables behind the question mark. Eg. `movie/5678?api-key=abc123`.
+         * response is what the Api returns and can be empty.
+         * If an item is returned from the Api this function returns true, false otherwise.
+         */
         public static bool Get<T>(string resourceBase, string resource, Dictionary<string, string> urlSegments,
             Dictionary<string, string> urlParameters, out T? response)
             where T : IRoot
@@ -261,6 +269,11 @@ namespace Services
             return true;
         }
 
+        /**
+         * Resource is where the call is made to. Eg. `movie/trending`.
+         * urlSegments is the variables inside the resource. Eg. `movie/{id}` contains the variable id.
+         * urlParameters are the variables behind the question mark. Eg. `movie/5678?api-key=abc123`.
+         */
         private static IRestResponse GenerateResponse(string resource, Dictionary<string, string> urlSegments,
             Dictionary<string, string> urlParameters)
         {
@@ -287,7 +300,7 @@ namespace Services
         #endregion
 
         /*
-         * Every call to the api is costly in time (but api is free), this is why an cache is inevitable.
+         * Every call to the api is costly in time (the api itself is free), this is why an cache is a must have.
          * We have a memory and database cache.
          * Every request is stored in memory.
          * Only Movies and Shows are stored in the database, these are used for the statistics page.
@@ -410,12 +423,14 @@ namespace Services
         {
             Cache.TryGetValue(key, out var root);
             
+            // Cast dynamic to generic T. Only classes inheriting IRoot can be stored and restored.
             if (root != null)
             {
                 value = (T) root;
                 return true;
             }
 
+            // The out variable must be set.
             value = default;
             return false;
         }
