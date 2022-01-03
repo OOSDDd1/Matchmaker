@@ -285,13 +285,13 @@ namespace Services
             );
             contentCommand.Parameters.Add("@Id", SqlDbType.Int).Value = cacheInsert.Id;
             contentCommand.Parameters.Add("@CacheKey", SqlDbType.VarChar).Value = cacheInsert.CacheKey;
-            contentCommand.Parameters.Add("@Title", SqlDbType.VarChar).Value = cacheInsert.Title;
-            contentCommand.Parameters.Add("@Overview", SqlDbType.VarChar).Value = cacheInsert.Overview;
-            contentCommand.Parameters.Add("@PosterPath", SqlDbType.VarChar).Value = cacheInsert.PosterPath;
-            contentCommand.Parameters.Add("@BackdropPath", SqlDbType.VarChar).Value = cacheInsert.BackdropPath;
-            contentCommand.Parameters.Add("@TrailerUrl", SqlDbType.VarChar).Value = cacheInsert.TrailerUrl;
+            contentCommand.Parameters.Add("@Title", SqlDbType.VarChar).Value = cacheInsert.Title ?? string.Empty;
+            contentCommand.Parameters.Add("@Overview", SqlDbType.VarChar).Value = cacheInsert.Overview ?? string.Empty;
+            contentCommand.Parameters.Add("@PosterPath", SqlDbType.VarChar).Value = cacheInsert.PosterPath ?? string.Empty;
+            contentCommand.Parameters.Add("@BackdropPath", SqlDbType.VarChar).Value = cacheInsert.BackdropPath ?? string.Empty;
+            contentCommand.Parameters.Add("@TrailerUrl", SqlDbType.VarChar).Value = cacheInsert.TrailerUrl ?? string.Empty;
             contentCommand.Parameters.Add("@Age", SqlDbType.Int).Value = cacheInsert.Age;
-            contentCommand.Parameters.Add("@Json", SqlDbType.VarChar).Value = cacheInsert.Json;
+            contentCommand.Parameters.Add("@Json", SqlDbType.VarChar).Value = cacheInsert.Json ?? string.Empty;
             contentCommand.Parameters.Add("@IsShow", SqlDbType.Bit).Value = cacheInsert.IsShow;
 
             contentCommand.ExecuteNonQuery();
@@ -312,8 +312,8 @@ namespace Services
                 actorsCommand.Parameters[0].Value = actor.id;
                 actorsCommand.Parameters[1].Value = cacheInsert.Id;
                 actorsCommand.Parameters[2].Value = cacheInsert.IsShow;
-                actorsCommand.Parameters[3].Value = actor.name;
-                actorsCommand.Parameters[4].Value = actor.character;
+                actorsCommand.Parameters[3].Value = actor.name ?? string.Empty;
+                actorsCommand.Parameters[4].Value = actor.character ?? string.Empty;
                 actorsCommand.ExecuteNonQuery();
             }
 
@@ -332,7 +332,7 @@ namespace Services
                 genresCommand.Parameters[0].Value = genre.id;
                 genresCommand.Parameters[1].Value = cacheInsert.Id;
                 genresCommand.Parameters[2].Value = cacheInsert.IsShow;
-                genresCommand.Parameters[3].Value = genre.name;
+                genresCommand.Parameters[3].Value = genre.name ?? string.Empty;
                 genresCommand.ExecuteNonQuery();
             }
 
