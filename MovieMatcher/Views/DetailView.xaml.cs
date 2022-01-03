@@ -77,21 +77,27 @@ namespace MovieMatcher.Views
 
 
             // Left
-            // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.poster_path}"));
 
             string videoKey = "";
-            try
+            if (movie.videos.results.Count() != 0)
             {
-                videoKey = movie.videos.results
-                    .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                try
+                {
+                    videoKey = movie.videos.results
+                        .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                }
+                catch
+                {
+                    if (movie.videos.results.Count != 0)
+                        videoKey = movie.videos.results.First().key;
+                }
+                
+                Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
             }
-            catch
+            else
             {
-                if (movie.videos.results.Count != 0)
-                    videoKey = movie.videos.results.First().key;
+                Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.posterPath}"));
             }
-
-            Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
 
             // Right
             Title.Content = movie.title ?? "";
@@ -127,19 +133,25 @@ namespace MovieMatcher.Views
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdropPath}"));
 
             // Left
-            // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.poster_path}"));
             string videoKey;
-            try
+            if (show.videos.results.Count() != 0)
             {
-                videoKey = show.videos.results
-                    .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
-            }
-            catch
-            {
-                videoKey = show.videos.results.First().key;
-            }
+                try
+                {
+                    videoKey = show.videos.results
+                        .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                }
+                catch
+                {
+                    videoKey = show.videos.results.First().key;
+                }
 
-            Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
+                Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
+            }
+            else
+            {
+                Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.posterPath}"));
+            }
 
             // Right
             Title.Content = show.name;

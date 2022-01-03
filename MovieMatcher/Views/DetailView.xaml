@@ -54,8 +54,8 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <!-- <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
-                     MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" /> -->
+                <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
+                     MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" />
                 
                 <wpf:ChromiumWebBrowser
                     x:Name="Browser"
