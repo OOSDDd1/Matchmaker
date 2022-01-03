@@ -28,6 +28,7 @@ namespace MovieMatcher.Views
         private Visibility vs = Visibility.Hidden;
         private BooleanToVisibilityConverter converter;
         public dynamic DynamicSeries;
+        private Dictionary<int, int> MaxAmount = new();
 
 
         private HashSet<dynamic> CheckBoxSet = new();
@@ -42,24 +43,42 @@ namespace MovieMatcher.Views
             SetPropertiesActors();
             GenerateChart();
             DataContext = this;
+            Loaded += AfterLoading;
+        }
+
+        public void AfterLoading(object sender, RoutedEventArgs e)
+        {
+            foreach (CheckBox s in GenreCheckList.Children)
+            {
+                ClmVis(s, new RoutedEventArgs());
+            }
+            foreach (CheckBox s in ActorCheckList.Children)
+            {
+                ClmVis(s, new RoutedEventArgs());
+            }
+
+            MaxAmount[0] = 0;
+            MaxAmount[1] = 0;
         }
 
         public void SetPropertiesGenres()
         {
-            List<Tuple<int,string>> WatchedGenres = DatabaseService.GetWatchedCountGenres(UserStore.id ?? 0);
+            MaxAmount.Add(0, 0);
+            List<Tuple<int, string>> WatchedGenres = DatabaseService.GetWatchedCountGenres(UserStore.id ?? 0);
             foreach (var property in WatchedGenres)
             {
                 DynamicSeries = new ExpandoObject();
                 DynamicSeries.Title = property.Item2;
                 DynamicSeries.Size = property.Item1;
                 DynamicSeries.Position = 0;
-                DynamicSeries.Visible = true;
+                DynamicSeries.Visible = false;
                 CheckBoxSet.Add(DynamicSeries);
             }
         }
 
         public void SetPropertiesActors()
         {
+            MaxAmount.Add(1, 0);
             List<Tuple<int, string>> WatchedGenres = DatabaseService.GetWatchedCountActors(UserStore.id ?? 0);
             foreach (var property in WatchedGenres)
             {
@@ -67,7 +86,7 @@ namespace MovieMatcher.Views
                 DynamicSeries.Title = property.Item2;
                 DynamicSeries.Size = property.Item1;
                 DynamicSeries.Position = 1;
-                DynamicSeries.Visible = true;
+                DynamicSeries.Visible = false;
                 CheckBoxSet.Add(DynamicSeries);
             }
         }
@@ -80,7 +99,18 @@ namespace MovieMatcher.Views
             foreach (dynamic item in CheckBoxSet)
             {
                 CheckBox chkBx = GenerateCheckBox((string)item.Title, (bool)item.Visible);
-                StkPnl.Children.Add(chkBx);
+                switch (item.Position)
+                {
+                    case 0:
+                        GenreCheckList.Children.Add(chkBx);
+                        break;
+                    case 1:
+                        ActorCheckList.Children.Add(chkBx);
+                        break;
+                    default:
+                        StkPnl.Children.Add(chkBx);
+                        break;
+                }
                 AddColumnSeries(chkBx, (string)item.Title, (int)item.Size, (int)item.Position);
             }
             ls.Add("Genre");
@@ -94,9 +124,10 @@ namespace MovieMatcher.Views
         {
             CheckBox ChkBx = new CheckBox();
             ChkBx.Content = content;
-            ChkBx.IsChecked = visible;
+            ChkBx.Foreground = Brushes.White;
             ChkBx.Checked += ClmVis;
             ChkBx.Unchecked += ClmVis;
+            ChkBx.IsChecked = visible;
             return ChkBx;
         }
 
@@ -104,6 +135,7 @@ namespace MovieMatcher.Views
         {
             ColumnSeries ClmnSrs = new ColumnSeries();
             ClmnSrs.Title = Title;
+            ClmnSrs.DataContext = pos;
             List<int> LsValues = new List<int>();
             for (int i = 0; i < pos; i++)
             {
@@ -122,8 +154,25 @@ namespace MovieMatcher.Views
         {
             CheckBox chkBx = (CheckBox)sender;
             ColumnSeries clmnSrs = (ColumnSeries)chkBx.DataContext;
+            int pos = (int)clmnSrs.DataContext;
+            if ((bool)chkBx.IsChecked)
+            {
+                MaxAmount[pos]++;
+            }
+            else
+            {
+                MaxAmount[pos]--;
+            }
 
-            clmnSrs.Visibility = ((bool)chkBx.IsChecked) ? Visibility.Visible : Visibility.Collapsed;
+            if (MaxAmount[pos] <= 10)
+            {
+
+                clmnSrs.Visibility = ((bool)chkBx.IsChecked) ? Visibility.Visible : Visibility.Collapsed;
+            }
+            else
+            {
+                chkBx.IsChecked = ((bool)chkBx.IsChecked) ? false : true;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -132,6 +181,34 @@ namespace MovieMatcher.Views
         {
             if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void GenreButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (GenreCheckList.Visibility == Visibility.Visible)
+            {
+                GenreCheckList.Visibility = Visibility.Collapsed;
+                ((Button)sender).Content = "▼";
+            }
+            else
+            {
+                GenreCheckList.Visibility = Visibility.Visible;
+                ((Button)sender).Content = "▲";
+            }
+        }
+
+        private void ActorButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (ActorCheckList.Visibility == Visibility.Visible)
+            {
+                ActorCheckList.Visibility = Visibility.Collapsed;
+                ((Button)sender).Content = "▼";
+            }
+            else
+            {
+                ActorCheckList.Visibility = Visibility.Visible;
+                ((Button)sender).Content = "▲";
+            }
         }
     }
 }

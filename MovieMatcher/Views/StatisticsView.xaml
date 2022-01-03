@@ -8,6 +8,87 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance dynamicVisibility:StatisticsView}">
     <UserControl.Resources>
+        <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid x:Name="Grid">
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto"
+                                           Height="Auto" Fill="Transparent" />
+                            <Border x:Name="Rectangle1" CornerRadius="10 0 0 10" HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch" Width="Auto" Height="Auto"
+                                        Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="Horizontal">
+                                <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
+                                <Setter TargetName="Rectangle1" Property="Height" Value="7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--SCROLLBARS-->
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+            <Setter Property="Foreground" Value="#3cb9f4" />
+            <Setter Property="Background" Value="DarkGray" />
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="GridRoot" Width="12" Background="{x:Null}">
+                            <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="False">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}"
+                                               Style="{DynamicResource ScrollThumbs}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0"
+                                                      Focusable="False" />
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0"
+                                                      Focusable="False" />
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                                
+                            </Trigger>
+                            <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                                
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Width" Value="Auto" />
+                                <Setter Property="Height" Value="12" />
+                                <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
+                                <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
+                                <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <BooleanToVisibilityConverter x:Key="bvc"></BooleanToVisibilityConverter>
     </UserControl.Resources>
     <Grid Name="Grid">
@@ -15,7 +96,38 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <lvc:CartesianChart x:Name="ChartComponent" Grid.Row="1" Hoverable="False" Series="{Binding ChartSeries}" Margin="0,10,82,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Background="#FF272727" >
+            <StackPanel>
+                <Grid Background="#202020">
+                    <Grid.Effect>
+                        <DropShadowEffect/>
+                    </Grid.Effect>
+                    <Label Content="Genre" HorizontalAlignment="Left" Foreground="White"/>
+                    <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Click="GenreButton_Clicked"/>
+                </Grid>
+                <ScrollViewer MaxHeight="300">
+                    <StackPanel Name="GenreCheckList" Background="#FF272727" CanVerticallyScroll="True" Visibility="Collapsed"/>
+                </ScrollViewer>
+            </StackPanel>
+
+            <StackPanel>
+                <Grid Background="#202020">
+                    <Label Content="Actor" HorizontalAlignment="Left" Foreground="White"/>
+                    <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Click="ActorButton_Clicked"/>
+                </Grid>
+                <ScrollViewer MaxHeight="300">
+                    <StackPanel Name="ActorCheckList" Background="#FF272727" CanVerticallyScroll="True" Visibility="Collapsed"/>
+                </ScrollViewer>
+            </StackPanel>
+        </StackPanel>
+        <lvc:CartesianChart x:Name="ChartComponent" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Hoverable="False" Series="{Binding ChartSeries}" Margin="0,10,82,0">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Name="XBar">
                     <lvc:Axis.Separator>
