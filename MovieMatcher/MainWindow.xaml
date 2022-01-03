@@ -12,8 +12,8 @@
         Height="450"
         WindowState="Maximized">
     <Window.Resources>
-        <DataTemplate DataType="Views:ResultView">
-            <Views:ResultView DataContext="{Binding}" />
+        <DataTemplate DataType="Views:HomeView">
+            <Views:HomeView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate DataType="Views:SearchView">
             <Views:SearchView DataContext="{Binding}" />
@@ -28,7 +28,7 @@
             <Views:HistoryView DataContext="{Binding}"/>
         </DataTemplate>
         <DataTemplate DataType="Views:StaticsView">
-            <Views:StaticsView DataContext="{Binding}" />
+            <Views:StatisticsView DataContext="{Binding}" />
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -117,7 +117,7 @@
                         <ColumnDefinition MinWidth="60"/>
                         <ColumnDefinition MinWidth="100"/>
                     </Grid.ColumnDefinitions>
-                    <Button Click="ResultView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button Click="HomeView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
                         <Viewbox StretchDirection="Both">
                             <Label Content="Home" FontSize="16" Foreground="White"/>
                         </Viewbox>
@@ -132,7 +132,7 @@
                             <Label Content="History" FontSize="16" Foreground="White"/>
                         </Viewbox>
                     </Button>
-                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="4" Click="Statics_Clicked">
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="4" Click="Statistics_Clicked">
                         <Viewbox StretchDirection="Both">
                             <Label Content="Statistieken" FontSize="16" Foreground="White"/>
                         </Viewbox>
@@ -156,7 +156,7 @@
                         <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
                             <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
                         </Button>
-                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="Statics_Clicked">
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="Statistics_Clicked">
                             <Label Content="Statistics" FontSize="16" Foreground="White"/>
                         </Button>
                         <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
@@ -167,7 +167,7 @@
             </Grid>
         </DockPanel>
 
-        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}" />
+        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}" Margin="10,0,10,0" />
 
     </Grid>
 </Window>

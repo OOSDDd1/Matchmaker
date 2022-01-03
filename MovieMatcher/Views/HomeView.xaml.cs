@@ -12,9 +12,9 @@ using Stores;
 
 namespace MovieMatcher.Views
 {
-    public partial class ResultView : UserControl
+    public partial class HomeView : UserControl
     {
-        public ResultView()
+        public HomeView()
         {
             InitializeComponent();
 

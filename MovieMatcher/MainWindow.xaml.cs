@@ -10,12 +10,12 @@ namespace MovieMatcher
         {
             InitializeComponent();
             UserName.Content = UserStore.username;
-            DataContext = new ResultView();
+            DataContext = new HomeView();
         }
 
-        private void ResultView_Clicked(object sender, RoutedEventArgs e)
+        private void HomeView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new ResultView();
+            DataContext = new HomeView();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
@@ -33,9 +33,9 @@ namespace MovieMatcher
             DataContext = new HistoryView();
         }
 
-        private void Statics_Clicked(object sender, RoutedEventArgs e)
+        private void Statistics_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new StaticsView();
+            DataContext = new StatisticsView();
         }
 
         private void AccountArrow_Clicked(object sender, RoutedEventArgs e)
