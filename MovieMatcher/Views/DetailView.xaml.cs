@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Models.Api.Components;
 using Models.Database;
@@ -32,13 +33,27 @@ namespace MovieMatcher.Views
             }
 
             if (!success)
+                return;
+
+            if (DatabaseService.CheckIfReviewed(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")))
             {
-                // TODO: show error message
+                if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
+                {
+                    SeenCheckBox.IsChecked = true;
+                }
+
+                if (DatabaseService.CheckForLiked(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
+                {
+                    LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Like.png", UriKind.Relative));
+                    DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Disliked.png", UriKind.Relative));
+                }
+                else
+                {
+                    DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Dislike.png", UriKind.Relative));
+                    LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Liked.png", UriKind.Relative));
+                }
             }
-            else if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
-            {
-                SeenCheckBox.IsChecked = true;
-            }
+            
         }
         
         private bool MovieDetail(int id)
@@ -174,11 +189,15 @@ namespace MovieMatcher.Views
         
         private void OnLikeClick(object sender, RoutedEventArgs e)
         {
+            LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Like.png", UriKind.Relative));
+            DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Disliked.png", UriKind.Relative));
             SubmitContentReview(true);
         }
 
         private void OnDislikeClick(object sender, RoutedEventArgs e)
         {
+            DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Dislike.png", UriKind.Relative));
+            LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Liked.png", UriKind.Relative));
             SubmitContentReview(false);
         }
 
