@@ -198,7 +198,7 @@ namespace Services
             return Get<Episode>(ShowBase, GetShowEpsiode, urlSegments, urlParameters, out response);
         }
 
-        public static bool GetSerieContentRatings(int id, out ShowContentRatings? response)
+        public static bool GetShowContentRatings(int id, out ShowContentRatings? response)
         {
             var urlSegments = new Dictionary<string, string>
                 { { "id", id.ToString() } };
@@ -300,7 +300,7 @@ namespace Services
         #endregion
 
         /*
-         * Every call to the api is costly in time (the api itself is free), this is why an cache is a must have.
+         * Every call to the api is costly in time (the api itself is free), this is why a cache is a must have.
          * We have a memory and database cache.
          * Every request is stored in memory.
          * Only Movies and Shows are stored in the database, these are used for the statistics page.
