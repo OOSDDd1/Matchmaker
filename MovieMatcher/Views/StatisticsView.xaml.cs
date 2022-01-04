@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LiveCharts;
+using LiveCharts.Configurations;
+using LiveCharts.Defaults;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using Services;
@@ -29,7 +31,6 @@ namespace MovieMatcher.Views
         private BooleanToVisibilityConverter converter;
         public dynamic DynamicSeries;
         private Dictionary<int, int> MaxAmount = new();
-
 
         private HashSet<dynamic> CheckBoxSet = new();
 
@@ -138,19 +139,20 @@ namespace MovieMatcher.Views
 
         public void AddColumnSeries(CheckBox chkBx, string Title, int num, int pos, bool isActor)
         {
-            ColumnSeries ClmnSrs = new ColumnSeries();
+            ColumnSeries ClmnSrs = new ColumnSeries() {
+                Values = new ChartValues<ObservablePoint>
+                    {
+                        new ObservablePoint(pos, num),
+                    }
+            };
             ClmnSrs.Title = Title;
             ClmnSrs.DataContext = pos;
+
             List<int> LsValues = new List<int>();
             LsValues.Add(num);
-            ClmnSrs.Values = LsValues.AsChartValues();
             chkBx.DataContext = ClmnSrs;
             ClmnSrs.MaxWidth = 1000;
             ClmnSrs.ColumnPadding = 0;
-            if (isActor)
-            {
-                ClmnSrs.ScalesXAt = 1;
-            }
             ChartSeries.Add(ClmnSrs);
         }
 
