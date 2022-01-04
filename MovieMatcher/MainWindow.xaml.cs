@@ -6,6 +6,8 @@ namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
+        private MatcherView _matcherView;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -25,7 +27,8 @@ namespace MovieMatcher
 
         private void Matcher_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new MatcherView();
+            _matcherView ??= new MatcherView();
+            DataContext = _matcherView;
         }
 
         private void History_Clicked(object sender, RoutedEventArgs e)
@@ -54,7 +57,13 @@ namespace MovieMatcher
 
         private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            UserStore.Clear();
+            DetailViewStore.Clear();
+            
+            var loginScreen = new Login();
+            loginScreen.Show();
+            
+            Close();
         }
     }
 }

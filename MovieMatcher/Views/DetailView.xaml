@@ -8,6 +8,31 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- Disable button hover background color -->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Rectangle x:Name="background" Fill="{TemplateBinding Background}"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="background" Property="Opacity" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter TargetName="background" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -29,8 +54,8 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <!-- <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
-                     MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" /> -->
+                <Image Name="Poster" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
+                     MaxHeight="350" Margin="10,0,10,0" Grid.Row="0" />
                 
                 <wpf:ChromiumWebBrowser
                     x:Name="Browser"
@@ -53,25 +78,14 @@
                         </CheckBox.LayoutTransform>
                         <iconPacks:BootstrapIcons Kind="Eye" Height="25" Width="25" />
                     </CheckBox>
-                    <Button Click="OnLikeClick" Grid.Column="1" Background="#27FE1C" ToolTip="Like" HorizontalAlignment="Stretch" MaxWidth="150" MaxHeight="150" Padding="0">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="150"/>
-                                <Setter Property="BorderBrush" Value="#00000000"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Source="../Images/Like.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
-                    </Button>
-                    <Button Click="OnDislikeClick" Grid.Column="2" Background="#F81515" ToolTip="Dislike" MaxWidth="150" MaxHeight="150" Padding="0">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="150"/>
-                                <Setter Property="BorderBrush" Value="#00000000"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Source="../Images/Dislike.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
+                    
+                    <Button Name="LikeButton" Click="OnLikeClick" Background="Transparent" ToolTip="Like" BorderThickness="0" HorizontalAlignment="Stretch" MaxWidth="150" MaxHeight="150" Padding="0" Grid.Column="1">
+                        <Image Name="LikeButtonImage" Source="../Images/Like.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
                     </Button>
 
+                    <Button Name="DislikeButton" Click="OnDislikeClick" Background="Transparent" ToolTip="Dislike" BorderThickness="0" HorizontalAlignment="Stretch" MaxWidth="150" MaxHeight="150" Padding="0" Grid.Column="2">
+                        <Image Name="DislikeButtonImage" Source="../Images/Dislike.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"></Image>
+                    </Button>
                 </Grid>
 
             </Grid>

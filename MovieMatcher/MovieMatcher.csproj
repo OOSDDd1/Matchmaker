@@ -52,4 +52,11 @@
     <ProjectReference Include="..\Stores\Stores.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Images\Disliked.png" />
+    <Resource Include="Images\Disliked.png" />
+    <None Remove="Images\Liked.png" />
+    <Resource Include="Images\Liked.png" />
+  </ItemGroup>
+
 </Project>

@@ -11,56 +11,29 @@ namespace Services
     {
         private static string _sqlBuilder = ConfigService.Get["db-string"];
 
-        // Voorbeeld method
-        public static string GetName()
-        {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
-            {
-                //make query
-                string sql = "SELECT username FROM MatchMaker.Matchmaker.[user]";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    // Open connectie
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        // Lees result
-                        string result = "";
-                        while (reader.Read()) result += reader.GetString(0) + "\n";
-                        return result;
-                    }
-                }
-            }
-        }
-
-        //Checken of Wachtwoord correcet is
         public static Boolean GetUserInfo(string username)
         {
-            using (SqlConnection connection = new(_sqlBuilder))
+            using SqlConnection connection = new(_sqlBuilder);
+            
+            string sql = @$"SELECT * FROM MatchMaker.Matchmaker.[user] WHERE username = '{username}'";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            connection.Open();
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
             {
-                string sql = @$"SELECT * FROM MatchMaker.Matchmaker.[user] WHERE username = '{username}'";
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                while (reader.Read())
                 {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                UserStore.id = reader.GetInt32(0);
-                                UserStore.username = reader.GetString(1);
-                                UserStore.email = reader.GetString(2);
-                                UserStore.password = reader.GetString(3);
-                                UserStore.birthYear = reader.GetDateTime(4);
-                                return true;
-                            }
-                        }
-
-                        return false;
-                    }
+                    UserStore.id = reader.GetInt32(0);
+                    UserStore.username = reader.GetString(1);
+                    UserStore.email = reader.GetString(2);
+                    UserStore.password = reader.GetString(3);
+                    UserStore.birthYear = reader.GetDateTime(4);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         public static string CreateUser(string userName, string password, string email, string age)
@@ -71,7 +44,6 @@ namespace Services
 
                 string sql =
                     @$"INSERT INTO MatchMaker.Matchmaker.[user] (username, email, password, birth_date) VALUES ('{userName}', '{email}', '{password}', '{age}')";
-
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
 
@@ -168,132 +140,114 @@ namespace Services
 
         public static bool CheckIfReviewed(int id, int userId, bool isShow)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
-            {
-                string sql =
-                    @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        int? result = null;
-                        while (reader.Read()) result = reader.GetInt32(0);
-                        return result != null;
-                    }
-                }
-            }
+            using SqlConnection connection = new SqlConnection(_sqlBuilder);
+            connection.Open();
+            
+            string sql =
+                @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            
+            int? result = null;
+            while (reader.Read()) result = reader.GetInt32(0);
+            return result != null;
         }
 
         public static bool? CheckForLiked(int id, int userId, bool isShow)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
-            {
-                string sql =
-                    @$"SELECT liked FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        bool? result = null;
-                        while (reader.Read()) result = reader.GetBoolean(0);
-                        return result;
-                    }
-                }
-            }
+            using SqlConnection connection = new SqlConnection(_sqlBuilder);
+            connection.Open();
+            
+            string sql =
+                @$"SELECT liked FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            
+            bool? result = null;
+            while (reader.Read()) result = reader.GetBoolean(0);
+            return result;
         }
 
         public static bool? CheckForWatched(int id, int userId, bool isShow)
         {
-            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
-            {
-                string sql =
-                    @$"SELECT watched FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        bool? result = null;
-                        while (reader.Read()) result = reader.GetBoolean(0);
-                        return result;
-                    }
-                }
-            }
+            using SqlConnection connection = new SqlConnection(_sqlBuilder);
+            connection.Open();
+            
+            string sql =
+                @$"SELECT watched FROM MatchMaker.Matchmaker.[content_review] WHERE content_id = '{id}' AND user_id = '{userId}' AND isShow = '{isShow}'";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            
+            bool? result = null;
+            while (reader.Read()) result = reader.GetBoolean(0);
+            return result;
         }
 
         public static HashSet<int> GetReviewedMovies(int userId)
         {
-            using (SqlConnection connection = new(_sqlBuilder))
+            using SqlConnection connection = new(_sqlBuilder);
+            connection.Open();
+            
+            string sql =
+                @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{userId}' AND isShow = 'false'";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            
+            HashSet<int> reviewedMovies = new();
+            if (!reader.HasRows) return reviewedMovies;
+            while (reader.Read())
             {
-                string sql =
-                    @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{userId}' AND isShow = 'false'";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        HashSet<int> reviewedMovies = new();
-                        if (!reader.HasRows) return reviewedMovies;
-                        while (reader.Read())
-                        {
-                            reviewedMovies.Add(reader.GetInt32(0));
-                        }
-
-                        return reviewedMovies;
-                    }
-                }
+                reviewedMovies.Add(reader.GetInt32(0));
             }
+
+            return reviewedMovies;
         }
 
         public static List<Review> GetReviewedItems(int userId)
         {
-            using (SqlConnection connection = new(_sqlBuilder))
+            using SqlConnection connection = new(_sqlBuilder);
+            connection.Open();
+            
+            string sql =
+                @$"SELECT content_id, user_id, liked, watched, isShow, modifiedDate FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{userId}' ORDER BY modifiedDate DESC";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            
+            List<Review> reviewedItems = new();
+            if (!reader.HasRows) return reviewedItems;
+            while (reader.Read())
             {
-                string sql =
-                    @$"SELECT content_id, user_id, liked, watched, isShow, modifiedDate FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{userId}' ORDER BY modifiedDate DESC";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        List<Review> reviewedItems = new();
-                        if (!reader.HasRows) return reviewedItems;
-                        while (reader.Read())
-                        {
-                            reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2),
-                                reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5)));
-                        }
-
-                        return reviewedItems;
-                    }
-                }
+                reviewedItems.Add(new Review(reader.GetInt32(0), reader.GetInt32(1), reader.GetBoolean(2),
+                    reader.GetBoolean(3), reader.GetBoolean(4), reader.GetDateTime(5)));
             }
+
+            return reviewedItems;
         }
 
         public static HashSet<int> GetInterestingAndLikedMovies()
         {
-            using (SqlConnection connection = new(_sqlBuilder))
+            using SqlConnection connection = new(_sqlBuilder);
+            connection.Open();
+            
+            string sql =
+                @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{UserStore.id}' AND liked='true' AND isShow = 'false'";
+            using SqlCommand command = new SqlCommand(sql, connection);
+            
+            using SqlDataReader reader = command.ExecuteReader();
+            
+            HashSet<int> reviewedMovies = new();
+            if (!reader.HasRows) return reviewedMovies;
+            while (reader.Read())
             {
-                string sql =
-                    @$"SELECT content_id FROM MatchMaker.Matchmaker.[content_review] WHERE user_id = '{UserStore.id}' AND liked='true' AND isShow = 'false'";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        HashSet<int> reviewedMovies = new();
-                        if (!reader.HasRows) return reviewedMovies;
-                        while (reader.Read())
-                        {
-                            reviewedMovies.Add(reader.GetInt32(0));
-                        }
-
-                        return reviewedMovies;
-                    }
-                }
+                reviewedMovies.Add(reader.GetInt32(0));
             }
+
+            return reviewedMovies;
         }
 
         public static List<Tuple<int, string>> GetWatchedCountGenres(int userid)
@@ -385,13 +339,13 @@ namespace Services
             );
             contentCommand.Parameters.Add("@Id", SqlDbType.Int).Value = cacheInsert.Id;
             contentCommand.Parameters.Add("@CacheKey", SqlDbType.VarChar).Value = cacheInsert.CacheKey;
-            contentCommand.Parameters.Add("@Title", SqlDbType.VarChar).Value = cacheInsert.Title;
-            contentCommand.Parameters.Add("@Overview", SqlDbType.VarChar).Value = cacheInsert.Overview;
-            contentCommand.Parameters.Add("@PosterPath", SqlDbType.VarChar).Value = cacheInsert.PosterPath;
-            contentCommand.Parameters.Add("@BackdropPath", SqlDbType.VarChar).Value = cacheInsert.BackdropPath;
-            contentCommand.Parameters.Add("@TrailerUrl", SqlDbType.VarChar).Value = cacheInsert.TrailerUrl;
+            contentCommand.Parameters.Add("@Title", SqlDbType.VarChar).Value = cacheInsert.Title ?? string.Empty;
+            contentCommand.Parameters.Add("@Overview", SqlDbType.VarChar).Value = cacheInsert.Overview ?? string.Empty;
+            contentCommand.Parameters.Add("@PosterPath", SqlDbType.VarChar).Value = cacheInsert.PosterPath ?? string.Empty;
+            contentCommand.Parameters.Add("@BackdropPath", SqlDbType.VarChar).Value = cacheInsert.BackdropPath ?? string.Empty;
+            contentCommand.Parameters.Add("@TrailerUrl", SqlDbType.VarChar).Value = cacheInsert.TrailerUrl ?? string.Empty;
             contentCommand.Parameters.Add("@Age", SqlDbType.Int).Value = cacheInsert.Age;
-            contentCommand.Parameters.Add("@Json", SqlDbType.VarChar).Value = cacheInsert.Json;
+            contentCommand.Parameters.Add("@Json", SqlDbType.VarChar).Value = cacheInsert.Json ?? string.Empty;
             contentCommand.Parameters.Add("@IsShow", SqlDbType.Bit).Value = cacheInsert.IsShow;
 
             contentCommand.ExecuteNonQuery();
@@ -412,8 +366,8 @@ namespace Services
                 actorsCommand.Parameters[0].Value = actor.id;
                 actorsCommand.Parameters[1].Value = cacheInsert.Id;
                 actorsCommand.Parameters[2].Value = cacheInsert.IsShow;
-                actorsCommand.Parameters[3].Value = actor.name;
-                actorsCommand.Parameters[4].Value = actor.character;
+                actorsCommand.Parameters[3].Value = actor.name ?? string.Empty;
+                actorsCommand.Parameters[4].Value = actor.character ?? string.Empty;
                 actorsCommand.ExecuteNonQuery();
             }
 
@@ -432,7 +386,7 @@ namespace Services
                 genresCommand.Parameters[0].Value = genre.id;
                 genresCommand.Parameters[1].Value = cacheInsert.Id;
                 genresCommand.Parameters[2].Value = cacheInsert.IsShow;
-                genresCommand.Parameters[3].Value = genre.name;
+                genresCommand.Parameters[3].Value = genre.name ?? string.Empty;
                 genresCommand.ExecuteNonQuery();
             }
 
