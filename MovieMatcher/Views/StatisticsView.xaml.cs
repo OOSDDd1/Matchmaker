@@ -72,7 +72,6 @@ namespace MovieMatcher.Views
                 DynamicSeries.Size = property.Item1;
                 DynamicSeries.Position = 0;
                 DynamicSeries.Visible = false;
-                DynamicSeries.IsActor = false;
                 CheckBoxSet.Add(DynamicSeries);
             }
         }
@@ -88,7 +87,6 @@ namespace MovieMatcher.Views
                 DynamicSeries.Size = property.Item1;
                 DynamicSeries.Position = 1;
                 DynamicSeries.Visible = false;
-                DynamicSeries.IsActor = true;
                 CheckBoxSet.Add(DynamicSeries);
             }
         }
@@ -98,7 +96,6 @@ namespace MovieMatcher.Views
             StackPanel StkPnl = new StackPanel();
             StkPnl.Orientation = Orientation.Horizontal;
             List<string> ls = new List<string>();
-            List<string> lsActor = new List<string>();
 
             foreach (dynamic item in CheckBoxSet)
             {
@@ -115,7 +112,7 @@ namespace MovieMatcher.Views
                         StkPnl.Children.Add(chkBx);
                         break;
                 }
-                AddColumnSeries(chkBx, (string)item.Title, (int)item.Size, (int)item.Position, item.IsActor);
+                AddColumnSeries(chkBx, (string)item.Title, (int)item.Size, (int)item.Position);
             }
             ls.Add("Genre");
             ls.Add("Actor");
@@ -134,7 +131,7 @@ namespace MovieMatcher.Views
             return ChkBx;
         }
 
-        public void AddColumnSeries(CheckBox chkBx, string Title, int num, int pos, bool isActor)
+        public void AddColumnSeries(CheckBox chkBx, string Title, int num, int pos)
         {
             ColumnSeries ClmnSrs = new ColumnSeries()
             {
@@ -145,16 +142,9 @@ namespace MovieMatcher.Views
             };
             ClmnSrs.Title = Title;
             ClmnSrs.DataContext = pos;
-            /*List<int> LsValues = new List<int>();
-            LsValues.Add(num);
-            ClmnSrs.Values = LsValues.AsChartValues();*/
             chkBx.DataContext = ClmnSrs;
             ClmnSrs.MaxWidth = 1000;
             ClmnSrs.ColumnPadding = 0;
-            /*if (isActor)
-            {
-                ClmnSrs.ScalesXAt = 1;
-            }*/
             ChartSeries.Add(ClmnSrs);
         }
 

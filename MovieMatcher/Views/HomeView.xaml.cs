@@ -106,27 +106,22 @@ namespace MovieMatcher.Views
         {
             if (Content.Count == 0)
             {
-                Button btn = new Button();
                 Label lbl = new Label();
 
-                btn.Background = null;
-                btn.Click += ButtonMatcherPage;
-
-                lbl.Content = "No Series or movies found of this type, make a change using our matcher";
+                lbl.Content = "No Series or movies found of this type, make a change using our matcher.";
                 lbl.Foreground = Brushes.White;
-
-                btn.Content = lbl;
+                
                 if (type.Equals("liked"))
                 {
-                    ListItemsLiked.Items.Add(btn);
+                    ListItemsLiked.Items.Add(lbl);
                 }
                 else if (type.Equals("interested"))
                 {
-                    ListItemsInterested.Items.Add(btn);
+                    ListItemsInterested.Items.Add(lbl);
                 }
                 else if (type.Equals("recommended"))
                 {
-                    ListItemsRecommended.Items.Add(btn);
+                    ListItemsRecommended.Items.Add(lbl);
                 }
             }
             else
