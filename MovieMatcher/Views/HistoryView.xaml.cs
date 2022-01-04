@@ -153,7 +153,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.mediaType;
 
-            Application.Current.Windows[0].DataContext = new DetailView();
+            Application.Current.Windows[0].DataContext = MainWindow.DetailView_Clicked();
         }
     }
 }
