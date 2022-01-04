@@ -214,5 +214,21 @@ namespace MovieMatcher.Views
                 ((Button)sender).Content = "▲";
             }
         }
+
+        private void ActorClear_Clicked(object sender, RoutedEventArgs e)
+        {
+            foreach(CheckBox chkBx in ActorCheckList.Children)
+            {
+                chkBx.IsChecked = false;
+            }
+        }
+
+        private void GenreClear_Clicked(object sender, RoutedEventArgs e)
+        {
+            foreach (CheckBox chkBx in GenreCheckList.Children)
+            {
+                chkBx.IsChecked = false;
+            }
+        }
     }
 }

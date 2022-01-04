@@ -110,6 +110,7 @@
                         <DropShadowEffect/>
                     </Grid.Effect>
                     <Label Content="Genre" HorizontalAlignment="Left" Foreground="White"/>
+                    <Button Content="Clear" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Margin="0,0,20,0" BorderBrush="{x:Null}" Click="GenreClear_Clicked"/>
                     <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Click="GenreButton_Clicked"/>
                 </Grid>
                 <ScrollViewer MaxHeight="300">
@@ -120,6 +121,7 @@
             <StackPanel>
                 <Grid Background="#202020">
                     <Label Content="Actor" HorizontalAlignment="Left" Foreground="White"/>
+                    <Button Content="Clear" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Margin="0,0,20,0" BorderBrush="{x:Null}" Click="ActorClear_Clicked"/>
                     <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Click="ActorButton_Clicked"/>
                 </Grid>
                 <ScrollViewer MaxHeight="300">
@@ -127,9 +129,15 @@
                 </ScrollViewer>
             </StackPanel>
         </StackPanel>
+        
         <lvc:CartesianChart x:Name="ChartComponent" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Hoverable="False" Series="{Binding ChartSeries}" Margin="0,10,82,0">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Name="XBar">
+                <lvc:Axis Name="XBar" Labels="Genre, Actors">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator  Step="1"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+                <lvc:Axis Name="XBarActor">
                     <lvc:Axis.Separator>
                         <lvc:Separator  Step="1"></lvc:Separator>
                     </lvc:Axis.Separator>
