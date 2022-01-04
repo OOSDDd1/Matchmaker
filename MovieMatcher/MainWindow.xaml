@@ -86,7 +86,7 @@
                     </Viewbox>
                     <Viewbox StretchDirection="Both" Grid.Column="1" MaxHeight="50">
                         <StackPanel Orientation="Horizontal">
-                            <Label Name="UserName" Content="SAMPLE" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                            <Label Name="UserName" Content="Sample" Foreground="White" FontSize="16" VerticalAlignment="Center" />
                             <Button Name="MenuButton" Content="▼" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" Click="AccountArrow_Clicked"/>
                         </StackPanel>
                     </Viewbox>
@@ -144,8 +144,8 @@
                 </Grid.RowDefinitions>
                 <Viewbox StretchDirection="Both" MinWidth="120" MaxWidth="255" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <StackPanel Background="#FF2B2B2B" Name="Collapsable" Visibility="Collapsed">
-                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
-                            <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="Account_Clicked">
+                            <Label Content="Account" FontSize="16" Foreground="White"/>
                         </Button>
                         <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
                             <Label Content="Uitloggen" FontSize="16" Foreground="White"/>

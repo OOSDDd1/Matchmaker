@@ -6,11 +6,13 @@ namespace MovieMatcher
 {
     public partial class MainWindow : Window
     {
+        public static MainWindow Main;
         public MainWindow()
         {
             InitializeComponent();
             UserName.Content = UserStore.username;
             DataContext = new ResultView();
+            Main = this;
         }
 
         private void ResultView_Clicked(object sender, RoutedEventArgs e)
@@ -50,6 +52,12 @@ namespace MovieMatcher
         private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void Account_Clicked(object sender, RoutedEventArgs e)
+        {
+            UserName.Content = UserStore.username;
+            DataContext = new AccountView();
         }
     }
 }

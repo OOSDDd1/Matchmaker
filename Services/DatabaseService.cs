@@ -33,7 +33,6 @@ namespace Services
             }
         }
 
-        //Checken of Wachtwoord correcet is
         public static Boolean GetUserInfo(string username)
         {
             using (SqlConnection connection = new(_sqlBuilder))
@@ -53,6 +52,8 @@ namespace Services
                                 UserStore.email = reader.GetString(2);
                                 UserStore.password = reader.GetString(3);
                                 UserStore.birthYear = reader.GetDateTime(4);
+                                UserStore.adult = reader.GetBoolean(5);
+                                UserStore.provider = reader.GetBoolean(6);
                                 return true;
                             }
                         }
@@ -85,6 +86,83 @@ namespace Services
                 {
                     241 => "Invalid date.",
                     2601 => "E-mail address or username is already in use.",
+                    _ => "Something went wrong on our end. Please try again later."
+                };
+            }
+        }
+
+        public static string UpdateUserGeneral(string userName, string email, string age, int id)
+        {
+            try
+            {
+                using SqlConnection connection = new(_sqlBuilder);
+
+                string sql =
+                    @$"UPDATE MatchMaker.Matchmaker.[user] SET username = '{userName}', email = '{email}', birth_date = '{age}' WHERE ID = {id}";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+
+                using SqlDataReader reader = command.ExecuteReader();
+
+                return "Your account has been updated!";
+            }
+            catch (SqlException ex)
+            {
+                return ex.Number switch
+                {
+                    241 => "Invalid date.",
+                    2601 => "E-mail address or username is already in use.",
+                    _ => "Something went wrong on our end. Please try again later."
+                };
+            }
+        }
+
+        public static string UpdateUserPassword(string password, int id)
+        {
+            try
+            {
+                using SqlConnection connection = new(_sqlBuilder);
+
+                string sql =
+                    @$"UPDATE MatchMaker.Matchmaker.[user] SET password = '{password}' WHERE ID = {id}";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+
+                using SqlDataReader reader = command.ExecuteReader();
+
+                return "Your password has been updated!";
+            }
+            catch (SqlException ex)
+            {
+                return ex.Number switch
+                {
+                    _ => "Something went wrong on our end. Please try again later."
+                };
+            }
+        }
+
+        public static string UpdateUserFilters(bool adult, bool otherProviders, int id)
+        {
+            try
+            {
+                using SqlConnection connection = new(_sqlBuilder);
+
+                string sql =
+                    @$"UPDATE MatchMaker.Matchmaker.[user] SET adult = '{adult}', providers = '{otherProviders}' WHERE ID = {id}";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+
+                using SqlDataReader reader = command.ExecuteReader();
+
+                return "Your filters has been updated!";
+            }
+            catch (SqlException ex)
+            {
+                return ex.Number switch
+                {
                     _ => "Something went wrong on our end. Please try again later."
                 };
             }
