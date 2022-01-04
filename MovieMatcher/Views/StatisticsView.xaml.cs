@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using Services;
@@ -118,10 +119,8 @@ namespace MovieMatcher.Views
                 AddColumnSeries(chkBx, (string)item.Title, (int)item.Size, (int)item.Position, item.IsActor);
             }
             ls.Add("Genre");
-            lsActor.Add("Actor");
+            ls.Add("Actor");
             XBar.Labels = ls;
-            XBarActor.Labels = lsActor;
-
             Grid.Children.Add(StkPnl);
         }
 
@@ -138,19 +137,25 @@ namespace MovieMatcher.Views
 
         public void AddColumnSeries(CheckBox chkBx, string Title, int num, int pos, bool isActor)
         {
-            ColumnSeries ClmnSrs = new ColumnSeries();
+            ColumnSeries ClmnSrs = new ColumnSeries()
+            {
+                Values = new ChartValues<ObservablePoint>
+                    {
+                        new ObservablePoint(pos, num),
+                    }
+            };
             ClmnSrs.Title = Title;
             ClmnSrs.DataContext = pos;
-            List<int> LsValues = new List<int>();
+            /*List<int> LsValues = new List<int>();
             LsValues.Add(num);
-            ClmnSrs.Values = LsValues.AsChartValues();
+            ClmnSrs.Values = LsValues.AsChartValues();*/
             chkBx.DataContext = ClmnSrs;
             ClmnSrs.MaxWidth = 1000;
             ClmnSrs.ColumnPadding = 0;
-            if (isActor)
+            /*if (isActor)
             {
                 ClmnSrs.ScalesXAt = 1;
-            }
+            }*/
             ChartSeries.Add(ClmnSrs);
         }
 
