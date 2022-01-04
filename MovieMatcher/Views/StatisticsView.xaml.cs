@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LiveCharts;
-using LiveCharts.Defaults;
+using LiveCharts.Defaults;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using Services;
@@ -48,13 +48,19 @@ namespace MovieMatcher.Views
 
         public void AfterLoading(object sender, RoutedEventArgs e)
         {
-            foreach (CheckBox s in GenreCheckList.Children)
+            foreach (var s in GenreCheckList.Children)
             {
-                ClmVis(s, new RoutedEventArgs());
+                if(s is not TextBlock)
+                {
+                    ClmVis((CheckBox)s, new RoutedEventArgs());
+                }
             }
-            foreach (CheckBox s in ActorCheckList.Children)
+            foreach (var s in ActorCheckList.Children)
             {
-                ClmVis(s, new RoutedEventArgs());
+                if(s is not TextBlock)
+                {
+                    ClmVis((CheckBox)s, new RoutedEventArgs());
+                }
             }
 
             MaxAmount[0] = 0;
@@ -65,14 +71,27 @@ namespace MovieMatcher.Views
         {
             MaxAmount.Add(0, 0);
             List<Tuple<int, string>> WatchedGenres = DatabaseService.GetWatchedCountGenres(UserStore.id ?? 0);
-            foreach (var property in WatchedGenres)
+            if (WatchedGenres.Count == 0)
             {
-                DynamicSeries = new ExpandoObject();
-                DynamicSeries.Title = property.Item2;
-                DynamicSeries.Size = property.Item1;
-                DynamicSeries.Position = 0;
-                DynamicSeries.Visible = false;
-                CheckBoxSet.Add(DynamicSeries);
+                TextBlock EmptyInput = new TextBlock();
+                EmptyInput.Text = "No Items found that have been marked as seen, try marking a film or series as seen by using our matcher or changing a pre-existing review on your history page";
+                EmptyInput.Foreground = Brushes.White;
+                EmptyInput.TextWrapping = TextWrapping.Wrap;
+                GenreCheckList.Children.Add(EmptyInput);
+      
+            }
+            else
+            {
+                foreach (var property in WatchedGenres)
+                {
+                    DynamicSeries = new ExpandoObject();
+                    DynamicSeries.Title = property.Item2;
+                    DynamicSeries.Size = property.Item1;
+                    DynamicSeries.Position = 0;
+                    DynamicSeries.Visible = false;
+                    DynamicSeries.IsActor = false;
+                    CheckBoxSet.Add(DynamicSeries);
+                }
             }
         }
 
@@ -80,14 +99,26 @@ namespace MovieMatcher.Views
         {
             MaxAmount.Add(1, 0);
             List<Tuple<int, string>> WatchedGenres = DatabaseService.GetWatchedCountActors(UserStore.id ?? 0);
-            foreach (var property in WatchedGenres)
+            if (WatchedGenres.Count == 0)
             {
-                DynamicSeries = new ExpandoObject();
-                DynamicSeries.Title = property.Item2;
-                DynamicSeries.Size = property.Item1;
-                DynamicSeries.Position = 1;
-                DynamicSeries.Visible = false;
-                CheckBoxSet.Add(DynamicSeries);
+                TextBlock EmptyInput = new TextBlock();
+                EmptyInput.Text = "No Items found that have been marked as seen, try marking a film or series as seen by using our matcher or changing a pre-existing review on your history page";
+                EmptyInput.Foreground = Brushes.White;
+                EmptyInput.TextWrapping = TextWrapping.Wrap;
+                ActorCheckList.Children.Add(EmptyInput);
+            }
+            else
+            {
+                foreach (var property in WatchedGenres)
+                {
+                    DynamicSeries = new ExpandoObject();
+                    DynamicSeries.Title = property.Item2;
+                    DynamicSeries.Size = property.Item1;
+                    DynamicSeries.Position = 1;
+                    DynamicSeries.Visible = false;
+                    DynamicSeries.IsActor = true;
+                    CheckBoxSet.Add(DynamicSeries);
+                }
             }
         }
 
@@ -133,14 +164,15 @@ namespace MovieMatcher.Views
 
         public void AddColumnSeries(CheckBox chkBx, string Title, int num, int pos)
         {
-            ColumnSeries ClmnSrs = new ColumnSeries()
-            {
-                Values = new ChartValues<ObservablePoint>
-                    {
-                        new ObservablePoint(pos, num),
-                    }
+            ColumnSeries ClmnSrs = new ColumnSeries()
+            {
+                Values = new ChartValues<ObservablePoint>
+                    {
+                        new ObservablePoint(pos, num),
+                    }
             };
             ClmnSrs.Title = Title;
+            ClmnSrs.Foreground = Brushes.White;
             ClmnSrs.DataContext = pos;
             chkBx.DataContext = ClmnSrs;
             ClmnSrs.MaxWidth = 1000;
@@ -207,22 +239,22 @@ namespace MovieMatcher.Views
                 ActorCheckList.Visibility = Visibility.Visible;
                 ((Button)sender).Content = "▲";
             }
-        }
-
-        private void ActorClear_Clicked(object sender, RoutedEventArgs e)
-        {
-            foreach(CheckBox chkBx in ActorCheckList.Children)
-            {
-                chkBx.IsChecked = false;
-            }
-        }
-
-        private void GenreClear_Clicked(object sender, RoutedEventArgs e)
-        {
-            foreach (CheckBox chkBx in GenreCheckList.Children)
-            {
-                chkBx.IsChecked = false;
-            }
-        }
+        }
+
+        private void ActorClear_Clicked(object sender, RoutedEventArgs e)
+        {
+            foreach(CheckBox chkBx in ActorCheckList.Children)
+            {
+                chkBx.IsChecked = false;
+            }
+        }
+
+        private void GenreClear_Clicked(object sender, RoutedEventArgs e)
+        {
+            foreach (CheckBox chkBx in GenreCheckList.Children)
+            {
+                chkBx.IsChecked = false;
+            }
+        }
     }
 }
