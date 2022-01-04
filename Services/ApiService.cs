@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -303,11 +304,12 @@ namespace Services
          * Every call to the api is costly in time (the api itself is free), this is why a cache is a must have.
          * We have a memory and database cache.
          * Every request is stored in memory.
-         * Only Movies and Shows are stored in the database, these are used for the statistics page.
+         * Only Movies and Shows (with actors and genres) are stored in the database.
+         * Because They are used for the statistics page.
          */
         #region Cache Handling
 
-        private static string GenerateCacheKey(string resourceBase, string resource,
+        public static string GenerateCacheKey(string resourceBase, string resource,
             Dictionary<string, string> urlSegments, Dictionary<string, string> urlParameters)
         {
             return resourceBase + resource + string.Join("", urlSegments.Values) +
@@ -419,7 +421,7 @@ namespace Services
             });
         }
 
-        private static bool CacheGetFromMemory<T>(string key, out T? value) where T : IRoot
+        public static bool CacheGetFromMemory<T>(string key, out T? value) where T : IRoot
         {
             Cache.TryGetValue(key, out var root);
             
@@ -435,7 +437,7 @@ namespace Services
             return false;
         }
 
-        private static bool CacheGetFromDatabase<T>(string key, out T? value) where T : IRoot
+        public static bool CacheGetFromDatabase<T>(string key, out T? value) where T : IRoot
         {
             return ResponseToClass<T>(
                 DatabaseService.GetCache(key),

@@ -18,16 +18,24 @@ namespace Tests
         public void GetMovie_ShouldSucceed()
         {
             var success = ApiService.GetMovie(370172, out Movie response);
-            Assert.IsInstanceOf<Movie>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<Movie>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
         public void GetMovie_ShouldFailWithBadId()
         {
             var success = ApiService.GetMovie(1, out Movie response);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         /*
@@ -38,16 +46,24 @@ namespace Tests
         public void GetShow_ShouldSucceed()
         {
             var success = ApiService.GetShow(94605, out Show response);
-            Assert.IsInstanceOf<Show>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<Show>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
         public void GetShow_ShouldFailWithBadId()
         {
             var success = ApiService.GetShow(999999999, out Show response);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         /*
@@ -58,16 +74,24 @@ namespace Tests
         public void GetSeason_ShouldSucceed()
         {
             var success = ApiService.GetSeason(94605, 1, out Season response);
-            Assert.IsInstanceOf<Season>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<Season>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
         public void GetSeason_ShouldFailWithBadSeason()
         {
             var success = ApiService.GetSeason(94605, 999, out Season response);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         /*
@@ -78,16 +102,24 @@ namespace Tests
         public void GetEpisode_ShouldSucceed()
         {
             var success = ApiService.GetEpisode(94605, 1, 1, out Episode response);
-            Assert.IsInstanceOf<Episode>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<Episode>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
         public void GetEpisode_ShouldFailWithBadEpisode()
         {
             var success = ApiService.GetEpisode(94605, 1, 999, out Episode response);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         /*
@@ -98,24 +130,36 @@ namespace Tests
         public void GetProviders_ShouldSucceed()
         {
             var success = ApiService.GetProviders(ApiService.ShowBase, 94605, out Providers response);
-            Assert.IsInstanceOf<Providers>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<Providers>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
         public void GetProviders_ShouldFailWithBadId()
         {
             var success = ApiService.GetProviders(ApiService.MovieBase, 1, out Providers response);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         [Test]
         public void GetProviders_ShouldFailWithBadApiBase()
         {
             var success = ApiService.GetProviders(ApiService.ShowBase, 566525, out Providers response);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         /*
@@ -126,52 +170,70 @@ namespace Tests
         public void Search_ShouldSucceed()
         {
             var success = ApiService.Search("stranger", out MultiSearch response, false);
-            Assert.IsInstanceOf<MultiSearch>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<MultiSearch>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
         public void Search_ShouldFailWithBadApiBase()
         {
             var success = ApiService.Search("", out MultiSearch response, false);
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
 
         [Test]
         public void search_ShouldSucceedWithoutAdult_WhenInsertFalse()
         {
-            bool adult = false;
             var success = ApiService.Search("organ", out MultiSearch response, false);
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(success);
+                Assert.IsInstanceOf<MultiSearch>(response);
+            });
+            
+            var isAdult = false;
             foreach (MultiSearchResult item in response.results)
             {
                 if (item.adult == true)
                 {
-                    adult = true;
+                    isAdult = true;
                 }
             }
-
-            Assert.IsInstanceOf<MultiSearch>(response);
-            Assert.IsTrue(success);
-            Assert.IsFalse(adult);
+            
+            Assert.IsFalse(isAdult);
         }
 
         [Test]
         public void Search_ShouldSucceedWithAdult_WhenInsertTrue()
         {
-            bool adult = false;
-            var success = ApiService.Search("organ", out MultiSearch response, true);
+            var success = ApiService.Search("the office", out MultiSearch response, true);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<MultiSearch>(response);
+                Assert.IsTrue(success);
+            });
+            
+            bool isAdult = false;
             foreach (MultiSearchResult item in response.results)
             {
                 if (item.adult == true)
                 {
-                    adult = true;
+                    isAdult = true;
                 }
             }
 
-            Assert.IsInstanceOf<MultiSearch>(response);
-            Assert.IsTrue(success);
-            Assert.IsTrue(adult);
+            Assert.IsTrue(isAdult);
         }
 
         /*
@@ -188,12 +250,15 @@ namespace Tests
                 {"episode", 1.ToString()}
             };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                {{"append_to_response", "videos,images,content_ratings,credits"}};
 
             var success = ApiService.Get<Episode>(ApiService.ShowBase, ApiService.GetShowEpsiode, urlSegments, urlParameters, out Episode response);
-
-            Assert.IsInstanceOf<Episode>(response);
-            Assert.IsTrue(success);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsInstanceOf<Episode>(response);
+                Assert.IsTrue(success);
+            });
         }
 
         [Test]
@@ -206,12 +271,74 @@ namespace Tests
                 {"episode", 999.ToString()}
             };
             var urlParameters = new Dictionary<string, string>
-                {{"append_to_response", "videos,images"}};
+                {{"append_to_response", "videos,images,content_ratings,credits"}};
 
             var success = ApiService.Get<Episode>(ApiService.ShowBase, ApiService.GetShowEpsiode, urlSegments, urlParameters, out Episode response);
 
-            Assert.IsNull(response);
-            Assert.IsFalse(success);
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(response);
+                Assert.IsFalse(success);
+            });
         }
+        
+        /*
+            Cache
+         */
+        [Test]
+        public void ApiCalls_ShouldCacheResponseInMemory()
+        {
+            var id = 524434;
+            var urlSegments = new Dictionary<string, string>
+                { { "id", id.ToString() } };
+            var urlParameters = new Dictionary<string, string>
+                { { "append_to_response", "videos,images,release_dates,credits" } };
+            
+            var cacheKey = ApiService.GenerateCacheKey(ApiService.MovieBase, ApiService.GetDetails, urlSegments, urlParameters);
+            
+            ApiService.CacheGetFromMemory(cacheKey, out Movie emptyCacheReturn);
+            var success = ApiService.GetMovie(id, out Movie getMovieReturn);
+            ApiService.CacheGetFromMemory(cacheKey, out Movie filledCacheReturn);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsNull(emptyCacheReturn);
+                Assert.IsTrue(success);
+                Assert.IsInstanceOf<Movie>(getMovieReturn);
+                Assert.IsInstanceOf<Movie>(filledCacheReturn);
+            });
+        }
+        
+        [Test]
+        public void ApiCalls_ShouldCacheResponseInDatabase()
+        {
+            var id = 524434;
+            var urlSegments = new Dictionary<string, string>
+                { { "id", id.ToString() } };
+            var urlParameters = new Dictionary<string, string>
+                { { "append_to_response", "videos,images,release_dates,credits" } };
+            var cacheKey = ApiService.GenerateCacheKey(ApiService.MovieBase, ApiService.GetDetails, urlSegments, urlParameters);
+            
+            ApiService.CacheGetFromDatabase(cacheKey, out Movie cacheReturn);
+
+            if (cacheReturn == null)
+            {
+                var success = ApiService.GetMovie(id, out Movie getMovieReturn);
+                ApiService.CacheGetFromDatabase(cacheKey, out Movie filledCacheReturn);
+                
+                Assert.Multiple(() =>
+                {
+                    Assert.IsNull(cacheReturn);
+                    Assert.IsTrue(success);
+                    Assert.IsInstanceOf<Movie>(getMovieReturn);
+                    Assert.IsInstanceOf<Movie>(filledCacheReturn);
+                });
+            }
+            else
+            {
+                Assert.IsInstanceOf<Movie>(cacheReturn);
+            }
+        }
+        
     }
 }
