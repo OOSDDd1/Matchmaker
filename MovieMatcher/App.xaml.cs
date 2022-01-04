@@ -19,7 +19,7 @@ namespace MovieMatcher
             settings.CachePath = Path.GetFullPath(Directory.CreateDirectory("CefBrowserCache").ToString());
             Cef.Initialize(settings, true, browserProcessHandler: null);
 
-            var appWindow = new Login();
+            var appWindow = new MainWindow();
             appWindow.Show();
             base.OnStartup(e);
         }

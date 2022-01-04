@@ -7,6 +7,7 @@ namespace MovieMatcher
     public partial class MainWindow : Window
     {
         private MatcherView _matcherView;
+        private static DetailView? _detailView;
         
         public MainWindow()
         {
@@ -34,6 +35,14 @@ namespace MovieMatcher
         private void History_Clicked(object sender, RoutedEventArgs e)
         {
             DataContext = new HistoryView();
+        }
+        
+        public static DetailView DetailView_Clicked()
+        {
+            _detailView ??= new DetailView();
+            _detailView.Initialize();
+            
+            return _detailView;
         }
 
         private void AccountArrow_Clicked(object sender, RoutedEventArgs e)

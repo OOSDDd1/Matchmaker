@@ -17,7 +17,10 @@ namespace MovieMatcher.Views
         public DetailView()
         {
             InitializeComponent();
+        }
 
+        public void Initialize()
+        {
             bool success;
             switch (DetailViewStore.MediaType)
             {
@@ -53,7 +56,6 @@ namespace MovieMatcher.Views
                     LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Liked.png", UriKind.Relative));
                 }
             }
-            
         }
         
         private bool MovieDetail(int id)
