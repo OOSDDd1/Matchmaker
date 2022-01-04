@@ -58,10 +58,10 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
-                                
+
                             </Trigger>
                             <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
-                                
+
                             </Trigger>
 
                             <Trigger Property="IsEnabled" Value="false">
@@ -131,10 +131,22 @@
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Name="XBar">
                     <lvc:Axis.Separator>
+                        <lvc:Separator  Step="1"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+                <lvc:Axis Name="XBarActor" Height="176" Width="143">
+                    <lvc:Axis.Separator>
                         <lvc:Separator Step="1"></lvc:Separator>
                     </lvc:Axis.Separator>
                 </lvc:Axis>
             </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Name="YBar">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator  Step="1"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>
 </UserControl>

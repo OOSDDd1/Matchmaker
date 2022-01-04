@@ -27,7 +27,7 @@
         <DataTemplate DataType="Views:HistoryView">
             <Views:HistoryView DataContext="{Binding}"/>
         </DataTemplate>
-        <DataTemplate DataType="Views:StaticsView">
+        <DataTemplate DataType="Views:StatisticsView">
             <Views:StatisticsView DataContext="{Binding}" />
         </DataTemplate>
     </Window.Resources>
@@ -85,7 +85,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Viewbox StretchDirection="Both" Grid.Column="0" Grid.Row="1" MaxHeight="50">
-                        <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                        <Label Content="Welcome" Foreground="White" FontSize="16" VerticalAlignment="Center" />
                     </Viewbox>
                     <Viewbox StretchDirection="Both" Grid.Column="1" MaxHeight="50">
                         <StackPanel Orientation="Horizontal">
@@ -115,7 +115,6 @@
                         <ColumnDefinition MinWidth="60"/>
                         <ColumnDefinition MinWidth="60"/>
                         <ColumnDefinition MinWidth="60"/>
-                        <ColumnDefinition MinWidth="100"/>
                     </Grid.ColumnDefinitions>
                     <Button Click="HomeView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
                         <Viewbox StretchDirection="Both">
@@ -130,11 +129,6 @@
                     <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="3" Click="History_Clicked">
                         <Viewbox StretchDirection="Both">
                             <Label Content="History" FontSize="16" Foreground="White"/>
-                        </Viewbox>
-                    </Button>
-                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="4" Click="Statistics_Clicked">
-                        <Viewbox StretchDirection="Both">
-                            <Label Content="Statistieken" FontSize="16" Foreground="White"/>
                         </Viewbox>
                     </Button>
                 </Grid>
@@ -154,13 +148,13 @@
                 <Viewbox StretchDirection="Both" MinWidth="120" MaxWidth="255" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <StackPanel Background="#FF2B2B2B" Name="Collapsable" Visibility="Collapsed">
                         <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
-                            <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
+                            <Label Content="Account" FontSize="16" Foreground="White"/>
                         </Button>
                         <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="Statistics_Clicked">
                             <Label Content="Statistics" FontSize="16" Foreground="White"/>
                         </Button>
                         <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
-                            <Label Content="Uitloggen" FontSize="16" Foreground="White"/>
+                            <Label Content="Sign out" FontSize="16" Foreground="White"/>
                         </Button>
                     </StackPanel>
                 </Viewbox>
