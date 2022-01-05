@@ -37,6 +37,7 @@ namespace MovieMatcher.Views
 
                     sPanel.Background = (Brush)(new BrushConverter().ConvertFromString("#FF272727"));
                     sPanel.Effect = new DropShadowEffect();
+                    
                     lstBoxItm.HorizontalContentAlignment = HorizontalAlignment.Stretch;
 
                     lbl.Content = currentTime;
@@ -153,7 +154,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.mediaType;
 
-            Application.Current.Windows[0].DataContext = new DetailView();
+            Application.Current.Windows[0].DataContext = MainWindow.DetailView_Clicked();
         }
     }
 }

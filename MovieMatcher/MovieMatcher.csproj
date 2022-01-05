@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
     <None Remove="favicon.ico" />
     <None Remove="images\Dislike.png" />
     <None Remove="images\eye-fill.png" />
@@ -23,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="96.0.142" />
   </ItemGroup>
@@ -50,6 +50,13 @@
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
     <ProjectReference Include="..\Stores\Stores.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Disliked.png" />
+    <Resource Include="Images\Disliked.png" />
+    <None Remove="Images\Liked.png" />
+    <Resource Include="Images\Liked.png" />
   </ItemGroup>
 
 </Project>

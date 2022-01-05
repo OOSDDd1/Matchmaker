@@ -51,10 +51,9 @@ namespace MovieMatcher
                 {
                     if (UserStore.password != null && PasswordService.Verify(txtPassword.Password.ToString(), UserStore.password))
                     {
-                        //doorverwijzig naar het homescherm
-                        var appMainWindow = new MainWindow();
-                        appMainWindow.Show();
-                        //MessageBox.Show($"Inloggegevens juist ;)");
+                        // Redirect to HomeScreen
+                        var mainWindow = new MainWindow();
+                        mainWindow.Show();
                         Close();
                     }
                     else
@@ -69,11 +68,13 @@ namespace MovieMatcher
             }
         }
 
+        /**
+         * Redirect to register screen
+         */
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
-            //doorverwijzig naar het registeer scherm
-            var appreg = new Register();
-            appreg.Show();
+            var registerWindow = new Register();
+            registerWindow.Show();
             Close();
         }
 

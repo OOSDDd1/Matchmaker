@@ -68,8 +68,8 @@ namespace MovieMatcher
 
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
-            var appLogin = new Login();
-            appLogin.Show();
+            var loginWindow = new Login();
+            loginWindow.Show();
             Close();
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Models.Api.Components;
 using Models.Database;
@@ -16,7 +17,10 @@ namespace MovieMatcher.Views
         public DetailView()
         {
             InitializeComponent();
+        }
 
+        public void Initialize()
+        {
             bool success;
             switch (DetailViewStore.MediaType)
             {
@@ -32,12 +36,25 @@ namespace MovieMatcher.Views
             }
 
             if (!success)
+                return;
+
+            if (DatabaseService.CheckIfReviewed(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")))
             {
-                // TODO: show error message
-            }
-            else if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
-            {
-                SeenCheckBox.IsChecked = true;
+                if (DatabaseService.CheckForWatched(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
+                {
+                    SeenCheckBox.IsChecked = true;
+                }
+
+                if (DatabaseService.CheckForLiked(DetailViewStore.Id, UserStore.id ?? 0, DetailViewStore.MediaType.Equals("tv")) == true)
+                {
+                    LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Like.png", UriKind.Relative));
+                    DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Disliked.png", UriKind.Relative));
+                }
+                else
+                {
+                    DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Dislike.png", UriKind.Relative));
+                    LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Liked.png", UriKind.Relative));
+                }
             }
         }
         
@@ -62,21 +79,27 @@ namespace MovieMatcher.Views
 
 
             // Left
-            // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.poster_path}"));
 
             string videoKey = "";
-            try
+            if (movie.videos.results.Count() != 0)
             {
-                videoKey = movie.videos.results
-                    .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                try
+                {
+                    videoKey = movie.videos.results
+                        .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                }
+                catch
+                {
+                    if (movie.videos.results.Count != 0)
+                        videoKey = movie.videos.results.First().key;
+                }
+                
+                Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
             }
-            catch
+            else
             {
-                if (movie.videos.results.Count != 0)
-                    videoKey = movie.videos.results.First().key;
+                Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{movie.posterPath}"));
             }
-
-            Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
 
             // Right
             Title.Content = movie.title ?? "";
@@ -112,19 +135,25 @@ namespace MovieMatcher.Views
             BackDropImage.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w1280/{show.backdropPath}"));
 
             // Left
-            // Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.poster_path}"));
             string videoKey;
-            try
+            if (show.videos.results.Count() != 0)
             {
-                videoKey = show.videos.results
-                    .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
-            }
-            catch
-            {
-                videoKey = show.videos.results.First().key;
-            }
+                try
+                {
+                    videoKey = show.videos.results
+                        .First(res => res.official && res.site.Equals("YouTube") && res.type.Equals("Trailer")).key;
+                }
+                catch
+                {
+                    videoKey = show.videos.results.First().key;
+                }
 
-            Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
+                Browser.Address = $"https://www.youtube.com/embed/{videoKey}";
+            }
+            else
+            {
+                Poster.Source = new BitmapImage(new Uri($"https://image.tmdb.org/t/p/w342/{show.posterPath}"));
+            }
 
             // Right
             Title.Content = show.name;
@@ -174,11 +203,15 @@ namespace MovieMatcher.Views
         
         private void OnLikeClick(object sender, RoutedEventArgs e)
         {
+            LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Like.png", UriKind.Relative));
+            DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Disliked.png", UriKind.Relative));
             SubmitContentReview(true);
         }
 
         private void OnDislikeClick(object sender, RoutedEventArgs e)
         {
+            DislikeButtonImage.Source = new BitmapImage(new Uri("../Images/Dislike.png", UriKind.Relative));
+            LikeButtonImage.Source = new BitmapImage(new Uri("../Images/Liked.png", UriKind.Relative));
             SubmitContentReview(false);
         }
 

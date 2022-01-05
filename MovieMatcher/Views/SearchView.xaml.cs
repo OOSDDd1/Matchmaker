@@ -25,11 +25,11 @@ namespace MovieMatcher.Views
         //when the searchbutton is clicked, this function will fire filling the listbox with items
         private void SearchButton_Clicked(object sender, RoutedEventArgs e)
         {
-            Grid.SetRow(SearchBar, 0);
-            ResultBox.Items.Clear();
-
             if (!ApiService.Search(searchTxt.Text, out var getMovieResult, GreaterThan18(UserStore.birthYear ?? DateTime.Now)))
                 return;
+
+            Grid.SetRow(SearchBar, 0);
+            ResultBox.Items.Clear();
 
             if (getMovieResult?.results == null || getMovieResult.results.Count == 0)
             {
@@ -204,7 +204,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.mediaType;
 
-            Application.Current.Windows[0].DataContext = new DetailView();
+            Application.Current.Windows[0].DataContext = MainWindow.DetailView_Clicked();
         }
 
         //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)
