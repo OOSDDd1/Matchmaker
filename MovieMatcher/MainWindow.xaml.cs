@@ -20,7 +20,7 @@ namespace MovieMatcher
         {
             _detailView?.Browser.Dispose();
             _matcherView?.Browser.Dispose();
-            DataContext = new ResultView();
+            DataContext = new HomeView();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
