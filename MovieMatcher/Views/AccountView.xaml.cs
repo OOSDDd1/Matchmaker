@@ -110,8 +110,8 @@ namespace MovieMatcher.Views
 
             if (string.IsNullOrEmpty(NewPassword1.Password) || NewPassword.Password != NewPassword1.Password)
             {
-                BorderNewPassword.BorderBrush = Brushes.Pink;
-                BorderNewPassword1.BorderBrush = Brushes.Pink;
+                BorderNewPassword.BorderBrush = Brushes.Red;
+                BorderNewPassword1.BorderBrush = Brushes.Red;
                 registrationIsValid = false;
             }
 
