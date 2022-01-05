@@ -13,10 +13,10 @@ namespace MovieMatcher
         {
             InitializeComponent();
             UserName.Content = UserStore.username;
-            DataContext = new ResultView();
+            DataContext = new HomeView();
         }
 
-        private void ResultView_Clicked(object sender, RoutedEventArgs e)
+        private void HomeView_Clicked(object sender, RoutedEventArgs e)
         {
             _detailView?.Browser.Dispose();
             _matcherView?.Browser.Dispose();
@@ -51,6 +51,13 @@ namespace MovieMatcher
             _detailView.Initialize();
             
             return _detailView;
+        }
+
+        private void Statistics_Clicked(object sender, RoutedEventArgs e)
+        {
+            Collapsable.Visibility = Visibility.Collapsed;
+            MenuButton.Content = "▼";
+            DataContext = new StatisticsView();
         }
 
         private void AccountArrow_Clicked(object sender, RoutedEventArgs e)

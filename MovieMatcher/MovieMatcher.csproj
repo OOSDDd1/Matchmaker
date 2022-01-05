@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
     <None Remove="favicon.ico" />
     <None Remove="images\Dislike.png" />
     <None Remove="images\eye-fill.png" />
@@ -23,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="96.0.142" />
   </ItemGroup>

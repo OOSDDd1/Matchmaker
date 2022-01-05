@@ -12,8 +12,8 @@
         Height="450"
         WindowState="Maximized">
     <Window.Resources>
-        <DataTemplate DataType="Views:ResultView">
-            <Views:ResultView DataContext="{Binding}" />
+        <DataTemplate DataType="Views:HomeView">
+            <Views:HomeView DataContext="{Binding}" />
         </DataTemplate>
         <DataTemplate DataType="Views:SearchView">
             <Views:SearchView DataContext="{Binding}" />
@@ -26,6 +26,9 @@
         </DataTemplate>
         <DataTemplate DataType="Views:HistoryView">
             <Views:HistoryView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate DataType="Views:StatisticsView">
+            <Views:StatisticsView DataContext="{Binding}" />
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -82,7 +85,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Viewbox StretchDirection="Both" Grid.Column="0" Grid.Row="1" MaxHeight="50">
-                        <Label Content="Welkom" Foreground="White" FontSize="16" VerticalAlignment="Center" />
+                        <Label Content="Welcome" Foreground="White" FontSize="16" VerticalAlignment="Center" />
                     </Viewbox>
                     <Viewbox StretchDirection="Both" Grid.Column="1" MaxHeight="50">
                         <StackPanel Orientation="Horizontal">
@@ -113,7 +116,7 @@
                         <ColumnDefinition MinWidth="60"/>
                         <ColumnDefinition MinWidth="60"/>
                     </Grid.ColumnDefinitions>
-                    <Button Click="ResultView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
+                    <Button Click="HomeView_Clicked" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1">
                         <Viewbox StretchDirection="Both">
                             <Label Content="Home" FontSize="16" Foreground="White"/>
                         </Viewbox>
@@ -144,18 +147,21 @@
                 </Grid.RowDefinitions>
                 <Viewbox StretchDirection="Both" MinWidth="120" MaxWidth="255" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <StackPanel Background="#FF2B2B2B" Name="Collapsable" Visibility="Collapsed">
-                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
-                            <Label Content="AccountGegevens" FontSize="16" Foreground="White"/>
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
+                            <Label Content="Account" FontSize="16" Foreground="White"/>
                         </Button>
-                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
-                            <Label Content="Uitloggen" FontSize="16" Foreground="White"/>
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="Statistics_Clicked">
+                            <Label Content="Statistics" FontSize="16" Foreground="White"/>
+                        </Button>
+                        <Button MinWidth="170" Background="{x:Null}" BorderBrush="{x:Null}" Click="LogOut_Clicked">
+                            <Label Content="Sign out" FontSize="16" Foreground="White"/>
                         </Button>
                     </StackPanel>
                 </Viewbox>
             </Grid>
         </DockPanel>
 
-        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}" />
+        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" Content="{Binding}" Margin="10,0,10,0" />
 
     </Grid>
 </Window>

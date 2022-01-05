@@ -250,6 +250,60 @@ namespace Services
             return reviewedMovies;
         }
 
+        public static List<Tuple<int, string>> GetWatchedCountGenres(int userid)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql =
+                    "SELECT COUNT(id), name FROM MatchMaker.Matchmaker.[genre] G JOIN " +
+                    "MatchMaker.Matchmaker.[content_review] CR ON G.content_id = CR.content_id WHERE watched = 'true' AND user_id = " +
+                    userid + " GROUP BY name";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<Tuple<int, string>> result = new List<Tuple<int, string>>();
+
+                        while (reader.Read())
+                        {
+                            Tuple<int, string> content = new Tuple<int, string>((int)reader.GetValue(0), (string)reader.GetValue(1));
+                            result.Add(content);
+                        }
+
+                        return result;
+                    }
+                }
+            }
+        }
+
+        public static List<Tuple<int, string>> GetWatchedCountActors(int userid)
+        {
+            using (SqlConnection connection = new SqlConnection(_sqlBuilder))
+            {
+                string sql =
+                    "SELECT COUNT(id), name FROM MatchMaker.Matchmaker.[actor] A JOIN " +
+                    "MatchMaker.Matchmaker.[content_review] CR ON A.content_id = CR.content_id WHERE watched = 'true' AND user_id = " +
+                    userid + " GROUP BY name";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        List<Tuple<int, string>> result = new List<Tuple<int, string>>();
+
+                        while (reader.Read())
+                        {
+                            Tuple<int, string> content = new Tuple<int, string>((int)reader.GetValue(0), (string)reader.GetValue(1));
+                            result.Add(content);
+                        }
+
+                        return result;
+                    }
+                }
+            }
+        }
+
         #region Cache queries
 
         public static string GetCache(string cacheKey)

@@ -37,6 +37,7 @@ namespace MovieMatcher.Views
 
                     sPanel.Background = (Brush)(new BrushConverter().ConvertFromString("#FF272727"));
                     sPanel.Effect = new DropShadowEffect();
+                    
                     lstBoxItm.HorizontalContentAlignment = HorizontalAlignment.Stretch;
 
                     lbl.Content = currentTime;
