@@ -147,7 +147,7 @@ namespace MovieMatcher.Views
             );
             MessageBox.Show(responseMessage);
 
-            if (responseMessage.Equals("Your filters has been updated!"))
+            if (responseMessage.Equals("Your filters have been updated!"))
             {
                 DatabaseService.GetUserInfo(UserStore.username);
             }

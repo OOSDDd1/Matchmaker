@@ -5,9 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MovieMatcher.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800">
+      d:DesignHeight="450" Width="1026">
 
-    <Grid>
+    <Grid Width="1000">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -15,35 +15,33 @@
         </Grid.ColumnDefinitions>
         <Border
             MinWidth="250"
-            Background="#f8ea4f"
             BorderBrush="Black"
             BorderThickness="1"
-            CornerRadius="25, 25,25,25"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center" Grid.Column="0">
-            <StackPanel Height="368" Width="250">
+            CornerRadius="5, 5,5,5"
+            VerticalAlignment="Top"  Margin="0,25,0,0" HorizontalAlignment="Center" Width="250" Height="225">
+            <StackPanel Height="208" Width="200" Margin="24,0,24,0">
 
 
-                <Label Content="General"/>
+                <Label Content="General" Foreground="White" FontSize="18"/>
 
 
-                <Label Content="Username" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderUsername" BorderThickness="1" BorderBrush="Black">
-                    <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Username"
-                             TextChanged="UsernameChangedEventHandler"
-                             ToolTip="Username" BorderThickness="0" />
+                <Label Content="Username" Height="26" Width="200" Foreground="White" FontSize="14"/>
+                <Border x:Name="BorderUsername" BorderThickness="1" BorderBrush="Black" Width="188">
+                    <TextBox x:Name="Username"
+                              TextChanged="UsernameChangedEventHandler"
+                              ToolTip="Username" BorderThickness="0" />
                 </Border>
 
-                <Label Content="E-mail" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderEmail" BorderThickness="1" BorderBrush="Black">
-                    <TextBox Background="#f8ea4f" MinWidth="150" x:Name="Email" ToolTip="E-mail" BorderThickness="0"
-                             TextChanged="EmailChangedEventHandler" />
+                <Label Content="E-mail" Height="26" Width="200" Foreground="White" FontSize="14"/>
+                <Border MinWidth="150" x:Name="BorderEmail" BorderThickness="1" BorderBrush="Black" Width="189">
+                    <TextBox MinWidth="150" x:Name="Email" ToolTip="E-mail" BorderThickness="0"
+                              TextChanged="EmailChangedEventHandler" />
                 </Border>
 
-                <Label Content="Date of Birth" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderDateOfBirth" BorderThickness="1" BorderBrush="Black">
-                    <DatePicker Background="#f8ea4f" MinWidth="150" x:Name="DateOfBirth" ToolTip="Date of birth"
-                                BorderThickness="0" SelectedDateChanged="DateOfBirthChangedEventHandler">
+                <Label Content="Date of Birth" Height="26" Width="200" Foreground="White" FontSize="14"/>
+                <Border MinWidth="150" x:Name="BorderDateOfBirth" BorderThickness="1" BorderBrush="Black" Width="189">
+                    <DatePicker MinWidth="150" x:Name="DateOfBirth" ToolTip="Date of birth"
+                                 BorderThickness="0" SelectedDateChanged="DateOfBirthChangedEventHandler">
                         <DatePicker.Resources>
                             <Style TargetType="{x:Type DatePickerTextBox}">
                                 <Setter Property="Template">
@@ -62,47 +60,45 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="UpdateButton" Margin="5" Content="Update" Background="{x:Null}"
-                            Click="OnUpdateClick" />
+                            Click="OnUpdateClick" Foreground="White"/>
 
                 </StackPanel>
             </StackPanel>
         </Border>
         <Border 
             MinWidth="250"
-            Background="#f8ea4f"
             BorderBrush="Black"
             BorderThickness="1"
-            CornerRadius="25, 25,25,25"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center" Grid.Column="1">
-            <StackPanel Height="368" Width="250">
+            CornerRadius="5, 5,5,5"
+            VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Center" Width="250" Margin="0,25,0,0" Height="220">
+            <StackPanel Height="203" HorizontalAlignment="Center" Width="200">
 
 
-                <Label Content="Change Password"/>
+                <Label Content="Change Password" Foreground="White" FontSize="18"/>
 
 
-                <Label Content="Old Password;" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderOldPassword" BorderThickness="1" BorderBrush="Black">
-                    <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="OldPassword"
+                <Label Foreground="White" Content="Old Password" Height="26" Width="200" FontSize="14"/>
+                <Border MinWidth="150" x:Name="BorderOldPassword" BorderThickness="1" BorderBrush="Black" Width="189">
+                    <PasswordBox MinWidth="150" x:Name="OldPassword"
                         PasswordChanged="OldPasswordChangedEventHandler"
                         ToolTip="Old Password" BorderThickness="0" />
                 </Border>
 
-                <Label Content="New Password ℹ️" Height="26" Width="250"
+                <Label Foreground="White" Content="New Password ℹ️" Width="200"  FontSize="14"
                     ToolTip="8 or more characters, 1 or more special characters, 1 or more uppercase letters, 1 or more lowercase letters, 1 or more digits"/>
-                <Border MinWidth="150" x:Name="BorderNewPassword" BorderThickness="1" BorderBrush="Black">
-                    <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="NewPassword" ToolTip="Password"
+                <Border MinWidth="150" x:Name="BorderNewPassword" BorderThickness="1" BorderBrush="Black" Width="189">
+                    <PasswordBox MinWidth="150" x:Name="NewPassword" ToolTip="Password"
                         PasswordChanged="NewPasswordChangedEventHandler" BorderThickness="0" />
                 </Border>
 
-                <Label Content="Confirm Password" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderNewPassword1" BorderThickness="1" BorderBrush="Black">
-                    <PasswordBox Background="#f8ea4f" MinWidth="150" x:Name="NewPassword1" ToolTip="Confirm New Password"
+                <Label Foreground="White" Content="Confirm Password" Height="26" Width="200" FontSize="14"/>
+                <Border MinWidth="150" x:Name="BorderNewPassword1" BorderThickness="1" BorderBrush="Black" Width="189">
+                    <PasswordBox MinWidth="150" x:Name="NewPassword1" ToolTip="Confirm New Password"
                         PasswordChanged="NewPassword1ChangedEventHandler" BorderThickness="0" />
                 </Border>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="UpdateButton1" Margin="5" Content="Update" Background="{x:Null}"
+                    <Button Foreground="White" x:Name="UpdateButton1" Margin="5" Content="Update" Background="{x:Null}"
                         Click="OnUpdate1Click" />
 
                 </StackPanel>
@@ -110,32 +106,25 @@
         </Border>
         <Border 
             MinWidth="250"
-            Background="#f8ea4f"
             BorderBrush="Black"
             BorderThickness="1"
-            CornerRadius="25, 25,25,25"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center" Grid.Column="2">
-            <StackPanel Height="368" Width="250">
+            CornerRadius="5, 5,5,5"
+            VerticalAlignment="Top" Grid.Column="2"  Margin="0,25,0,0" HorizontalAlignment="Center" Width="250" Height="169">
+            <StackPanel Height="152" Width="200" Margin="24,0,24,0">
 
 
-                <Label Content="Filters"/>
+                <Label Content="Filters" Foreground="White" FontSize="18"/>
 
 
-                <Label Content="Show Adult" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderShowAdult" BorderThickness="1" BorderBrush="Black">
-                    <CheckBox x:Name="CheckBoxAdult" IsChecked="False"/>
-                </Border>
+                <Label Foreground="White" Content="Show Adult" Height="26" Width="200" FontSize="14"/>
+                <CheckBox x:Name="CheckBoxAdult" IsChecked="False" Width="192"/>
 
-                <Label Content="Show Other Providers" Height="26" Width="250" />
-                <Border MinWidth="150" x:Name="BorderOtherProviders" BorderThickness="1" BorderBrush="Black">
-                    <CheckBox x:Name="CheckBoxProviders" IsChecked="False"/>
-                </Border>
+                <Label Foreground="White" Content="Show Other Providers" Height="26" Width="200" FontSize="14"/>
+                <CheckBox x:Name="CheckBoxProviders" IsChecked="False" Width="191"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="UpdateButton2" Margin="5" Content="Update" Background="{x:Null}"
-                        Click="OnUpdate2Click" />
-
+                    <Button Foreground="White" x:Name="UpdateButton2" Margin="5" Content="Update" Background="{x:Null}"
+                            Click="OnUpdate2Click" />
                 </StackPanel>
             </StackPanel>
         </Border>
