@@ -2,22 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Defaults;
-using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using Services;
 using Stores;
@@ -26,8 +15,6 @@ namespace MovieMatcher.Views
 {
     public partial class StatisticsView : UserControl, INotifyPropertyChanged
     {
-        private Visibility vs = Visibility.Hidden;
-        private BooleanToVisibilityConverter converter;
         public dynamic DynamicSeries;
         private Dictionary<int, int> MaxAmount = new();
 
@@ -77,6 +64,7 @@ namespace MovieMatcher.Views
                 EmptyInput.Text = "No Items found that have been marked as seen, try marking a film or series as seen by using our matcher or changing a pre-existing review on your history page";
                 EmptyInput.Foreground = Brushes.White;
                 EmptyInput.TextWrapping = TextWrapping.Wrap;
+                EmptyInput.FontSize = 14;
                 GenreCheckList.Children.Add(EmptyInput);
       
             }
@@ -105,6 +93,7 @@ namespace MovieMatcher.Views
                 EmptyInput.Text = "No Items found that have been marked as seen, try marking a film or series as seen by using our matcher or changing a pre-existing review on your history page";
                 EmptyInput.Foreground = Brushes.White;
                 EmptyInput.TextWrapping = TextWrapping.Wrap;
+                EmptyInput.FontSize = 14;
                 ActorCheckList.Children.Add(EmptyInput);
             }
             else
@@ -148,6 +137,7 @@ namespace MovieMatcher.Views
             ls.Add("Genre");
             ls.Add("Actor");
             XBar.Labels = ls;
+            XBar.FontSize = 14;
             Grid.Children.Add(StkPnl);
         }
 
@@ -155,6 +145,7 @@ namespace MovieMatcher.Views
         {
             CheckBox ChkBx = new CheckBox();
             ChkBx.Content = content;
+            ChkBx.FontSize = 14;
             ChkBx.Foreground = Brushes.White;
             ChkBx.Checked += ClmVis;
             ChkBx.Unchecked += ClmVis;
@@ -172,6 +163,7 @@ namespace MovieMatcher.Views
                     }
             };
             ClmnSrs.Title = Title;
+            ClmnSrs.FontSize = 14;
             ClmnSrs.Foreground = Brushes.White;
             ClmnSrs.DataContext = pos;
             chkBx.DataContext = ClmnSrs;
@@ -201,7 +193,7 @@ namespace MovieMatcher.Views
             }
             else
             {
-                chkBx.IsChecked = ((bool)chkBx.IsChecked) ? false : true;
+                chkBx.IsChecked = !(bool)chkBx.IsChecked;
             }
         }
 

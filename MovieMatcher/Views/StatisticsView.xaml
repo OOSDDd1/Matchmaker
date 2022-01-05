@@ -106,10 +106,10 @@
         <StackPanel Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Background="#FF272727" >
             <StackPanel>
                 <Grid Background="#202020">
-                    <Label Content="Genre" HorizontalAlignment="Left" Foreground="White"/>
-                    <Label Background="#202020" Content="Maximum of 10" Foreground="White" FontSize="10" HorizontalAlignment="Center"/>
-                    <Button Content="Clear" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Margin="0,0,20,0" BorderBrush="{x:Null}" Click="GenreClear_Clicked"/>
-                    <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Click="GenreButton_Clicked"/>
+                    <Label Content="Genre" HorizontalAlignment="Left" Foreground="White" FontSize="14"/>
+                    <Label Background="#202020" Content="Maximum of 10" Foreground="White" FontSize="14" HorizontalAlignment="Center"/>
+                    <Button Content="Clear" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="14" Margin="0,0,20,0" BorderBrush="{x:Null}" Click="GenreClear_Clicked"/>
+                    <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="14" Click="GenreButton_Clicked"/>
                 </Grid>
                 <ScrollViewer MaxHeight="300">
                     <StackPanel Name="GenreCheckList" Background="#FF272727" CanVerticallyScroll="True" Visibility="Collapsed"/>
@@ -118,10 +118,10 @@
 
             <StackPanel>
                 <Grid Background="#202020">
-                    <Label Content="Actor" HorizontalAlignment="Left" Foreground="White"/>
-                    <Label Background="#202020" Content="Maximum of 10" Foreground="White" FontSize="10" HorizontalAlignment="Center"/>
-                    <Button Content="Clear" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Margin="0,0,20,0" BorderBrush="{x:Null}" Click="ActorClear_Clicked"/>
-                    <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="10" Click="ActorButton_Clicked"/>
+                    <Label Content="Actor" HorizontalAlignment="Left" Foreground="White" FontSize="14"/>
+                    <Label Background="#202020" Content="Maximum of 10" Foreground="White" FontSize="14" HorizontalAlignment="Center"/>
+                    <Button Content="Clear" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="14" Margin="0,0,20,0" BorderBrush="{x:Null}" Click="ActorClear_Clicked"/>
+                    <Button Content="▼" HorizontalAlignment="Right" Foreground="White" Background="{x:Null}" FontSize="14" Click="ActorButton_Clicked"/>
                 </Grid>
                 <ScrollViewer MaxHeight="300">
                     <StackPanel Name="ActorCheckList" Background="#FF272727" CanVerticallyScroll="True" Visibility="Collapsed"/>

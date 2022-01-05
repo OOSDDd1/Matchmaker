@@ -38,6 +38,8 @@ namespace MovieMatcher
 
         private void Statistics_Clicked(object sender, RoutedEventArgs e)
         {
+            Collapsable.Visibility = Visibility.Collapsed;
+            MenuButton.Content = "▼";
             DataContext = new StatisticsView();
         }
 
