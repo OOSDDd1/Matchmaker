@@ -22,6 +22,14 @@ namespace MovieMatcher.Views
             DateOfBirth.Text = Convert.ToString(UserStore.birthYear);
             CheckBoxAdult.IsChecked = UserStore.adult;
             CheckBoxProviders.IsChecked = UserStore.provider;
+            if (UserStore.birthYear.Value.AddYears(18) > DateTime.Now)
+            {
+                CheckBoxAdult.IsEnabled = false;
+            }
+            else
+            {
+                CheckBoxAdult.IsEnabled = true;
+            }
         }
 
         //grid 0 - Update General
@@ -146,11 +154,7 @@ namespace MovieMatcher.Views
                 (int)UserStore.id
             );
             MessageBox.Show(responseMessage);
-
-            if (responseMessage.Equals("Your filters have been updated!"))
-            {
-                DatabaseService.GetUserInfo(UserStore.username);
-            }
+            DatabaseService.GetUserInfo(UserStore.username);
         }
 
     }
