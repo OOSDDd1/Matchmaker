@@ -8,12 +8,14 @@ namespace MovieMatcher
     {
         private MatcherView _matcherView;
         private static DetailView? _detailView;
+        public static MainWindow Main;
         
         public MainWindow()
         {
             InitializeComponent();
             UserName.Content = UserStore.username;
             DataContext = new HomeView();
+            Main = this;
         }
 
         private void HomeView_Clicked(object sender, RoutedEventArgs e)
@@ -85,6 +87,12 @@ namespace MovieMatcher
             loginScreen.Show();
             
             Close();
+        }
+
+        private void Account_Clicked(object sender, RoutedEventArgs e)
+        {
+            UserName.Content = UserStore.username;
+            DataContext = new AccountView();
         }
     }
 }
