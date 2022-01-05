@@ -204,7 +204,7 @@ namespace MovieMatcher.Views
             DetailViewStore.Id = tmp.id;
             DetailViewStore.MediaType = tmp.mediaType;
 
-            Application.Current.Windows[0].DataContext = new DetailView();
+            Application.Current.Windows[0].DataContext = MainWindow.DetailView_Clicked();
         }
 
         //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)

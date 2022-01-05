@@ -170,11 +170,11 @@ namespace MovieMatcher.Views
             Window window = new()
             {
                 Title = _currentRecommendation.title,
-                Content = new DetailView()
+                Content = MainWindow.DetailView_Clicked(),
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Width = SystemParameters.PrimaryScreenWidth
             };
 
-            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            window.Width = SystemParameters.PrimaryScreenWidth;
             window.ShowDialog();
         }
 

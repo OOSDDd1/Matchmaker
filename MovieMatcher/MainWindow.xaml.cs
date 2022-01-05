@@ -7,6 +7,7 @@ namespace MovieMatcher
     public partial class MainWindow : Window
     {
         private MatcherView _matcherView;
+        private static DetailView? _detailView;
         
         public MainWindow()
         {
@@ -17,23 +18,39 @@ namespace MovieMatcher
 
         private void HomeView_Clicked(object sender, RoutedEventArgs e)
         {
-            DataContext = new HomeView();
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
+            DataContext = new ResultView();
         }
 
         private void SearchView_Clicked(object sender, RoutedEventArgs e)
         {
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
             DataContext = new SearchView();
         }
 
         private void Matcher_Clicked(object sender, RoutedEventArgs e)
         {
-            _matcherView ??= new MatcherView();
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
+            _matcherView = new MatcherView();
             DataContext = _matcherView;
         }
 
         private void History_Clicked(object sender, RoutedEventArgs e)
         {
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
             DataContext = new HistoryView();
+        }
+        
+        public static DetailView DetailView_Clicked()
+        {
+            _detailView = new DetailView();
+            _detailView.Initialize();
+            
+            return _detailView;
         }
 
         private void Statistics_Clicked(object sender, RoutedEventArgs e)
@@ -59,6 +76,8 @@ namespace MovieMatcher
 
         private void LogOut_Clicked(object sender, RoutedEventArgs e)
         {
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
             UserStore.Clear();
             DetailViewStore.Clear();
             
