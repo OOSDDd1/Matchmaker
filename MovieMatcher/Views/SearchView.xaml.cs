@@ -65,7 +65,7 @@ namespace MovieMatcher.Views
                             break;
                     }
 
-                    if (!s.watchProviders.results.ContainsKey("NL") & UserStore.provider == false)
+                    if (s.watchProviders != null && !s.watchProviders.results.ContainsKey("NL") & UserStore.provider == false)
                     {
                         continue;
                     }
