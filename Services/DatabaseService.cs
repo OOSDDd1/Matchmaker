@@ -340,7 +340,7 @@ namespace Services
                 string sql =
                     "SELECT COUNT(id), name FROM MatchMaker.Matchmaker.[genre] G JOIN " +
                     "MatchMaker.Matchmaker.[content_review] CR ON G.content_id = CR.content_id WHERE watched = 'true' AND user_id = " +
-                    userid + " GROUP BY name";
+                    userid + " GROUP BY name ORDER BY COUNT(id) DESC";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -367,7 +367,7 @@ namespace Services
                 string sql =
                     "SELECT COUNT(id), name FROM MatchMaker.Matchmaker.[actor] A JOIN " +
                     "MatchMaker.Matchmaker.[content_review] CR ON A.content_id = CR.content_id WHERE watched = 'true' AND user_id = " +
-                    userid + " GROUP BY name";
+                    userid + " GROUP BY name ORDER BY COUNT(id) DESC";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
