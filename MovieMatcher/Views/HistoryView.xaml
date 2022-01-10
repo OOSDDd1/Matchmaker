@@ -30,6 +30,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
 
             <!--SCROLLBARS-->
             <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
@@ -121,10 +122,12 @@
         <Viewbox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
             <Label Content="Your Matcher History" Foreground="White" FontSize="16"/>
         </Viewbox>
-        <ListBox Name="ResultBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5"
-                 Background="{x:Null}" FlowDirection="LeftToRight"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}"
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5">
+            <StackPanel Name="ResultBox" Background="{x:Null}" FlowDirection="LeftToRight"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalAlignment="Center">
-        </ListBox>
+                
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
