@@ -23,22 +23,20 @@ namespace MovieMatcher.Views
             List<Review> databaseItems = DatabaseService.GetReviewedItems(UserStore.id ?? 0);
 
             DateTime currentTime = new DateTime();
-            ListBox box = new ListBox();
+            ItemsControl box = new ItemsControl();
             foreach (Review item in databaseItems)
             {
                 if (item.DateChanged.Date != currentTime.Date)
                 {
                     currentTime = item.DateChanged.Date;
 
-                    ListBoxItem lstBoxItm = new ListBoxItem();
                     StackPanel sPanel = new StackPanel();
                     Label lbl = new Label();
-                    box = new ListBox();
+                    box = new ItemsControl();
 
                     sPanel.Background = (Brush)(new BrushConverter().ConvertFromString("#FF272727"));
                     sPanel.Effect = new DropShadowEffect();
-                    
-                    lstBoxItm.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                    sPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
 
                     lbl.Content = currentTime;
                     lbl.Foreground = Brushes.White;
@@ -58,8 +56,7 @@ namespace MovieMatcher.Views
 
                     sPanel.Children.Add(lbl);
                     sPanel.Children.Add(box);
-                    lstBoxItm.Content = sPanel;
-                    ResultBox.Items.Add(lstBoxItm);
+                    ResultBox.Children.Add(sPanel);
                 }
 
                 ListBoxItem itmBox;
@@ -86,6 +83,7 @@ namespace MovieMatcher.Views
         public ListBoxItem CreateItem(Content s, bool liked, bool watched)
         {
             ListBoxItem itm = new ListBoxItem();
+
 
             Button btn = new Button();
             btn.HorizontalAlignment = HorizontalAlignment.Left;
