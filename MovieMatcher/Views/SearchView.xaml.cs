@@ -25,7 +25,7 @@ namespace MovieMatcher.Views
         //when the searchbutton is clicked, this function will fire filling the listbox with items
         private void SearchButton_Clicked(object sender, RoutedEventArgs e)
         {
-            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, (GreaterThan18(UserStore.birthYear ?? DateTime.Now) & UserStore.adult == true)))
+            if (!ApiService.Search(searchTxt.Text, out var getMovieResult, (bool)UserStore.adult))
                 return;
 
             Grid.SetRow(SearchBar, 0);
