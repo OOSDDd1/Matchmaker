@@ -57,6 +57,8 @@ namespace MovieMatcher
 
         private void Statistics_Clicked(object sender, RoutedEventArgs e)
         {
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
             Collapsable.Visibility = Visibility.Collapsed;
             MenuButton.Content = "▼";
             DataContext = new StatisticsView();
@@ -91,6 +93,8 @@ namespace MovieMatcher
 
         private void Account_Clicked(object sender, RoutedEventArgs e)
         {
+            _detailView?.Browser.Dispose();
+            _matcherView?.Browser.Dispose();
             UserName.Content = UserStore.username;
             DataContext = new AccountView();
         }
