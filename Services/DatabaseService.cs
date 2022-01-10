@@ -134,7 +134,7 @@ namespace Services
 
                 using SqlDataReader reader = command.ExecuteReader();
 
-                return "Your filters has been updated!";
+                return "Your filters have been updated!";
             }
             catch (SqlException ex)
             {

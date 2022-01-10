@@ -215,7 +215,7 @@ namespace Services
             return Get<Providers>(resourceBase, GetWatchProviders, urlSegments, out response);
         }
 
-        public static bool Search(string query, out MultiSearch? response, bool adult = false)
+        public static bool Search(string query, out MultiSearch? response, bool adult)
         {
             var urlParameters = new Dictionary<string, string>
             {
