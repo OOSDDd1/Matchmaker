@@ -17,6 +17,7 @@ namespace MovieMatcher.Views
     /// </summary>
     public partial class HistoryView : UserControl
     {
+        //sets up History page by adding the dates with the movies attached to them
         public HistoryView()
         {
             InitializeComponent();
@@ -24,6 +25,10 @@ namespace MovieMatcher.Views
 
             DateTime currentTime = new DateTime();
             ItemsControl box = new ItemsControl();
+
+            //foreach item it checks if the date of the review is the same as the last one. if true it creates another button for that movie inside the itemscontrol
+            //If false it will create a new stackpanel with the new date and a new itemscontrol where it'll put the movie in instead.
+
             foreach (Review item in databaseItems)
             {
                 if (item.DateChanged.Date != currentTime.Date)
@@ -59,6 +64,7 @@ namespace MovieMatcher.Views
                     ResultBox.Children.Add(sPanel);
                 }
 
+                //checks if it's a show and does the appropriate request for the result and creates an item for the itemsControl with it
                 ListBoxItem itmBox;
                 if (item.IsShow)
                 {
@@ -80,6 +86,8 @@ namespace MovieMatcher.Views
             }
 
         }
+
+        //creates ListBoxItem with button, poster of the movie/show and if it's been liked or watched
         public ListBoxItem CreateItem(Content s, bool liked, bool watched)
         {
             ListBoxItem itm = new ListBoxItem();
@@ -145,6 +153,7 @@ namespace MovieMatcher.Views
             return itm;
         }
 
+        //event for when an item is clicked inside an itemscontrol, opens appropriate DetailView for that item. 
         private void DetailScreen_Clicked(object sender, RoutedEventArgs e)
         {
             Button RealButton = (Button)sender;

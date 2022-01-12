@@ -245,6 +245,7 @@ namespace MovieMatcher.Views
             return pImg;
         }
 
+        //if the date BornIn with an added 18 years is higher or the same as our current date it returns true, if not it returns false.
         private static bool GreaterThan18(DateTime bornIn)
         {
             return (bornIn.AddYears(18) <= DateTime.Now);
