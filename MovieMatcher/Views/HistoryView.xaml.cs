@@ -26,8 +26,9 @@ namespace MovieMatcher.Views
             DateTime currentTime = new DateTime();
             ItemsControl box = new ItemsControl();
 
-            //foreach item it checks if the date of the review is the same as the last one. if true it creates another button for that movie inside the itemscontrol
-            //If false it will create a new stackpanel with the new date and a new itemscontrol where it'll put the movie in instead.
+            //foreach item it checks if the date of the review is the same as the last one.
+            //if true, it creates another button for that movie inside the itemscontrol.
+            //If false, it will create a new stackpanel with the new date and a new itemscontrol where it'll put the movie in instead.
 
             foreach (Review item in databaseItems)
             {
@@ -64,7 +65,9 @@ namespace MovieMatcher.Views
                     ResultBox.Children.Add(sPanel);
                 }
 
-                //checks if it's a show and does the appropriate request for the result and creates an item for the itemsControl with it
+                //checks if it's a show.
+                //If true, it will request for a show with the given id, and create an item for the itemsControl with it
+                //If false, it will request for a film with the given id, and create an item for the itemsControl with it
                 ListBoxItem itmBox;
                 if (item.IsShow)
                 {
