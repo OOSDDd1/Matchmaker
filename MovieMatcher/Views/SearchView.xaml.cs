@@ -110,7 +110,8 @@ namespace MovieMatcher.Views
             }
         }
 
-        //When the Button hovers over the Button, This Function will fire and make grid with the movies title inside as a label
+        //When the Button hovers over the Button,
+        //This Function will fire and make grid with the movies title inside as a label
         private void MovieHover_Entered(object sender, MouseEventArgs e)
         {
             Button btn = (Button) sender;
@@ -212,7 +213,8 @@ namespace MovieMatcher.Views
             Application.Current.Windows[0].DataContext = MainWindow.DetailView_Clicked();
         }
 
-        //this checks for the enter key to be pressed when in the searchbar, it will then invoke the SearchButton_Clicked method(see more above)
+        //this checks for the enter key to be pressed when in the searchbar,
+        //it will then invoke the SearchButton_Clicked method(see more above).
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -221,7 +223,8 @@ namespace MovieMatcher.Views
             }
         }
 
-        //Adds logopaths to dictionary for later use, used generic to get all types(ads, buy, rent, flatrate) in one strain of code
+        //Adds logopaths to dictionary for later use,
+        //used generic to get all types(ads, buy, rent, flatrate) in one strain of code
         private void GetLogos<T>(List<T> provider, Dictionary<int, string> logoSources) where T : IProviderData
         {
             foreach (T item in provider)
@@ -245,6 +248,8 @@ namespace MovieMatcher.Views
             return pImg;
         }
 
+        //if the date BornIn with an added 18 years is higher or the same as our current date it returns true.
+        //if not it returns false.
         private static bool GreaterThan18(DateTime bornIn)
         {
             return (bornIn.AddYears(18) <= DateTime.Now);
